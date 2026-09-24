@@ -12,6 +12,7 @@ import { StudentSubjectCrossService } from '../../../../services/subject/student
 import { SubjectService } from '../../../../services/subject/subject.service';
 import { Student } from '../../../../types/student';
 import { Subject } from '../../../../types/subject';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-student-subject-pick-list',
@@ -27,7 +28,13 @@ export class StudentSubjectPickListComponent implements OnInit {
   enrolledStudents!: Student[];
   notEnrolledStudents!: Student[];
 
-  constructor(private studentSubjectCrossService: StudentSubjectCrossService, private confirmationService: ConfirmationService, private subjectService: SubjectService, private route: ActivatedRoute) { }
+  constructor(
+    public languageService: LanguageService,
+    private studentSubjectCrossService: StudentSubjectCrossService,
+    private confirmationService: ConfirmationService,
+    private subjectService: SubjectService,
+    private route: ActivatedRoute
+  ) { }
 
   async ngOnInit() {
     this.subjectId = this.route.snapshot.paramMap.get('subjectId');

@@ -14,6 +14,7 @@ import { SubjectService } from '../../../../services/subject/subject.service';
 import { Student } from '../../../../types/student';
 import { Subject } from '../../../../types/subject';
 import { InputTextModule } from 'primeng/inputtext';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-subject-attendance',
@@ -31,7 +32,13 @@ export class SubjectAttendanceComponent implements OnInit {
   presentStudents!: Student[];
   absentStudents!: Student[];
 
-  constructor(private subjectAttendanceService: SubjectAttendanceService, private confirmationService: ConfirmationService, private subjectService: SubjectService, private route: ActivatedRoute) { }
+  constructor(
+    public languageService: LanguageService,
+    private subjectAttendanceService: SubjectAttendanceService,
+    private confirmationService: ConfirmationService,
+    private subjectService: SubjectService,
+    private route: ActivatedRoute
+  ) { }
 
   async ngOnInit() {
     this.subjectId = this.route.snapshot.paramMap.get('subjectId');

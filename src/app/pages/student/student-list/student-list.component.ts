@@ -24,6 +24,8 @@ import { StudentDialogComponent } from '../../../components/student/student-dial
 import { AvatarModule } from 'primeng/avatar';
 import { StudentFilterComponent } from '../../../components/student/student-filter/student-filter.component';
 
+import { LanguageService } from '../../../../services/ui/language.service';
+
 @Component({
   selector: 'app-student-list',
   standalone: true,
@@ -46,7 +48,13 @@ export class StudentsListComponent implements OnInit {
   @ViewChild(StudentFilterComponent) studentFilterComponent!: StudentFilterComponent;
 
 
-  constructor(private studentService: StudentService, private confirmationService: ConfirmationService, public paginationService: PaginationService, private searchService: SearchService) { }
+  constructor(
+    private studentService: StudentService,
+    private confirmationService: ConfirmationService,
+    public paginationService: PaginationService,
+    public languageService: LanguageService,
+    private searchService: SearchService
+  ) { }
 
   async ngOnInit() {
     this.initializeStudentList()
@@ -132,5 +140,33 @@ export class StudentsListComponent implements OnInit {
         this.student = {};
       }
     });
+  }
+
+  exportToCsv() {
+    if (!this.students || this.students.length === 0) return;
+
+    const headers = ['Code', 'First Name', 'Last Name', 'Age', 'Gender', 'Email', 'Phone', 'Date of Birth', 'Address', 'Parent Name', 'Parent Phone'];
+    const rows = this.students.map(s => [
+      `"${s.Code || ''}"`,
+      `"${s.FirstName || ''}"`,
+      `"${s.LastName || ''}"`,
+      `"${s.Age || ''}"`,
+      `"${s.Gender || ''}"`,
+      `"${s.EmailAddress || ''}"`,
+      `"${s.PhoneNumber || ''}"`,
+      `"${s.DateOfBirth || ''}"`,
+      `"${s.Address || ''}"`,
+      `"${s.ParentName || ''}"`,
+      `"${s.ParentPhoneNumber || ''}"`
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `Students_List_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

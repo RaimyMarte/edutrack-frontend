@@ -12,6 +12,7 @@ import { MaintenanceService } from '../../../../services/maintenance/maintenance
 import { StudentService } from '../../../../services/student/student.service';
 import { Maintenance } from '../../../../types/maintenance';
 import { Student } from '../../../../types/student';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-student-dialog',
@@ -25,11 +26,13 @@ export class StudentDialogComponent {
   createMode: boolean = false;
   updateMode: boolean = false;
 
-  genderOptions = [
-    { Id: 'M', Name: 'Male' },
-    { Id: 'F', Name: 'Female' },
-    { Id: 'U', Name: 'Unknown' },
-  ];
+  get genderOptions() {
+    return [
+      { Id: 'M', Name: this.languageService.t('male') },
+      { Id: 'F', Name: this.languageService.t('female') },
+      { Id: 'U', Name: this.languageService.t('other') },
+    ];
+  }
 
   @Input() student: Partial<Student> = {};
   @Input() initializeStudentList!: () => void;
@@ -52,7 +55,11 @@ export class StudentDialogComponent {
   submitted: boolean = false;
   nationalities: Maintenance[] = []
 
-  constructor(private studentService: StudentService, private maintenanceService: MaintenanceService,) { }
+  constructor(
+    public languageService: LanguageService,
+    private studentService: StudentService,
+    private maintenanceService: MaintenanceService
+  ) { }
 
   async ngOnInit() {
     const selectedMaintenances = ['Nationality']

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, effect } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
@@ -8,7 +8,9 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { MenuModule } from 'primeng/menu';
 import { RippleModule } from 'primeng/ripple';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { LanguageService } from '../../../../services/ui/language.service';
 import { User } from '../../../../types/user';
 
 @Component({
@@ -27,44 +29,66 @@ import { User } from '../../../../types/user';
   templateUrl: './sidebar-content.component.html',
   styleUrl: './sidebar-content.component.css'
 })
-export class SidebarContentComponent {
+export class SidebarContentComponent implements OnInit, OnDestroy {
   @Input() sidebarVisible: boolean = true;
   
   menuItems: MenuItem[] = [];
   currentUser: User | null = null;
+  private userSub!: Subscription;
 
-  constructor(public authService: AuthService) { }
+  constructor(
+    public authService: AuthService,
+    public languageService: LanguageService
+  ) {
+    // React to language signal changes
+    effect(() => {
+      this.languageService.currentLang();
+      this.initializeMenuItems();
+    });
+  }
 
   ngOnInit() {
     this.currentUser = this.authService.currentUserValue;
     this.initializeMenuItems();
+
+    this.userSub = this.authService.currentUser.subscribe(user => {
+      this.currentUser = user;
+      this.initializeMenuItems();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.userSub) {
+      this.userSub.unsubscribe();
+    }
   }
 
   private initializeMenuItems() {
+    const roleId = this.currentUser?.UserRoleId || 1;
     this.menuItems = [
       {
-        label: 'Home',
+        label: this.languageService.t('navHome'),
         icon: 'pi pi-home',
         routerLink: '/',
         visible: true
       },
       {
-        label: 'Subjects',
+        label: this.languageService.t('navSubjects'),
         icon: 'pi pi-book',
         routerLink: '/subjects',
-        visible: this.currentUser?.UserRoleId === 2 || this.currentUser?.UserRoleId === 1
+        visible: roleId === 2 || roleId === 1
       },
       {
-        label: 'Students',
+        label: this.languageService.t('navStudents'),
         icon: 'pi pi-address-book',
         routerLink: '/students',
-        visible: this.currentUser?.UserRoleId === 1
+        visible: roleId === 1
       },
       {
-        label: 'Users',
+        label: this.languageService.t('navUsers'),
         icon: 'pi pi-users',
         routerLink: '/users',
-        visible: this.currentUser?.UserRoleId === 1
+        visible: roleId === 1
       }
     ];
   }

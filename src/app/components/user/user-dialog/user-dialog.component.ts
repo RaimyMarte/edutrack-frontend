@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { RippleModule } from 'primeng/ripple';
 import { CustomUser } from '../../../pages/user/user-list/user-list.component';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-user-dialog',
@@ -47,9 +48,11 @@ export class UserDialogComponent implements OnInit {
   submitted: boolean = false;
   userRoles: Maintenance[] = []
 
-
-
-  constructor(private userService: UserService, private maintenanceService: MaintenanceService,) { }
+  constructor(
+    public languageService: LanguageService,
+    private userService: UserService,
+    private maintenanceService: MaintenanceService
+  ) { }
 
   async ngOnInit() {
     const selectedMaintenances = ['UserRole']

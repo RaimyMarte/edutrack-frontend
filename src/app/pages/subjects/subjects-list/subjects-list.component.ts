@@ -23,6 +23,7 @@ import { getPageChangeDetails } from '../../../../utils/getPageChangeDetails';
 import { SubjectDialogComponent } from '../../../components/subject/subject-dialog/subject-dialog.component';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../services/auth/auth.service';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-subjects-list',
@@ -44,7 +45,14 @@ export class SubjectsListComponent implements OnInit {
 
   @ViewChild(SubjectDialogComponent) subjectDialogComponent!: SubjectDialogComponent;
 
-  constructor(private authService: AuthService, private subjectService: SubjectService, private confirmationService: ConfirmationService, public paginationService: PaginationService, private searchService: SearchService) { }
+  constructor(
+    public authService: AuthService,
+    public languageService: LanguageService,
+    private subjectService: SubjectService,
+    private confirmationService: ConfirmationService,
+    public paginationService: PaginationService,
+    private searchService: SearchService
+  ) { }
 
   async ngOnInit() {
     const currentUser = this.authService.currentUserValue;
@@ -111,5 +119,28 @@ export class SubjectsListComponent implements OnInit {
         this.subject = {};
       }
     });
+  }
+
+  exportToCsv() {
+    if (!this.subjects || this.subjects.length === 0) return;
+
+    const headers = ['Code', 'Name', 'Description', 'Start Date', 'End Date', 'Status'];
+    const rows = this.subjects.map(s => [
+      `"${s.Code || ''}"`,
+      `"${s.Name || ''}"`,
+      `"${s.Description || ''}"`,
+      `"${s.StartDate || ''}"`,
+      `"${s.EndDate || ''}"`,
+      `"${s.Enabled ? 'Active' : 'Inactive'}"`
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `Subjects_List_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

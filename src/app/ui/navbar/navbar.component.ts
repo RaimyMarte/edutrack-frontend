@@ -6,6 +6,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { TooltipModule } from 'primeng/tooltip';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
+import { LanguageService } from '../../../services/ui/language.service';
 
 @Component({
   selector: 'app-navbar',
@@ -27,6 +28,7 @@ export class NavbarComponent {
 
   constructor(
     public authService: AuthService,
+    public languageService: LanguageService,
     private router: Router
   ) { }
 

@@ -10,6 +10,7 @@ import { RippleModule } from 'primeng/ripple';
 import { SidebarModule } from 'primeng/sidebar';
 import { MaintenanceService } from '../../../../services/maintenance/maintenance.service';
 import { Maintenance } from '../../../../types/maintenance';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-student-filter',
@@ -21,11 +22,13 @@ import { Maintenance } from '../../../../types/maintenance';
 export class StudentFilterComponent {
   studentFilterSidebar: boolean = false;
 
-  genderOptions = [
-    { Id: 'M', Name: 'Male' },
-    { Id: 'F', Name: 'Female' },
-    { Id: 'U', Name: 'Unknown' },
-  ];
+  get genderOptions() {
+    return [
+      { Id: 'M', Name: this.languageService.t('male') },
+      { Id: 'F', Name: this.languageService.t('female') },
+      { Id: 'U', Name: this.languageService.t('other') },
+    ];
+  }
 
   @Output() filterApplied = new EventEmitter<any>();
 
@@ -45,7 +48,12 @@ export class StudentFilterComponent {
   submitted: boolean = false;
   nationalities: Maintenance[] = []
 
-  constructor(private maintenanceService: MaintenanceService, private router: Router,private route: ActivatedRoute,) { }
+  constructor(
+    public languageService: LanguageService,
+    private maintenanceService: MaintenanceService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) { }
 
   async ngOnInit() {
     const selectedMaintenances = ['Nationality']

@@ -1,41 +1,43 @@
 <div class="min-h-screen bg-gray-50 p-6">
   <!-- Header Section -->
   <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Student Management</h1>
-    <p class="text-gray-600">Manage and organize students</p>
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-1">{{ languageService.t('studentManagement') }}</h1>
+    <p class="text-gray-600 text-sm">{{ languageService.t('studentManagementSub') }}</p>
   </div>
 
   <!-- Toolbar -->
-  <p-toolbar styleClass="mb-6 shadow-lg bg-white rounded-lg border-none">
+  <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
     <ng-template pTemplate="left">
-      <p-button severity="primary" label="New student" icon="pi pi-plus" class="mr-4 shadow-md hover:shadow-lg"
+      <p-button severity="primary" [label]="languageService.t('newStudent')" icon="pi pi-plus" class="mr-3 font-bold"
         (onClick)="openNew()"></p-button>
-      <p-button severity="contrast" label="Filters" icon="pi pi-filter" class="mr-4 shadow-md hover:shadow-lg"
+      <p-button severity="contrast" [label]="languageService.t('filters')" icon="pi pi-filter" class="mr-3 font-semibold"
         (onClick)="openFilterSidebar()"></p-button>
+      <p-button severity="secondary" [label]="languageService.t('exportData')" [outlined]="true" icon="pi pi-download" class="font-semibold"
+        (onClick)="exportToCsv()"></p-button>
     </ng-template>
   </p-toolbar>
 
   <!-- Main Content -->
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
     <p-table #dt [value]="students" [rows]="paginationService.getItemsPerPage()" [paginator]="true"
       [totalRecords]="totalStudents" [lazy]="true" [globalFilterFields]="['name', 'code', 'description']"
       (onPage)="paginate($event)" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10, 25, 50]"
       styleClass="p-datatable-lg" [showCurrentPageReport]="true"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} students">
+      [currentPageReportTemplate]="languageService.currentLang() === 'en' ? 'Showing {first} to {last} of {totalRecords} students' : 'Mostrando {first} a {last} de {totalRecords} estudiantes'">
 
       <!-- Table Caption -->
       <ng-template pTemplate="caption">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6 p-6">
-          <h5 class="text-2xl font-semibold text-gray-800 m-0">Students List</h5>
-          <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <h5 class="text-2xl font-bold text-gray-900 m-0">{{ languageService.t('navStudents') }}</h5>
+          <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <span class="p-input-icon-left w-full sm:w-64">
               <i class="pi pi-search"></i>
-              <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full"
-                placeholder="Search students..." required />
+              <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full text-sm"
+                [placeholder]="languageService.t('searchStudents')" required />
             </span>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <p-button type="submit" severity="danger" label="Search" icon="pi pi-search"></p-button>
-              <p-button type="button" severity="secondary" label="Clear" icon="pi pi-times"
+            <div class="flex gap-2">
+              <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold"></p-button>
+              <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
                 (onClick)="onResetSearch()"></p-button>
             </div>
           </form>
@@ -44,94 +46,74 @@
 
       <!-- Table Header -->
       <ng-template pTemplate="header">
-        <tr class="bg-gray-50">
-          <th class="font-semibold text-gray-700 text-center">Actions</th>
-          <th class="font-semibold text-gray-700">
-            Picture
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <th class="font-bold text-gray-800 text-center text-xs uppercase">{{ languageService.t('actions') }}</th>
+          <th class="font-bold text-gray-800 text-xs uppercase">Photo</th>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Name">
+            {{ languageService.t('fullName') }} <p-sortIcon field="Name"></p-sortIcon>
           </th>
-          <th class="font-semibold text-gray-700" pSortableColumn="Name">
-            Name <p-sortIcon field="Name"></p-sortIcon>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Code">
+            {{ languageService.t('code') }} <p-sortIcon field="Code"></p-sortIcon>
           </th>
-          <th class="font-semibold text-gray-700" pSortableColumn="Code">
-            Code <p-sortIcon field="Code"></p-sortIcon>
-          </th>
-          <th class="font-semibold text-gray-700">Age / Gender</th>
-          <th class="font-semibold text-gray-700">Email / Phone</th>
-          <th class="font-semibold text-gray-700">Nationality</th>
-          <th class="font-semibold text-gray-700">Parent</th>
-          <th class="font-semibold text-gray-700">
-            Created
-          </th>
-          <th class="font-semibold text-gray-700">
-            Last Updated
-          </th>
+          <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('age') }} / {{ languageService.t('gender') }}</th>
+          <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('email') }} / {{ languageService.t('phone') }}</th>
+          <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('nationality') }}</th>
+          <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('parentName') }}</th>
+          <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('created') }}</th>
         </tr>
       </ng-template>
 
       <!-- Table Body -->
       <ng-template pTemplate="body" let-student>
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
+        <tr class="hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100">
           <td>
             <div class="flex justify-center gap-1">
-              <p-button pTooltip="Edit student" icon="pi pi-pencil" severity="success" [rounded]="true" [text]="true"
+              <p-button [pTooltip]="languageService.t('edit')" icon="pi pi-pencil" severity="success" [rounded]="true" [text]="true"
                 (onClick)="editStudent(student)"></p-button>
-              <p-button pTooltip="Delete student" icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true"
+              <p-button [pTooltip]="languageService.t('delete')" icon="pi pi-trash" severity="danger" [rounded]="true" [text]="true"
                 (onClick)="deleteStudent(student)"></p-button>
             </div>
           </td>
           <td>
-            <!-- [label]="student?.FirstName.charAt(0).toUpperCase()" -->
-            <p-avatar [image]="student?.Picture" styleClass="mr-2" size="large" styleClass="bg-blue-500 text-gray-200"
+            <p-avatar [image]="student?.Picture" size="large" styleClass="bg-blue-500 text-gray-200 shadow-sm"
               shape="circle" />
           </td>
-          <td class="text-gray-800">{{ student?.FullName }}</td>
-          <td class="text-gray-700">{{ student?.Code }}</td>
-          <td class="text-gray-600">
-            {{ student?.Age }}
+          <td class="text-gray-900 font-bold text-sm">{{ student?.FullName }}</td>
+          <td class="text-blue-600 font-bold text-xs">{{ student?.Code }}</td>
+          <td class="text-gray-700 text-sm">
+            <span class="font-semibold">{{ student?.Age }} yrs</span>
             <br>
-            {{ student?.GenderName }}
+            <span class="text-xs text-gray-500">{{ student?.Gender === 'M' ? 'Male' : student?.Gender === 'F' ? 'Female' : 'Other' }}</span>
           </td>
-          <td class="text-gray-600">
-            {{ student?.EmailAddress }}
+          <td class="text-gray-700 text-sm">
+            <span class="font-medium">{{ student?.EmailAddress }}</span>
             <br>
-            {{ student?.PhoneNumber }}
+            <span class="text-xs text-gray-500">{{ student?.PhoneNumber }}</span>
           </td>
-          <td class="text-gray-600">
-            {{ student?.Nationality?.Name }}
+          <td class="text-gray-700 text-sm font-medium">
+            {{ student?.Nationality?.Name || (student?.NationalityId === 1 ? 'Dominican' : student?.NationalityId === 2 ? 'American' : student?.NationalityId === 3 ? 'Spanish' : student?.NationalityId === 4 ? 'Mexican' : 'Colombian') }}
           </td>
-          <td class="text-gray-600">
-            {{ student?.ParentName }}
+          <td class="text-gray-700 text-sm">
+            <span class="font-medium">{{ student?.ParentName }}</span>
             <br>
-            {{ student?.ParentPhoneNumber }}
+            <span class="text-xs text-gray-500">{{ student?.ParentPhoneNumber }}</span>
           </td>
-          <td class="text-gray-600">
-            {{ student?.CreatedDate | date:'MM-dd-yyyy HH:mm:ss' }}
-            <br>
-            {{ student?.studentCreatedBy?.FullName }}
-          </td>
-          <td class="text-gray-600">
-            {{ student?.LastUpdatedDate | date:'MM-dd-yyyy HH:mm:ss' }}
-            <br>
-            {{ student?.studentLastUpdatedBy?.FullName }}
+          <td class="text-gray-600 text-xs">
+            {{ student?.CreatedDate | date:'MM-dd-yyyy' }}
           </td>
         </tr>
       </ng-template>
 
       <!-- Table Summary -->
       <ng-template pTemplate="summary">
-        <div class="flex justify-between items-center px-6 py-4 text-gray-600">
-          <span>Total students: {{ totalStudents}}</span>
+        <div class="flex justify-between items-center px-6 py-4 text-gray-700 font-medium text-sm">
+          <span>{{ languageService.t('totalStudents') }}: <strong class="text-gray-900">{{ totalStudents }}</strong></span>
         </div>
       </ng-template>
     </p-table>
   </div>
 </div>
 
-
-
 <app-student-dialog [student]="student" [initializeStudentList]="initializeStudentList"></app-student-dialog>
-
-<app-student-filter (filterApplied)="onFilterApplied($event)">
-</app-student-filter>
-
+<app-student-filter (filterApplied)="onFilterApplied($event)"></app-student-filter>
 <p-confirmDialog [style]="{ width: '450px' }" />

@@ -7,18 +7,28 @@
 
   <ng-template pTemplate="end">
     <div class="flex items-center gap-3" *ngIf="authService.currentUserValue">
-      <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 ">
+      <!-- Language Switcher Button -->
+      <button pButton pRipple type="button" (click)="languageService.toggleLanguage()"
+        class="p-button-outlined p-button-secondary p-button-sm flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border-gray-300 hover:border-gray-400 hover:bg-gray-100 transition"
+        [pTooltip]="languageService.currentLang() === 'en' ? 'Cambiar a Español' : 'Switch to English'"
+        tooltipPosition="bottom">
+        <span class="text-base">{{ languageService.currentLang() === 'en' ? '🇺🇸' : '🇪🇸' }}</span>
+        <span class="text-gray-700 font-medium">{{ languageService.currentLang() === 'en' ? 'EN' : 'ES' }}</span>
+      </button>
+
+      <div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-100">
         <p-avatar [image]="authService.currentUserValue.Picture ||''" styleClass="bg-blue-500 text-gray-200"
-          [pTooltip]="'Logged in as ' + authService.currentUserValue.UserName || authService.currentUserValue.Email"
+          [pTooltip]="(languageService.currentLang() === 'en' ? 'Logged in as ' : 'Conectado como ') + (authService.currentUserValue.UserName || authService.currentUserValue.Email)"
           tooltipPosition="bottom" shape="circle">
         </p-avatar>
-        <span class="font-medium text-gray-700 ">
+        <span class="font-medium text-gray-700 text-sm hidden sm:inline">
           {{ authService.currentUserValue.FullName }}
         </span>
       </div>
 
-      <button pButton pRipple (click)="logout()" icon="pi pi-sign-out" label="Logout" pTooltip="Sign out"
-        tooltipPosition="bottom" class="p-button-text p-button-danger">
+      <button pButton pRipple (click)="logout()" icon="pi pi-sign-out" [label]="languageService.currentLang() === 'en' ? 'Logout' : 'Salir'"
+        [pTooltip]="languageService.currentLang() === 'en' ? 'Sign out' : 'Cerrar sesión'"
+        tooltipPosition="bottom" class="p-button-text p-button-danger text-sm">
       </button>
     </div>
   </ng-template>

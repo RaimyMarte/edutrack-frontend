@@ -12,6 +12,7 @@ import { SubjectService } from '../../../../services/subject/subject.service';
 import { UserService } from '../../../../services/user/user.service';
 import { Subject } from '../../../../types/subject';
 import { User } from '../../../../types/user';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-subject-dialog',
@@ -42,7 +43,11 @@ export class SubjectDialogComponent {
   submitted: boolean = false;
   professors: User[] = []
 
-  constructor(private subjectService: SubjectService, private userService: UserService,) { }
+  constructor(
+    public languageService: LanguageService,
+    private subjectService: SubjectService,
+    private userService: UserService
+  ) { }
 
   async ngOnInit() {
     this.professors = await this.userService.getProfessors()

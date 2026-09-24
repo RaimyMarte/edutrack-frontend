@@ -29,6 +29,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { UserDialogComponent } from '../../../components/user/user-dialog/user-dialog.component';
 import { AvatarModule } from 'primeng/avatar';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 export interface CustomUser extends Partial<User> {
   AutomaticPassword?: boolean;
@@ -55,7 +56,12 @@ export class UserListComponent implements OnInit {
 
   @ViewChild(UserDialogComponent) userDialogComponent!: UserDialogComponent;
 
-  constructor(private userService: UserService, public paginationService: PaginationService, private searchService: SearchService) { }
+  constructor(
+    public languageService: LanguageService,
+    private userService: UserService,
+    public paginationService: PaginationService,
+    private searchService: SearchService
+  ) { }
 
   async ngOnInit() {
     await this.initializeUserList()

@@ -1,131 +1,132 @@
-<p-dialog [(visible)]="studentDialog" [style]="{ width: '650px' }" header="Student Details" [modal]="true"
-  styleClass="p-fluid bg-white rounded-lg shadow-lg" [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
+<p-dialog [(visible)]="studentDialog" [style]="{ width: '650px' }" [modal]="true"
+  styleClass="p-fluid bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden" [breakpoints]="{'960px': '75vw', '640px': '90vw'}"
   [draggable]="false" [resizable]="false" (onHide)="hideDialog()">
 
   <ng-template pTemplate="header">
-    <div class="flex items-center gap-2 text-xl font-semibold text-gray-800">
-      <i class="pi pi-book"></i>
-      <span>Student Details</span>
+    <div class="flex items-center gap-2 text-xl font-bold text-gray-900">
+      <i class="pi pi-user text-blue-600 font-bold"></i>
+      <span>{{ languageService.t('studentDetails') }}</span>
     </div>
   </ng-template>
 
   <ng-template pTemplate="content">
     <form [formGroup]="studentForm()" (ngSubmit)="saveStudent()" novalidate>
-      <div class="grid grid-cols-1 gap-6 p-4">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 gap-6 p-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="field">
-            <label for="FirstName" class="block text-gray-700 font-medium mb-2">First Name *</label>
+            <label for="FirstName" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('firstName') }} *</label>
             <span class="p-input-icon-left w-full">
-              <i class="pi pi-info-circle"></i>
+              <i class="pi pi-user"></i>
               <input type="text" pInputText id="FirstName" formControlName="FirstName"
                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && studentForm().get('FirstName')?.invalid }"
-                class="w-full p-inputtext-sm" placeholder="Enter user FirstName" />
+                class="w-full text-sm" [placeholder]="languageService.t('firstName')" />
             </span>
             <small class="p-error block mt-1" *ngIf="submitted && studentForm().get('FirstName')?.invalid">
-              <i class="pi pi-exclamation-circle mr-1"></i>First Name is required
+              <i class="pi pi-exclamation-circle mr-1"></i>{{ languageService.t('firstNameRequired') }}
             </small>
           </div>
 
           <div class="field">
-            <label for="LastName" class="block text-gray-700 font-medium mb-2">Last Name *</label>
+            <label for="LastName" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('lastName') }} *</label>
             <span class="p-input-icon-left w-full">
-              <i class="pi pi-info-circle"></i>
+              <i class="pi pi-user"></i>
               <input type="text" pInputText id="LastName" formControlName="LastName"
                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && studentForm().get('LastName')?.invalid }"
-                class="w-full p-inputtext-sm" placeholder="Enter user LastName" />
+                class="w-full text-sm" [placeholder]="languageService.t('lastName')" />
             </span>
             <small class="p-error block mt-1" *ngIf="submitted && studentForm().get('LastName')?.invalid">
-              <i class="pi pi-exclamation-circle mr-1"></i>Last Name is required
+              <i class="pi pi-exclamation-circle mr-1"></i>{{ languageService.t('lastNameRequired') }}
             </small>
           </div>
 
           <div class="field">
-            <label for="DateOfBirth" class="block text-gray-700 font-medium mb-2">Date Of Birth *</label>
+            <label for="DateOfBirth" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('dateOfBirth') }} *</label>
             <span class="p-input-icon-left w-full">
               <i class="pi pi-calendar"></i>
               <input type="date" pInputText id="DateOfBirth" formControlName="DateOfBirth"
                 [ngClass]="{ 'ng-invalid ng-dirty': submitted && studentForm().get('DateOfBirth')?.invalid }"
-                class="w-full p-inputtext-sm" placeholder="Enter DateOfBirth" />
+                class="w-full text-sm" />
             </span>
             <small class="p-error block mt-1" *ngIf="submitted && studentForm().get('DateOfBirth')?.invalid">
-              <i class="pi pi-exclamation-circle mr-1"></i>Date Of Birth is required
+              <i class="pi pi-exclamation-circle mr-1"></i>{{ languageService.t('dobRequired') }}
             </small>
           </div>
 
           <div class="field">
-            <label for="Gender" class="block text-gray-700 font-medium mb-2">Gender</label>
+            <label for="Gender" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('gender') }}</label>
             <p-dropdown [options]="genderOptions" formControlName="Gender" [filter]="true" filterBy="Name"
-              optionLabel="Name" placeholder="Select Gender" optionValue="Id" styleClass="w-full p-inputtext-sm"
+              optionLabel="Name" [placeholder]="languageService.t('selectGender')" optionValue="Id" styleClass="w-full text-sm"
               [panelStyleClass]="'text-sm'" [showClear]="true">
             </p-dropdown>
           </div>
 
           <div class="field">
-            <label for="NationalityId" class="block text-gray-700 font-medium mb-2">Nationality</label>
+            <label for="NationalityId" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('nationality') }}</label>
             <p-dropdown [options]="nationalities" formControlName="NationalityId" [filter]="true" filterBy="Name"
-              optionLabel="Name" placeholder="Select a Nationality" optionValue="Id" styleClass="w-full p-inputtext-sm"
+              optionLabel="Name" [placeholder]="languageService.t('selectNationality')" optionValue="Id" styleClass="w-full text-sm"
               [panelStyleClass]="'text-sm'" [showClear]="true">
             </p-dropdown>
           </div>
 
           <div class="field">
-            <label for="Code" class="block text-gray-700 font-medium mb-2">Code</label>
+            <label for="Code" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('code') }}</label>
             <span class="p-input-icon-left w-full">
               <i class="pi pi-tag"></i>
-              <input type="text" pInputText id="Code" formControlName="Code" class="w-full p-inputtext-sm"
-                placeholder="Enter Code" />
+              <input type="text" pInputText id="Code" formControlName="Code" class="w-full text-sm"
+                [placeholder]="languageService.t('code')" />
             </span>
           </div>
 
           <div class="field">
-            <label for="EmailAddress" class="block text-gray-700 font-medium mb-2">Email Address</label>
+            <label for="EmailAddress" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('email') }}</label>
             <span class="p-input-icon-left w-full">
-              <i class="pi pi-info-circle"></i>
+              <i class="pi pi-envelope"></i>
               <input type="text" pInputText id="EmailAddress" formControlName="EmailAddress"
-                class="w-full p-inputtext-sm" placeholder="Enter student Email Address" />
+                class="w-full text-sm" [placeholder]="languageService.t('email')" />
             </span>
           </div>
 
           <div class="field">
-            <label for="PhoneNumber" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+            <label for="PhoneNumber" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('phone') }}</label>
             <span class="p-input-icon-left w-full">
-              <i class="pi pi-tag"></i>
-              <input type="text" pInputText id="PhoneNumber" formControlName="PhoneNumber" class="w-full p-inputtext-sm"
-                placeholder="Enter Phone Number" />
+              <i class="pi pi-phone"></i>
+              <input type="text" pInputText id="PhoneNumber" formControlName="PhoneNumber" class="w-full text-sm"
+                [placeholder]="languageService.t('phone')" />
             </span>
           </div>
 
           <div class="field">
-            <label for="ParentName" class="block text-gray-700 font-medium mb-2">Parent Name</label>
+            <label for="ParentName" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('parentName') }}</label>
             <span class="p-input-icon-left w-full">
-              <i class="pi pi-tag"></i>
-              <input type="text" pInputText id="ParentName" formControlName="ParentName" class="w-full p-inputtext-sm"
-                placeholder="Enter Parent Name" />
+              <i class="pi pi-user"></i>
+              <input type="text" pInputText id="ParentName" formControlName="ParentName" class="w-full text-sm"
+                [placeholder]="languageService.t('parentName')" />
             </span>
           </div>
 
           <div class="field">
-            <label for="ParentPhoneNumber" class="block text-gray-700 font-medium mb-2">Parent Phone Number</label>
+            <label for="ParentPhoneNumber" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('parentPhone') }}</label>
             <span class="p-input-icon-left w-full">
-              <i class="pi pi-tag"></i>
-              <input type="text" pInputText id="ParentPhoneNumber" formControlName="ParentPhoneNumber" class="w-full p-inputtext-sm"
-                placeholder="Enter Parent Phone Number" />
+              <i class="pi pi-phone"></i>
+              <input type="text" pInputText id="ParentPhoneNumber" formControlName="ParentPhoneNumber" class="w-full text-sm"
+                [placeholder]="languageService.t('parentPhone')" />
             </span>
           </div>
         </div>
 
         <div class="field">
-          <label for="Address" class="block text-gray-700 font-medium mb-2">Address</label>
+          <label for="Address" class="block text-gray-800 font-bold text-sm mb-1">{{ languageService.t('address') }}</label>
           <textarea type="text" pInputTextarea id="Address" formControlName="Address"
-            class="w-full p-inputtext-sm" rows="3" placeholder="Enter address"></textarea>
+            class="w-full text-sm" rows="3" [placeholder]="languageService.t('address')"></textarea>
         </div>
       </div>
 
-      <div class="flex justify-end gap-2 px-4 py-2 mt-3">
-        <p-button label="Cancel" type="button" icon="pi pi-times" (click)="hideDialog()"
-          styleClass="p-button-text p-button-secondary">
+      <div class="flex justify-end gap-2 px-2 py-3 mt-4 border-t border-gray-100">
+        <p-button [label]="languageService.t('cancel')" type="button" icon="pi pi-times" (click)="hideDialog()"
+          severity="secondary" [outlined]="true" class="font-semibold">
         </p-button>
-        <p-button label="Save" type="submit" icon="pi pi-save" (click)="saveStudent()" styleClass="p-button-success">
+        <p-button [label]="languageService.t('save')" type="submit" icon="pi pi-save" (click)="saveStudent()"
+          severity="primary" class="font-bold">
         </p-button>
       </div>
     </form>

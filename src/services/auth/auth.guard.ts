@@ -1,34 +1,26 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router, private cookieService: CookieService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const token = this.cookieService.get('token');
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    const user = await this.authService.checkAuth();
 
-    if (!token) {
+    if (!user) {
       this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return false;
     }
 
-    const currentUser = await this.authService.checkAuth();
-
-    if (currentUser) {
-      if (route.data['roles'] && route.data['roles'].indexOf(currentUser?.UserRoleId) === -1) {
-        this.router.navigate(['/']);
-        return false;
-      }
-
-      return true;
+    if (route.data && route.data['roles'] && route.data['roles'].indexOf(user.UserRoleId) === -1) {
+      this.router.navigate(['/']);
+      return false;
     }
 
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
+    return true;
   }
 }

@@ -2,39 +2,39 @@
   
     <!-- Header Section -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">User Management</h1>
-        <p class="text-gray-600">Manage and organize users</p>
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-1">{{ languageService.t('userManagement') }}</h1>
+        <p class="text-gray-600 text-sm">{{ languageService.t('userManagementSub') }}</p>
     </div>
 
     <!-- Toolbar -->
-    <p-toolbar styleClass="mb-6 shadow-lg bg-white rounded-lg border-none">
+    <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
         <ng-template pTemplate="left">
-            <p-button severity="primary" label="New user" icon="pi pi-plus" class="mr-4 shadow-md hover:shadow-lg"
+            <p-button severity="primary" [label]="languageService.t('newUser')" icon="pi pi-plus" class="mr-3 font-bold"
                 (onClick)="openNew()"></p-button>
         </ng-template>
     </p-toolbar>
 
     <!-- Main Content -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
         <p-table #dt [value]="users" [rows]="paginationService.getItemsPerPage()" [paginator]="true"
             [totalRecords]="totalUsers" [lazy]="true" [globalFilterFields]="['name', 'code', 'description']"
             (onPage)="paginate($event)" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10, 25, 50]"
             styleClass="p-datatable-lg" [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users">
+            [currentPageReportTemplate]="languageService.currentLang() === 'en' ? 'Showing {first} to {last} of {totalRecords} users' : 'Mostrando {first} a {last} de {totalRecords} usuarios'">
 
             <!-- Table Caption -->
             <ng-template pTemplate="caption">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-6 p-6">
-                    <h5 class="text-2xl font-semibold text-gray-800 m-0">Users List</h5>
-                    <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <h5 class="text-2xl font-bold text-gray-900 m-0">{{ languageService.t('usersList') }}</h5>
+                    <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                         <span class="p-input-icon-left w-full sm:w-64">
                             <i class="pi pi-search"></i>
-                            <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full"
-                                placeholder="Search users..." required />
+                            <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full text-sm"
+                                [placeholder]="languageService.t('searchUsers')" required />
                         </span>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <p-button type="submit" severity="danger" label="Search" icon="pi pi-search"></p-button>
-                            <p-button type="button" severity="secondary" label="Clear" icon="pi pi-times"
+                        <div class="flex gap-2">
+                            <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold"></p-button>
+                            <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
                                 (onClick)="onResetSearch()"></p-button>
                         </div>
                     </form>
@@ -43,96 +43,80 @@
 
             <!-- Table Header -->
             <ng-template pTemplate="header">
-                <tr class="bg-gray-50">
-                    <th class="font-semibold text-gray-700 text-center">Actions</th>
-                    <th class="font-semibold text-gray-700">
-                        Picture
+                <tr class="bg-gray-50 border-b border-gray-200">
+                    <th class="font-bold text-gray-800 text-center text-xs uppercase">{{ languageService.t('actions') }}</th>
+                    <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('picture') }}</th>
+                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="FullName">
+                        {{ languageService.t('fullName') }} <p-sortIcon field="FullName"></p-sortIcon>
                     </th>
-                    <th class="font-semibold text-gray-700" pSortableColumn="FullName">
-                        Name <p-sortIcon field="FullName"></p-sortIcon>
+                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="UserName">
+                        {{ languageService.t('username') }} <p-sortIcon field="UserName"></p-sortIcon>
                     </th>
-                    <th class="font-semibold text-gray-700" pSortableColumn="UserName">
-                        Username <p-sortIcon field="UserName"></p-sortIcon>
+                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="UserRole">
+                        {{ languageService.t('userRole') }} <p-sortIcon field="UserRole"></p-sortIcon>
                     </th>
-                    <th class="font-semibold text-gray-700" pSortableColumn="UserRole">
-                        User Role <p-sortIcon field="UserRole"></p-sortIcon>
+                    <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('email') }} / {{ languageService.t('phone') }}</th>
+                    <th class="font-bold text-gray-800 text-xs uppercase">
+                        {{ languageService.t('status') }}
                     </th>
-                    <th class="font-semibold text-gray-700">Email / Phone</th>
-                    <th class="font-semibold text-gray-700">
-                        Authorized
-                    </th>
-                    <th class="font-semibold text-gray-700">Last Access</th>
-                    <th class="font-semibold text-gray-700">Password Changed</th>
-
-                    <!-- <th class="font-semibold text-gray-700">
-                        Created
-                    </th>
-                    <th class="font-semibold text-gray-700">
-                        Last Updated
-                    </th> -->
+                    <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('lastAccess') }}</th>
+                    <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('passwordChanged') }}</th>
                 </tr>
             </ng-template>
 
             <!-- Table Body -->
             <ng-template pTemplate="body" let-user>
-                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                <tr class="hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100">
                     <td>
                         <div class="flex justify-center gap-1">
-                            <p-button pTooltip="Edit user" icon="pi pi-pencil" severity="success" [rounded]="true"
+                            <p-button [pTooltip]="languageService.t('editUser')" icon="pi pi-pencil" severity="success" [rounded]="true"
                                 [text]="true" (onClick)="editUser(user)"></p-button>
-                            <p-button pTooltip="Edit user password" icon="pi pi-key" severity="danger" [rounded]="true"
+                            <p-button [pTooltip]="languageService.t('resetPassword')" icon="pi pi-key" severity="danger" [rounded]="true"
                                 [text]="true" (onClick)="resetUserPassword(user)"></p-button>
                         </div>
                     </td>
                     <td>
-                        <!-- [label]="student?.FirstName.charAt(0).toUpperCase()" -->
-                        <p-avatar [image]="user?.Picture" styleClass="mr-2" size="large"
-                            styleClass="bg-blue-500 text-gray-200" shape="circle" />
+                        <p-avatar [image]="user?.Picture || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'"
+                            size="large" styleClass="border border-gray-200 shadow-sm" shape="circle" />
                     </td>
-                    <td class="text-gray-800">{{ user?.FullName }}</td>
-                    <td class="font-medium text-gray-700">{{ user?.UserName }}</td>
-                    <td class="text-gray-800">{{ user?.UserRole?.Name }}</td>
-                    <td class="text-gray-600">
-                        {{ user?.Email }}
+                    <td class="text-gray-900 font-bold text-sm">{{ user?.FullName }}</td>
+                    <td class="font-bold text-blue-600 text-xs">{{ user?.UserName }}</td>
+                    <td class="text-gray-800 font-semibold text-sm">
+                        <span class="px-2.5 py-1 text-xs font-bold rounded-full"
+                              [ngClass]="user?.UserRoleId === 1 ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'">
+                            {{ user?.UserRole?.Name || (user?.UserRoleId === 1 ? 'Administrator' : 'Professor') }}
+                        </span>
+                    </td>
+                    <td class="text-gray-700 text-sm">
+                        <span class="font-medium">{{ user?.Email }}</span>
                         <br>
-                        {{ user?.Phone }}
+                        <span class="text-xs text-gray-500">{{ user?.Phone }}</span>
                     </td>
                     <td>
-                        <p-tag [value]="user?.Authorized ? 'Authorized' : 'Not Authorized'"
-                            [severity]="user?.Authorized ? 'success' : 'danger'" [rounded]="true"></p-tag>
+                        <span class="px-2.5 py-1 text-xs font-bold rounded-full"
+                              [ngClass]="user?.Authorized ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                            {{ user?.Authorized ? languageService.t('authorized') : languageService.t('notAuthorized') }}
+                        </span>
                     </td>
-                    <td class="text-gray-600">
-                        {{ user?.LastAccessDate | date:'MM-dd-yyyy HH:mm:ss' }}
+                    <td class="text-gray-600 text-xs">
+                        {{ user?.LastAccessDate | date:'MM-dd-yyyy HH:mm' }}
                         <br>
-                        {{ user?.LastIpAccess }}
+                        <span class="text-gray-400 font-mono">{{ user?.LastIpAccess || '127.0.0.1' }}</span>
                     </td>
-                    <td class="text-gray-600">
-                        {{ user?.LastPwdChangedDate | date:'MM-dd-yyyy HH:mm:ss' }}
+                    <td class="text-gray-600 text-xs">
+                        {{ user?.LastPwdChangedDate | date:'MM-dd-yyyy' }}
                     </td>
-
-
-                    <!-- <td class="text-gray-600">
-                        {{ user?.CreatedDate | date:'MM-dd-yyyy HH:mm:ss' }}
-                        <br>
-                        {{ user?.UserCreatedBy?.FullName }}
-                    </td>
-                    <td class="text-gray-600">
-                        {{ user?.LastUpdatedDate | date:'MM-dd-yyyy HH:mm:ss' }}
-                        <br>
-                        {{ user?.UserLastUpdatedBy?.FullName }}
-                    </td> -->
                 </tr>
             </ng-template>
 
             <!-- Table Summary -->
             <ng-template pTemplate="summary">
-                <div class="flex justify-between items-center px-6 py-4 text-gray-600">
-                    <span>Total users: {{ totalUsers}}</span>
+                <div class="flex justify-between items-center px-6 py-4 text-gray-700 font-medium text-sm">
+                    <span>{{ languageService.t('totalRecords') }}: <strong class="text-gray-900">{{ totalUsers }}</strong></span>
                 </div>
             </ng-template>
         </p-table>
     </div>
 </div>
-
 
 <app-user-dialog [user]="user" [initializeUserList]="initializeUserList"></app-user-dialog>

@@ -2,39 +2,41 @@
 
   <!-- Header Section -->
   <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">Subject Management</h1>
-    <p class="text-gray-600">Manage and organize your academic subjects</p>
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-1">{{ languageService.t('subjectManagement') }}</h1>
+    <p class="text-gray-600 text-sm">{{ languageService.t('subjectManagementSub') }}</p>
   </div>
 
   <!-- Toolbar -->
-  <p-toolbar styleClass="mb-6 shadow-lg bg-white rounded-lg border-none">
+  <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
     <ng-template pTemplate="left">
-      <p-button [disabled]="currentUserRole != 1" severity="primary" label="New Subject" icon="pi pi-plus"
-        class="mr-4 shadow-md hover:shadow-lg" (onClick)="openNew()"></p-button>
+      <p-button *ngIf="currentUserRole == 1" severity="primary" [label]="languageService.t('newSubject')" icon="pi pi-plus"
+        class="mr-3 font-bold" (onClick)="openNew()"></p-button>
+      <p-button severity="secondary" [label]="languageService.t('exportData')" [outlined]="true" icon="pi pi-download" class="font-semibold"
+        (onClick)="exportToCsv()"></p-button>
     </ng-template>
   </p-toolbar>
 
   <!-- Main Content -->
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
     <p-table #dt [value]="subjects" [rows]="paginationService.getItemsPerPage()" [paginator]="true"
       [totalRecords]="totalSubjects" [lazy]="true" [globalFilterFields]="['name', 'code', 'description']"
       (onPage)="paginate($event)" [rowHover]="true" dataKey="id" [rowsPerPageOptions]="[10, 25, 50]"
       styleClass="p-datatable-lg" [showCurrentPageReport]="true"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} subjects">
+      [currentPageReportTemplate]="languageService.currentLang() === 'en' ? 'Showing {first} to {last} of {totalRecords} subjects' : 'Mostrando {first} a {last} de {totalRecords} asignaturas'">
 
       <!-- Table Caption -->
       <ng-template pTemplate="caption">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6 p-6">
-          <h5 class="text-2xl font-semibold text-gray-800 m-0">Subjects List</h5>
-          <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <h5 class="text-2xl font-bold text-gray-900 m-0">{{ languageService.t('subjectsList') }}</h5>
+          <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <span class="p-input-icon-left w-full sm:w-64">
               <i class="pi pi-search"></i>
-              <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full"
-                placeholder="Search subjects..." required />
+              <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full text-sm"
+                [placeholder]="languageService.t('searchSubjects')" required />
             </span>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <p-button type="submit" severity="danger" label="Search" icon="pi pi-search"></p-button>
-              <p-button type="button" severity="secondary" label="Clear" icon="pi pi-times"
+            <div class="flex gap-2">
+              <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold"></p-button>
+              <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
                 (onClick)="onResetSearch()"></p-button>
             </div>
           </form>
@@ -43,95 +45,82 @@
 
       <!-- Table Header -->
       <ng-template pTemplate="header">
-        <tr class="bg-gray-50">
-          <th class="font-semibold text-gray-700 text-center">Actions</th>
-          <th class="font-semibold text-gray-700" pSortableColumn="Code">
-            Code <p-sortIcon field="Code"></p-sortIcon>
+        <tr class="bg-gray-50 border-b border-gray-200">
+          <th class="font-bold text-gray-800 text-center text-xs uppercase">{{ languageService.t('actions') }}</th>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Code">
+            {{ languageService.t('code') }} <p-sortIcon field="Code"></p-sortIcon>
           </th>
-          <th class="font-semibold text-gray-700" pSortableColumn="Name">
-            Name <p-sortIcon field="Name"></p-sortIcon>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Name">
+            {{ languageService.t('name') }} <p-sortIcon field="Name"></p-sortIcon>
           </th>
-          <th class="font-semibold text-gray-700" pSortableColumn="Professor">
-            Professor <p-sortIcon field="Professor"></p-sortIcon>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Professor">
+            {{ languageService.t('professor') }} <p-sortIcon field="Professor"></p-sortIcon>
           </th>
-          <!-- <th class="font-semibold text-gray-700">Description</th> -->
-          <th class="font-semibold text-gray-700">
-            Enabled
+          <th class="font-bold text-gray-800 text-xs uppercase">
+            {{ languageService.t('status') }}
           </th>
-          <th class="font-semibold text-gray-700" pSortableColumn="StartDate">
-            Start Date <p-sortIcon field="StartDate"></p-sortIcon>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="StartDate">
+            {{ languageService.t('startDate') }} <p-sortIcon field="StartDate"></p-sortIcon>
           </th>
-          <th class="font-semibold text-gray-700" pSortableColumn="EndDate">
-            End Date <p-sortIcon field="EndDate"></p-sortIcon>
+          <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="EndDate">
+            {{ languageService.t('endDate') }} <p-sortIcon field="EndDate"></p-sortIcon>
           </th>
-          <th class="font-semibold text-gray-700">
-            Created
-          </th>
-          <th class="font-semibold text-gray-700">
-            Last Updated
+          <th class="font-bold text-gray-800 text-xs uppercase">
+            {{ languageService.t('created') }}
           </th>
         </tr>
       </ng-template>
 
       <!-- Table Body -->
       <ng-template pTemplate="body" let-subject>
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
+        <tr class="hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100">
           <td>
             <div class="flex justify-center gap-1">
-              <p-button pTooltip="Students Attendance" icon="pi pi-calendar" severity="info" [rounded]="true"
+              <p-button [pTooltip]="languageService.t('studentsAttendance')" icon="pi pi-calendar" severity="info" [rounded]="true"
                 [text]="true" [routerLink]="['/subjects/attendance', subject?.Id]"></p-button>
 
-              <p-button pTooltip="Students Grades" icon="pi pi-file-edit
-              " severity="help" [rounded]="true" [text]="true"
+              <p-button [pTooltip]="languageService.t('studentsGrades')" icon="pi pi-file-edit" severity="help" [rounded]="true" [text]="true"
                 [routerLink]="['/subjects/grades', subject?.Id]"></p-button>
 
-              <p-button *ngIf="currentUserRole == 1" pTooltip="Enroll Students" icon="pi pi-users" severity="primary"
+              <p-button *ngIf="currentUserRole == 1" [pTooltip]="languageService.t('enrollStudents')" icon="pi pi-users" severity="primary"
                 [rounded]="true" [text]="true" [routerLink]="['/subjects/enroll', subject?.Id]"></p-button>
 
-              <p-button *ngIf="currentUserRole == 1" pTooltip="Edit subject" icon="pi pi-pencil" severity="success"
+              <p-button *ngIf="currentUserRole == 1" [pTooltip]="languageService.t('editSubject')" icon="pi pi-pencil" severity="success"
                 [rounded]="true" [text]="true" (onClick)="editSubject(subject)"></p-button>
 
-              <p-button *ngIf="currentUserRole == 1" pTooltip="Delete subject" icon="pi pi-trash" severity="danger"
+              <p-button *ngIf="currentUserRole == 1" [pTooltip]="languageService.t('deleteSubject')" icon="pi pi-trash" severity="danger"
                 [rounded]="true" [text]="true" (onClick)="deleteSubject(subject)"></p-button>
             </div>
           </td>
-          <td class="font-medium text-gray-700">{{ subject?.Code }}</td>
-          <td class="text-gray-800">{{ subject?.Name }}</td>
-          <td class="text-gray-800">{{ subject?.Professor?.FullName }}</td>
-          <!-- <td class="text-gray-600">{{ subject?.Description }}</td> -->
+          <td class="font-bold text-blue-600 text-xs">{{ subject?.Code }}</td>
+          <td class="text-gray-900 font-bold text-sm">{{ subject?.Name }}</td>
+          <td class="text-gray-800 font-medium text-sm">{{ subject?.Professor?.FullName || 'Unassigned' }}</td>
           <td>
-            <p-tag [value]="subject?.Enabled ? 'Active' : 'Inactive'"
-              [severity]="subject?.Enabled ? 'success' : 'danger'" [rounded]="true"></p-tag>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full"
+                  [ngClass]="subject?.Enabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'">
+              {{ subject?.Enabled ? languageService.t('active') : languageService.t('inactive') }}
+            </span>
           </td>
-          <td>{{ subject?.StartDate | date:'mediumDate' }}</td>
-          <td>{{ subject?.EndDate | date:'mediumDate' }}</td>
-          <td class="text-gray-600">
-            {{ subject?.CreatedDate | date:'MM-dd-yyyy HH:mm:ss' }}
-            <br>
-            {{ subject?.SubjectCreatedBy?.FullName }}
-          </td>
-          <td class="text-gray-600">
-            {{ subject?.LastUpdatedDate | date:'MM-dd-yyyy HH:mm:ss' }}
-            <br>
-            {{ subject?.SubjectLastUpdatedBy?.FullName }}
+          <td class="text-gray-700 text-sm font-medium">{{ subject?.StartDate | date:'mediumDate' }}</td>
+          <td class="text-gray-700 text-sm font-medium">{{ subject?.EndDate | date:'mediumDate' }}</td>
+          <td class="text-gray-600 text-xs">
+            {{ subject?.CreatedDate | date:'MM-dd-yyyy' }}
           </td>
         </tr>
       </ng-template>
 
       <!-- Table Summary -->
       <ng-template pTemplate="summary">
-        <div class="flex justify-between items-center px-6 py-4 text-gray-600">
-          <span>Total Subjects: {{ totalSubjects}}</span>
+        <div class="flex justify-between items-center px-6 py-4 text-gray-700 font-medium text-sm">
+          <span>{{ languageService.t('totalSubjects') }}: <strong class="text-gray-900">{{ totalSubjects }}</strong></span>
         </div>
       </ng-template>
     </p-table>
   </div>
 </div>
 
-
 <div *ngIf="currentUserRole == 1">
   <app-subject-dialog [subject]="subject" [initializeSubjectList]="initializeSubjectList"></app-subject-dialog>
 </div>
-
 
 <p-confirmDialog [style]="{ width: '450px' }" />

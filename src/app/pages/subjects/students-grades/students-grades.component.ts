@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { calculateGrade } from '../../../../utils/calculate-grade'
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-students-grades',
@@ -30,7 +31,13 @@ export class StudentsGradesComponent {
   enrolledStudentsWithGrades!: EnrolledStudentsWithGrades[];
   isEditing: boolean = false;
 
-  constructor(private studentSubjectCrossService: StudentSubjectCrossService, private confirmationService: ConfirmationService, private subjectService: SubjectService, private route: ActivatedRoute) { }
+  constructor(
+    public languageService: LanguageService,
+    private studentSubjectCrossService: StudentSubjectCrossService,
+    private confirmationService: ConfirmationService,
+    private subjectService: SubjectService,
+    private route: ActivatedRoute
+  ) { }
 
   async ngOnInit() {
     this.subjectId = this.route.snapshot.paramMap.get('subjectId');

@@ -530,10 +530,14 @@ export class MockApiService {
     if (path === '/auth/login' && method === 'POST') {
       const { UserNameOrEmail } = body || {};
       const users = this.getUsers();
-      const foundUser = users.find(
-        u => (u.UserName?.toLowerCase() === UserNameOrEmail?.toLowerCase() ||
-              u.Email?.toLowerCase() === UserNameOrEmail?.toLowerCase())
-      ) || users[0];
+      const input = (UserNameOrEmail || '').toLowerCase().trim();
+
+      let foundUser: User;
+      if (input.includes('prof')) {
+        foundUser = users.find(u => u.UserRoleId === 2) || users[1];
+      } else {
+        foundUser = users.find(u => u.UserRoleId === 1) || users[0];
+      }
 
       const loggedInUser: User = {
         ...foundUser,
@@ -544,8 +548,8 @@ export class MockApiService {
 
       return {
         isSuccess: true,
-        message: 'Bienvenido ' + loggedInUser.FullName,
-        title: 'Inicio de Sesión Exitoso',
+        message: 'Welcome back, ' + loggedInUser.FullName,
+        title: 'Login Successful',
         data: {
           user: loggedInUser,
           token: 'mock-jwt-token-' + Date.now(),
