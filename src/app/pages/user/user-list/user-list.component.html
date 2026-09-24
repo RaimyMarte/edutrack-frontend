@@ -84,7 +84,7 @@
                     <td class="text-gray-800 font-semibold text-sm">
                         <span class="px-2.5 py-1 text-xs font-bold rounded-full"
                               [ngClass]="user?.UserRoleId === 1 ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'">
-                            {{ user?.UserRole?.Name || (user?.UserRoleId === 1 ? 'Administrator' : 'Professor') }}
+                            {{ languageService.getRoleLabel(user?.UserRole || user?.UserRoleId) }}
                         </span>
                     </td>
                     <td class="text-gray-700 text-sm">

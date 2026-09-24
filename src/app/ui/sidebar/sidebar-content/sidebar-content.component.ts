@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, OnDestroy, effect } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, effect } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
@@ -31,10 +31,15 @@ import { User } from '../../../../types/user';
 })
 export class SidebarContentComponent implements OnInit, OnDestroy {
   @Input() sidebarVisible: boolean = true;
+  @Output() itemClick = new EventEmitter<void>();
   
   menuItems: MenuItem[] = [];
   currentUser: User | null = null;
   private userSub!: Subscription;
+
+  onMenuItemClick() {
+    this.itemClick.emit();
+  }
 
   constructor(
     public authService: AuthService,

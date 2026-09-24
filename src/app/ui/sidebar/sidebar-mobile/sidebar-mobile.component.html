@@ -1,8 +1,8 @@
 <div class="card flex justify-content-center">
-    <p-sidebar [(visible)]="sidebarVisible"  styleClass="custom-mobile-sidebar">
+    <p-sidebar [visible]="sidebarVisible" (visibleChange)="sidebarVisibleChange.emit($event)" styleClass="custom-mobile-sidebar">
       <div class="bg-gray-900 h-full">
-        <sidebar-content [sidebarVisible]="true"></sidebar-content>
+        <sidebar-content [sidebarVisible]="true" (itemClick)="closeSidebar()"></sidebar-content>
       </div>
     </p-sidebar>
-  </div>
+</div>
   

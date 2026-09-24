@@ -12,9 +12,8 @@ import { SidebarMobileComponent } from '../sidebar-mobile/sidebar-mobile.compone
 })
 export class AppSidebar {
   @Input() sidebarVisible: boolean = true;
+  @Output() sidebarVisibleChange = new EventEmitter<boolean>();
   @Input() isMobile: boolean = false;
-  @Input() isMobileSidebarOpen: boolean = false;
-  @Output() mobileSidebarOpenChange = new EventEmitter<boolean>();
 
   constructor() { }
 }

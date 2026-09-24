@@ -198,8 +198,16 @@ const TRANSLATIONS: Translations = {
   myAssignedCourses: { en: 'My Assigned Courses', es: 'Mis Cursos Asignados' },
   takeAttendance: { en: 'Attendance', es: 'Asistencia' },
   gradebook: { en: 'Grades', es: 'Calificaciones' },
-  enrollmentRoster: { en: 'Students', es: 'Estudiantes' },
   yearsOld: { en: 'years old', es: 'años' },
+  yearsOldShort: { en: 'yrs', es: 'años' },
+  unassigned: { en: 'Unassigned', es: 'Sin asignar' },
+  administrator: { en: 'Administrator', es: 'Administrador' },
+  faculty: { en: 'Faculty / Professor', es: 'Docente' },
+  dominican: { en: 'Dominican', es: 'Dominicano/a' },
+  american: { en: 'American', es: 'Estadounidense' },
+  spanish: { en: 'Spanish', es: 'Español/a' },
+  mexican: { en: 'Mexican', es: 'Mexicano/a' },
+  colombian: { en: 'Colombian', es: 'Colombiano/a' },
 };
 
 @Injectable({
@@ -233,5 +241,39 @@ export class LanguageService {
     const entry = TRANSLATIONS[key];
     if (!entry) return key;
     return entry[this.currentLang()] || key;
+  }
+
+  public getGenderLabel(gender: string | null | undefined): string {
+    if (!gender) return '';
+    const g = gender.toUpperCase();
+    if (g === 'M' || g === 'MALE' || g === 'MASCULINO') return this.t('male');
+    if (g === 'F' || g === 'FEMALE' || g === 'FEMENINO') return this.t('female');
+    return this.t('other');
+  }
+
+  public getNationalityLabel(id: number | null | undefined, fallback?: string): string {
+    if (id === 1) return this.t('dominican');
+    if (id === 2) return this.t('american');
+    if (id === 3) return this.t('spanish');
+    if (id === 4) return this.t('mexican');
+    if (id === 5) return this.t('colombian');
+    if (fallback) return fallback;
+    return this.t('dominican');
+  }
+
+  public getRoleLabel(role: any): string {
+    if (typeof role === 'number') {
+      return role === 1 ? this.t('administrator') : this.t('professor');
+    }
+    if (typeof role === 'string') {
+      if (role.toLowerCase().includes('admin')) return this.t('administrator');
+      if (role.toLowerCase().includes('prof')) return this.t('professor');
+    }
+    if (role && typeof role === 'object' && role.Name) {
+      if (role.Name.toLowerCase().includes('admin')) return this.t('administrator');
+      if (role.Name.toLowerCase().includes('prof')) return this.t('professor');
+      return role.Name;
+    }
+    return this.t('administrator');
   }
 }

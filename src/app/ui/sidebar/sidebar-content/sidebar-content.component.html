@@ -19,7 +19,7 @@
       <ul class="space-y-1 px-2">
         <ng-container *ngFor="let item of menuItems">
           <li *ngIf="item.visible">
-            <a [routerLink]="item.routerLink" routerLinkActive="bg-blue-600 text-white shadow-lg" 
+            <a [routerLink]="item.routerLink" (click)="onMenuItemClick()" routerLinkActive="bg-blue-600 text-white shadow-lg" 
               [routerLinkActiveOptions]="{exact: item.routerLink === '/'}" class="sidebar-item group" [ngClass]="{'justify-center': !sidebarVisible}" pRipple>
               <div class="sidebar-item-content">
                 <i [class]="item.icon + ' sidebar-icon'"></i>

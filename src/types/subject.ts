@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface Subject {
   Id: string;
   Code: string | null;
@@ -6,7 +8,8 @@ export interface Subject {
   Enabled: boolean;
   StatusId: number;
   StartDate: string;
-  ProfessorId: string,
+  ProfessorId: string;
+  Professor?: User | null;
   EndDate: string;
   CreatedBy: string | null;
   CreatedDate: string;

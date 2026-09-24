@@ -480,7 +480,20 @@ export class MockApiService {
   }
 
   private getSubjects(): Subject[] {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.SUBJECTS) || JSON.stringify(INITIAL_SUBJECTS));
+    const raw = localStorage.getItem(STORAGE_KEYS.SUBJECTS);
+    let subjects: Subject[] = raw ? JSON.parse(raw) : INITIAL_SUBJECTS;
+    let updated = false;
+    subjects = subjects.map((sub, idx) => {
+      if (!sub.ProfessorId) {
+        sub.ProfessorId = `usr-${(idx % 4) + 2}`;
+        updated = true;
+      }
+      return sub;
+    });
+    if (updated && typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(subjects));
+    }
+    return subjects;
   }
   private setSubjects(subjects: Subject[]) {
     localStorage.setItem(STORAGE_KEYS.SUBJECTS, JSON.stringify(subjects));
@@ -755,16 +768,19 @@ export class MockApiService {
     // ==========================================
     if (path === '/subject_get_all' && method === 'GET') {
       const subjects = this.getSubjects();
+      const users = this.getUsers();
       const page = parseInt(queryParams.get('currentPage') || queryParams.get('page') || '1', 10);
       const pageSize = parseInt(queryParams.get('currentPageSize') || queryParams.get('pageSize') || '10', 10);
       const search = (queryParams.get('search') || '').toLowerCase().trim();
 
       let filtered = subjects.filter(sub => {
         if (search) {
+          const prof = users.find(u => u.Id === sub.ProfessorId);
           return (
             sub.Name.toLowerCase().includes(search) ||
             (sub.Code && sub.Code.toLowerCase().includes(search)) ||
-            (sub.Description && sub.Description.toLowerCase().includes(search))
+            (sub.Description && sub.Description.toLowerCase().includes(search)) ||
+            (prof && prof.FullName && prof.FullName.toLowerCase().includes(search))
           );
         }
         return true;
@@ -772,7 +788,13 @@ export class MockApiService {
 
       const total = filtered.length;
       const startIndex = (page - 1) * pageSize;
-      const paginatedData = filtered.slice(startIndex, startIndex + pageSize);
+      const paginatedData = filtered.slice(startIndex, startIndex + pageSize).map(sub => {
+        const prof = users.find(u => u.Id === sub.ProfessorId);
+        return {
+          ...sub,
+          Professor: prof || null,
+        };
+      });
 
       return {
         isSuccess: true,
@@ -784,14 +806,17 @@ export class MockApiService {
     if (path.startsWith('/get_subject/') && method === 'GET') {
       const subjectId = path.replace('/get_subject/', '');
       const subject = this.getSubjects().find(s => s.Id === subjectId);
+      const users = this.getUsers();
+      const prof = subject ? users.find(u => u.Id === subject.ProfessorId) : null;
       return {
         isSuccess: true,
-        data: subject || null,
+        data: subject ? { ...subject, Professor: prof || null } : null,
       };
     }
 
     if (path === '/create_subject' && method === 'POST') {
       const subjects = this.getSubjects();
+      const users = this.getUsers();
       const newSubject: Subject = {
         Id: 'sub-' + Date.now(),
         Code: body.Code || `SUB-${String(subjects.length + 1).padStart(3, '0')}`,
@@ -810,17 +835,19 @@ export class MockApiService {
       subjects.unshift(newSubject);
       this.setSubjects(subjects);
 
+      const prof = users.find(u => u.Id === newSubject.ProfessorId);
       return {
         isSuccess: true,
         title: 'Asignatura Creada',
         message: 'La asignatura fue creada exitosamente',
-        data: newSubject,
+        data: { ...newSubject, Professor: prof || null },
       };
     }
 
     if (path.startsWith('/update_subject/') && method === 'PATCH') {
       const subjectId = path.replace('/update_subject/', '');
       const subjects = this.getSubjects();
+      const users = this.getUsers();
       const index = subjects.findIndex(s => s.Id === subjectId);
       if (index !== -1) {
         subjects[index] = {
@@ -832,11 +859,12 @@ export class MockApiService {
         this.setSubjects(subjects);
       }
 
+      const prof = subjects[index] ? users.find(u => u.Id === subjects[index].ProfessorId) : null;
       return {
         isSuccess: true,
         title: 'Asignatura Actualizada',
         message: 'La asignatura fue actualizada exitosamente',
-        data: subjects[index] || null,
+        data: subjects[index] ? { ...subjects[index], Professor: prof || null } : null,
       };
     }
 

@@ -83,9 +83,9 @@
           <td class="text-gray-900 font-bold text-sm">{{ student?.FullName }}</td>
           <td class="text-blue-600 font-bold text-xs">{{ student?.Code }}</td>
           <td class="text-gray-700 text-sm">
-            <span class="font-semibold">{{ student?.Age }} yrs</span>
+            <span class="font-semibold">{{ student?.Age }} {{ languageService.t('yearsOldShort') }}</span>
             <br>
-            <span class="text-xs text-gray-500">{{ student?.Gender === 'M' ? 'Male' : student?.Gender === 'F' ? 'Female' : 'Other' }}</span>
+            <span class="text-xs text-gray-500">{{ languageService.getGenderLabel(student?.Gender) }}</span>
           </td>
           <td class="text-gray-700 text-sm">
             <span class="font-medium">{{ student?.EmailAddress }}</span>
@@ -93,7 +93,7 @@
             <span class="text-xs text-gray-500">{{ student?.PhoneNumber }}</span>
           </td>
           <td class="text-gray-700 text-sm font-medium">
-            {{ student?.Nationality?.Name || (student?.NationalityId === 1 ? 'Dominican' : student?.NationalityId === 2 ? 'American' : student?.NationalityId === 3 ? 'Spanish' : student?.NationalityId === 4 ? 'Mexican' : 'Colombian') }}
+            {{ languageService.getNationalityLabel(student?.NationalityId, student?.Nationality?.Name) }}
           </td>
           <td class="text-gray-700 text-sm">
             <span class="font-medium">{{ student?.ParentName }}</span>

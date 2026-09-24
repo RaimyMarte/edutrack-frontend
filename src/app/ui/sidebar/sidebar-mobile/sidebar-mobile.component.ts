@@ -11,7 +11,11 @@ import { SidebarModule } from 'primeng/sidebar';
   styleUrl: './sidebar-mobile.component.css'
 })
 export class SidebarMobileComponent {
-  @Input() sidebarVisible: boolean = true;
-  @Input() isMobileSidebarOpen: boolean = false;
-  @Output() mobileSidebarOpenChange = new EventEmitter<boolean>();
+  @Input() sidebarVisible: boolean = false;
+  @Output() sidebarVisibleChange = new EventEmitter<boolean>();
+
+  closeSidebar() {
+    this.sidebarVisible = false;
+    this.sidebarVisibleChange.emit(false);
+  }
 }
