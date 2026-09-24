@@ -112,3 +112,26 @@ a{
 .p-overlaypanel.custom-notif-panel:after {
   display: none !important;
 }
+
+/* Ensure PrimeNG search icons in p-input-icon-left are vertically centered */
+.p-input-icon-left {
+  position: relative;
+  display: inline-block;
+}
+
+.p-input-icon-left > i:first-of-type {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  left: 0.85rem !important;
+  margin-top: 0 !important;
+  color: #6b7280 !important;
+  font-size: 0.95rem !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.p-input-icon-left > input.p-inputtext {
+  padding-left: 2.5rem !important;
+}
+

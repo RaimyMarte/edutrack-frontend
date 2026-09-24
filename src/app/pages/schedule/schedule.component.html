@@ -24,43 +24,44 @@
     </div>
   </div>
 
-  <!-- Filter & Controls Toolbar -->
-  <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-200 mb-6">
-    <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-      <!-- Day Selector Pills (Scrollable horizontally on mobile) -->
-      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
-        <button *ngFor="let day of days" (click)="selectedDay = day.key"
-          type="button"
-          class="px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap"
-          [ngClass]="selectedDay === day.key ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
-          {{ languageService.t(day.labelKey) }}
-        </button>
+  <!-- Filter & Controls Toolbar with standard PrimeNG components -->
+  <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
+    <ng-template pTemplate="left">
+      <!-- Day Selector (PrimeNG SelectButton) -->
+      <div class="flex flex-wrap items-center gap-2">
+        <p-selectButton [options]="dayOptions" [(ngModel)]="selectedDay" (onChange)="onDayChange($event)"
+          [allowEmpty]="false" optionLabel="label" optionValue="value"
+          styleClass="font-semibold text-xs sm:text-sm">
+        </p-selectButton>
       </div>
+    </ng-template>
 
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+    <ng-template pTemplate="right">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
         <!-- Professor Selector (Admin Only) -->
-        <div *ngIf="isAdministrator && professorsList.length > 0" class="w-full sm:w-56">
-          <select [(ngModel)]="selectedProfessor"
-            class="w-full p-2.5 text-xs sm:text-sm font-semibold text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
-            <option value="all">{{ languageService.t('allProfessors') }}</option>
-            <option *ngFor="let prof of professorsList" [value]="prof.Id">
-              {{ prof.FullName }}
-            </option>
-          </select>
-        </div>
+        <p-dropdown *ngIf="isAdministrator && professorsList.length > 0"
+          [options]="professorDropdownOptions" [(ngModel)]="selectedProfessor"
+          optionLabel="label" optionValue="value"
+          styleClass="w-full sm:w-60 text-sm font-semibold"
+          [placeholder]="languageService.t('filterByProfessor')">
+        </p-dropdown>
 
-        <!-- Search Input -->
-        <div class="w-full sm:w-64">
-          <span class="p-input-icon-left w-full">
+        <!-- Search Input (Identical to other pages) -->
+        <form (ngSubmit)="onSearch()" class="flex flex-col sm:flex-row gap-2.5 w-full sm:w-auto">
+          <span class="p-input-icon-left w-full sm:w-64">
             <i class="pi pi-search"></i>
-            <input pInputText [(ngModel)]="searchFilter"
-              [placeholder]="languageService.t('searchSubjects')"
-              class="w-full text-xs sm:text-sm p-2.5 rounded-xl border-gray-200" />
+            <input pInputText [(ngModel)]="searchTerm" name="searchTerm" class="w-full text-sm"
+              [placeholder]="languageService.t('searchSubjects')" />
           </span>
-        </div>
+          <div class="flex gap-2">
+            <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold flex-1 sm:flex-none"></p-button>
+            <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
+              (onClick)="onResetSearch()" class="flex-1 sm:flex-none"></p-button>
+          </div>
+        </form>
       </div>
-    </div>
-  </div>
+    </ng-template>
+  </p-toolbar>
 
   <!-- Weekly Timetable View (Desktop & Tablet Grid) -->
   <div *ngIf="selectedDay === 'all'" class="hidden lg:grid grid-cols-5 gap-4">

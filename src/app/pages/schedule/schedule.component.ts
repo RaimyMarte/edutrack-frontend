@@ -5,7 +5,9 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TagModule } from 'primeng/tag';
+import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { AuthService } from '../../../services/auth/auth.service';
 import { LanguageService } from '../../../services/ui/language.service';
@@ -28,6 +30,8 @@ export interface ScheduleItem {
   type: string;
 }
 
+import { effect } from '@angular/core';
+
 @Component({
   selector: 'app-schedule',
   standalone: true,
@@ -38,6 +42,8 @@ export interface ScheduleItem {
     CardModule,
     DropdownModule,
     InputTextModule,
+    ToolbarModule,
+    SelectButtonModule,
     TagModule,
     TooltipModule
   ],
@@ -47,9 +53,11 @@ export interface ScheduleItem {
 export class ScheduleComponent implements OnInit {
   selectedDay: string = 'all';
   selectedProfessor: string = 'all';
+  searchTerm: string = '';
   searchFilter: string = '';
   currentUser: User | null = null;
   professorsList: User[] = [];
+  dayOptions: Array<{ label: string; value: string }> = [];
 
   days: Array<{ key: string; labelKey: string }> = [
     { key: 'all', labelKey: 'allDays' },
@@ -59,6 +67,28 @@ export class ScheduleComponent implements OnInit {
     { key: 'thursday', labelKey: 'thursday' },
     { key: 'friday', labelKey: 'friday' },
   ];
+
+  initDayOptions() {
+    this.dayOptions = this.days.map(d => ({
+      label: this.languageService.t(d.labelKey),
+      value: d.key
+    }));
+  }
+
+  onDayChange(event: any) {
+    if (!this.selectedDay) {
+      this.selectedDay = 'all';
+    }
+  }
+
+  onSearch() {
+    this.searchFilter = this.searchTerm.trim();
+  }
+
+  onResetSearch() {
+    this.searchTerm = '';
+    this.searchFilter = '';
+  }
 
   scheduleItems: ScheduleItem[] = [
     {
@@ -172,7 +202,14 @@ export class ScheduleComponent implements OnInit {
     public authService: AuthService,
     public languageService: LanguageService,
     private userService: UserService
-  ) {}
+  ) {
+    this.initDayOptions();
+    effect(() => {
+      // Re-initialize day options reactively when language changes
+      const _ = this.languageService.currentLang();
+      this.initDayOptions();
+    });
+  }
 
   async ngOnInit() {
     this.currentUser = this.authService.currentUserValue;
@@ -191,6 +228,13 @@ export class ScheduleComponent implements OnInit {
 
   get isAdministrator(): boolean {
     return this.currentUser?.UserRoleId === 1 || !this.currentUser;
+  }
+
+  get professorDropdownOptions() {
+    return [
+      { label: this.languageService.t('allProfessors'), value: 'all' },
+      ...this.professorsList.map(p => ({ label: p.FullName, value: p.Id }))
+    ];
   }
 
   get filteredSchedule(): ScheduleItem[] {

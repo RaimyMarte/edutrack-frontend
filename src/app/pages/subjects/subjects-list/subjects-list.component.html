@@ -12,7 +12,7 @@
       <div class="flex flex-wrap items-center gap-2">
         <p-button *ngIf="currentUserRole == 1" severity="primary" [label]="languageService.t('newSubject')" icon="pi pi-plus"
           class="font-bold" (onClick)="openNew()"></p-button>
-        <p-button severity="secondary" [label]="languageService.t('exportData')" [outlined]="true" icon="pi pi-download" class="font-semibold"
+        <p-button severity="secondary" [label]="languageService.t('exportData')" icon="pi pi-file-excel" class="font-bold"
           (onClick)="exportToCsv()"></p-button>
       </div>
     </ng-template>
