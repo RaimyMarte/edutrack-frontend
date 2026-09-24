@@ -9,11 +9,11 @@
   <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
     <ng-template pTemplate="left">
       <div class="flex flex-wrap items-center gap-2">
-        <p-button severity="primary" [label]="languageService.t('newStudent')" icon="pi pi-plus" class="font-bold"
+        <p-button severity="primary" [label]="languageService.t('newStudent')" icon="pi pi-plus"
           (onClick)="openNew()"></p-button>
-        <p-button severity="contrast" [label]="languageService.t('filters')" icon="pi pi-filter" class="font-semibold"
+        <p-button severity="secondary" [label]="languageService.t('filters')" icon="pi pi-filter"
           (onClick)="openFilterSidebar()"></p-button>
-        <p-button severity="secondary" [label]="languageService.t('exportData')" icon="pi pi-file-excel" class="font-bold"
+        <p-button severity="secondary" [label]="languageService.t('exportData')" icon="pi pi-file-excel"
           (onClick)="exportToCsv()"></p-button>
       </div>
     </ng-template>
@@ -38,9 +38,9 @@
                 [placeholder]="languageService.t('searchStudents')" required />
             </span>
             <div class="flex gap-2">
-              <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold flex-1 sm:flex-none"></p-button>
+              <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search"></p-button>
               <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
-                (onClick)="onResetSearch()" class="flex-1 sm:flex-none"></p-button>
+                (onClick)="onResetSearch()"></p-button>
             </div>
           </form>
         </div>

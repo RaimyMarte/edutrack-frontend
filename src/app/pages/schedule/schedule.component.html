@@ -54,9 +54,9 @@
               [placeholder]="languageService.t('searchSubjects')" />
           </span>
           <div class="flex gap-2">
-            <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold flex-1 sm:flex-none"></p-button>
+            <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search"></p-button>
             <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
-              (onClick)="onResetSearch()" class="flex-1 sm:flex-none"></p-button>
+              (onClick)="onResetSearch()"></p-button>
           </div>
         </form>
       </div>

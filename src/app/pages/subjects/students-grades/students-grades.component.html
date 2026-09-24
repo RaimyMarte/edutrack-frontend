@@ -13,15 +13,15 @@
             <div class="flex flex-wrap items-center gap-2">
                 <!-- Edit Mode Button -->
                 <p-button *ngIf="!isEditing" severity="primary" [label]="languageService.t('editGrades')" icon="pi pi-pencil"
-                    class="font-bold" (click)="enableEditMode()"></p-button>
+                    (onClick)="enableEditMode()"></p-button>
 
                 <!-- Save Grades Button -->
-                <p-button *ngIf="isEditing" severity="success" [label]="languageService.t('saveGrades')" icon="pi pi-save"
-                    class="font-bold" (click)="saveGrades()"></p-button>
+                <p-button *ngIf="isEditing" severity="primary" [label]="languageService.t('saveGrades')" icon="pi pi-save"
+                    (onClick)="saveGrades()"></p-button>
 
                 <!-- Cancel Button -->
                 <p-button *ngIf="isEditing" severity="secondary" [label]="languageService.t('cancel')" icon="pi pi-times"
-                    class="font-semibold" (click)="cancelEditMode()"></p-button>
+                    (onClick)="cancelEditMode()"></p-button>
             </div>
         </ng-template>
     </p-toolbar>

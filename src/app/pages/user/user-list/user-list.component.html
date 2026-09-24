@@ -9,7 +9,7 @@
     <!-- Toolbar -->
     <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
         <ng-template pTemplate="left">
-            <p-button severity="primary" [label]="languageService.t('newUser')" icon="pi pi-plus" class="font-bold"
+            <p-button severity="primary" [label]="languageService.t('newUser')" icon="pi pi-plus"
                 (onClick)="openNew()"></p-button>
         </ng-template>
     </p-toolbar>
@@ -33,9 +33,9 @@
                                 [placeholder]="languageService.t('searchUsers')" required />
                         </span>
                         <div class="flex gap-2">
-                            <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search" class="font-bold flex-1 sm:flex-none"></p-button>
+                            <p-button type="submit" severity="primary" [label]="languageService.t('search')" icon="pi pi-search"></p-button>
                             <p-button type="button" severity="secondary" [label]="languageService.t('clear')" icon="pi pi-times"
-                                (onClick)="onResetSearch()" class="flex-1 sm:flex-none"></p-button>
+                                (onClick)="onResetSearch()"></p-button>
                         </div>
                     </form>
                 </div>
