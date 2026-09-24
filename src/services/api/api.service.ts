@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { ErrorResponseMessageService } from '../../utils/error-response-message';
 import { SuccessResponseMessageService } from '../../utils/success-response-message';
 import { environment } from '../../environments/environment.development';
-
+import { MockApiService } from './mock-api.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +15,11 @@ export class ApiService {
         baseURL: this.baseURL,
     });
 
-    constructor(private errorResponseMessageService: ErrorResponseMessageService, private successResponseMessageService: SuccessResponseMessageService) { }
+    constructor(
+        private errorResponseMessageService: ErrorResponseMessageService,
+        private successResponseMessageService: SuccessResponseMessageService,
+        private mockApiService: MockApiService
+    ) { }
 
     // This method will handle all types of HTTP requests (GET, POST, PUT, DELETE)
     async request(
@@ -27,26 +31,32 @@ export class ApiService {
         try {
             this.isLoading = true;
 
-            const config: AxiosRequestConfig = {
-                method: method,
-                url: endpoint,
-                data: body,
-                headers: {
-                    'APIKey': environment.apiKey,
-                    ...headers,
-                },
-            };
+            let responseData: any;
 
+            if (environment.useMock) {
+                responseData = await this.mockApiService.handleRequest(method, endpoint, body);
+            } else {
+                const config: AxiosRequestConfig = {
+                    method: method,
+                    url: endpoint,
+                    data: body,
+                    headers: {
+                        'APIKey': environment.apiKey,
+                        ...headers,
+                    },
+                };
 
-            const response = await this.axiosInstance(config);
-            const responseData = response.data;
+                const response = await this.axiosInstance(config);
+                responseData = response.data;
+            }
 
             if (!responseData?.isSuccess) {
                 throw new Error(responseData?.message || 'Something went wrong');
             }
 
-            if (method != 'GET')
+            if (method !== 'GET') {
                 this.successResponseMessageService.showSuccess(responseData);
+            }
 
             return responseData;
         } catch (error: any) {

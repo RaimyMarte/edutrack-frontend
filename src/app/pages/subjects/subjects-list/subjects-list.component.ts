@@ -52,14 +52,14 @@ export class SubjectsListComponent implements OnInit {
     this.initializeSubjectList()
   }
 
-  async initializeSubjectList() {
+  initializeSubjectList = async () => {
     const currentPage = this.paginationService.getCurrentPage();
     const rowsPerPage = this.paginationService.getItemsPerPage();
     this.searchTerm = this.searchService.getSearchTerm();
 
     // Call loadSubjects to load the data with the current page, page size, and search term
     await this.loadSubjects({ currentPage: currentPage, currentPageSize: rowsPerPage, search: this.searchTerm });
-  }
+  };
 
   async loadSubjects({ currentPage, currentPageSize, search }: PaginationQuery) {
     const { subjects, total: totalSubjects } = await this.subjectService.getSubjects({ currentPage, currentPageSize, search });

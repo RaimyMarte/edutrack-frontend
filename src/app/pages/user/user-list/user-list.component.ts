@@ -61,13 +61,13 @@ export class UserListComponent implements OnInit {
     await this.initializeUserList()
   }
 
-  async initializeUserList() {
+  initializeUserList = async () => {
     const currentPage = this.paginationService.getCurrentPage();
     const rowsPerPage = this.paginationService.getItemsPerPage();
     this.searchTerm = this.searchService.getSearchTerm();
 
     await this.loadUsers({ currentPage: currentPage, currentPageSize: rowsPerPage, search: this.searchTerm });
-  }
+  };
 
   async loadUsers({ currentPage, currentPageSize, search }: PaginationQuery) {
     const { users, total: totalUsers } = await this.userService.getUsers({ currentPage, currentPageSize, search });

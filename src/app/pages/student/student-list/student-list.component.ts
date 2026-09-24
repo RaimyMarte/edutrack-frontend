@@ -52,7 +52,7 @@ export class StudentsListComponent implements OnInit {
     this.initializeStudentList()
   }
 
-  async initializeStudentList() {
+  initializeStudentList = async () => {
     const currentPage = this.paginationService.getCurrentPage();
     const rowsPerPage = this.paginationService.getItemsPerPage();
     this.searchTerm = this.searchService.getSearchTerm();
@@ -63,7 +63,7 @@ export class StudentsListComponent implements OnInit {
       search: this.searchTerm,
       ...this.currentFilters,
     });
-  }
+  };
 
   async loadStudents(query: PaginationQuery) {
     const { students, total: totalStudents } = await this.studentService.getStudents(query);

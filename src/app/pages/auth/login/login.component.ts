@@ -40,4 +40,15 @@ export class LoginComponent {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please enter both username and password' });
     }
   }
+
+  loginAs(role: 'admin' | 'professor') {
+    if (role === 'admin') {
+      this.username = 'admin';
+      this.password = 'admin123';
+    } else {
+      this.username = 'csantana';
+      this.password = 'prof123';
+    }
+    this.onSubmit();
+  }
 }
