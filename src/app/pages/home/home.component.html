@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+<div class="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6">
   
   <!-- Welcome Banner matching Sidebar Colors with High-Contrast Typography -->
-  <div class="mb-8 bg-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">
+  <div class="mb-6 sm:mb-8 bg-gray-900 border border-gray-800 rounded-2xl p-5 sm:p-8 text-white shadow-2xl relative overflow-hidden">
     <!-- Subtle background accent glow -->
     <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute right-1/3 -top-16 w-48 h-48 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -12,25 +12,25 @@
           <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
           {{ currentUser?.UserRole?.Name || 'User' }}
         </div>
-        <h1 class="text-3xl sm:text-4xl font-extrabold mt-3 tracking-tight text-white">
+        <h1 class="text-2xl sm:text-4xl font-extrabold mt-3 tracking-tight text-white">
           {{ languageService.t('welcome') }}, {{ currentUser?.FirstName }} {{ currentUser?.LastName }}!
         </h1>
-        <p class="text-slate-200 mt-2 max-w-2xl text-sm sm:text-base leading-relaxed font-normal">
+        <p class="text-slate-200 mt-2 max-w-2xl text-xs sm:text-base leading-relaxed font-normal">
           {{ languageService.t('bannerSubtitle') }}
         </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
         <a routerLink="/subjects"
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
           <i class="pi pi-book font-bold"></i> {{ languageService.t('viewSubjects') }}
         </a>
         <a *ngIf="currentUser?.UserRoleId === 1" routerLink="/students"
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
           <i class="pi pi-address-book font-bold"></i> {{ languageService.t('viewStudents') }}
         </a>
         <button type="button" (click)="exportSystemReport()"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-semibold text-sm transition"
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-semibold text-sm transition"
           [pTooltip]="languageService.t('exportData')" tooltipPosition="bottom">
           <i class="pi pi-download font-bold"></i> {{ languageService.t('exportData') }}
         </button>
@@ -251,6 +251,7 @@
 
 <!-- Student Profile Quick View Modal -->
 <p-dialog [(visible)]="profileDialogVisible" [modal]="true" [style]="{ width: '520px' }"
+  [breakpoints]="{'960px': '85vw', '640px': '95vw'}"
   styleClass="p-fluid bg-white rounded-2xl shadow-2xl border-none overflow-hidden" [draggable]="false" [resizable]="false">
   
   <ng-template pTemplate="header">

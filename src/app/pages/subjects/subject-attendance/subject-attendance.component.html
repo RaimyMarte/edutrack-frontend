@@ -1,20 +1,20 @@
-<div class="relative max-w-7xl mx-auto p-6 bg-white shadow-sm rounded-2xl border border-gray-200 mt-4">
+<div class="relative max-w-7xl mx-auto p-3 sm:p-6 bg-white shadow-sm rounded-2xl border border-gray-200 mt-2 sm:mt-4">
     <!-- Header Section -->
-    <div class="mb-8">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="mb-6 sm:mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
             <div>
-                <div class="flex items-center gap-3">
-                    <h1 class="text-3xl font-extrabold text-gray-900">{{subject?.Name}} - {{ languageService.t('subjectAttendance') }}</h1>
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">{{subject?.Name}}</h1>
                     <div *ngIf="subject?.Code">
                         <span class="px-2.5 py-1 text-xs font-bold bg-blue-50 text-blue-700 rounded-lg border border-blue-200">
                             {{ subject?.Code }}
                         </span>
                     </div>
                 </div>
-                <p class="text-gray-600 text-sm mt-1">{{subject?.Name}} - {{subject?.Description || 'Attendance Tracker'}}</p>
+                <p class="text-gray-600 text-xs sm:text-sm mt-1">{{ languageService.t('subjectAttendance') }} - {{subject?.Description || 'Daily Tracker'}}</p>
             </div>
 
-            <span class="px-3 py-1 text-xs font-bold rounded-full ml-auto"
+            <span class="self-start sm:self-auto px-3 py-1 text-xs font-bold rounded-full"
                   [ngClass]="subject?.Enabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'">
                 {{ subject?.Enabled ? languageService.t('activeSubject') : languageService.t('inactiveSubject') }}
             </span>
@@ -22,49 +22,49 @@
     </div>
 
     <!-- Stats Banner -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+        <div class="bg-blue-50 p-3.5 sm:p-4 rounded-xl border border-blue-100">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-sm">
+                <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-sm">
                     <i class="pi pi-users"></i>
                 </div>
                 <div>
                     <h3 class="text-xs font-bold text-blue-900 uppercase tracking-wider">{{ languageService.t('presentStudents') }}</h3>
-                    <p class="text-2xl font-extrabold text-blue-700">{{presentStudents ? presentStudents.length : 0}}</p>
+                    <p class="text-xl sm:text-2xl font-extrabold text-blue-700">{{presentStudents ? presentStudents.length : 0}}</p>
                 </div>
             </div>
         </div>
-        <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+        <div class="bg-amber-50 p-3.5 sm:p-4 rounded-xl border border-amber-100">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl shadow-sm">
+                <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-sm">
                     <i class="pi pi-times-circle"></i>
                 </div>
                 <div>
                     <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider">{{ languageService.t('absentStudents') }}</h3>
-                    <p class="text-2xl font-extrabold text-amber-700">{{absentStudents ? absentStudents.length : 0}}</p>
+                    <p class="text-xl sm:text-2xl font-extrabold text-amber-700">{{absentStudents ? absentStudents.length : 0}}</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- PickList -->
-    <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
+    <div class="bg-gray-50 p-3 sm:p-6 rounded-2xl border border-gray-200">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-6">
             <label for="attendance-date" class="text-gray-900 font-bold text-sm">{{ languageService.t('attendanceDate') }}:</label>
             <input id="attendance-date" pInputText type="date" [(ngModel)]="selectedDate"
                 (ngModelChange)="onDateChange($event)"
-                class="p-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-900 font-medium text-sm transition-all bg-white"
+                class="p-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-900 font-medium text-sm transition-all bg-white w-full sm:w-auto"
                 [pTooltip]="languageService.t('selectDate')" tooltipPosition="top" />
         </div>
 
         <p-pickList [source]="presentStudents" [target]="absentStudents"
             [sourceHeader]="languageService.t('presentStudents')"
             [targetHeader]="languageService.t('absentStudents')"
-            [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '32rem' }"
-            [targetStyle]="{ height: '32rem' }" filterBy="FullName"
+            [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '26rem' }"
+            [targetStyle]="{ height: '26rem' }" filterBy="FullName"
             [sourceFilterPlaceholder]="languageService.t('searchPresentStudents')"
             [targetFilterPlaceholder]="languageService.t('searchAbsentStudents')"
-            breakpoint="1200px" [showSourceControls]="false" [showTargetControls]="false" styleClass="border-none">
+            breakpoint="1024px" [showSourceControls]="false" [showTargetControls]="false" styleClass="border-none">
 
             <ng-template let-student pTemplate="item">
                 <div
@@ -102,4 +102,4 @@
     </div>
 </div>
 
-<p-confirmDialog [style]="{ width: '450px' }" />
+<p-confirmDialog [style]="{ width: '450px' }" [breakpoints]="{'960px': '85vw', '640px': '95vw'}" />

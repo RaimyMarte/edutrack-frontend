@@ -1,38 +1,40 @@
-<div class="min-h-screen bg-gray-50 p-6">
+<div class="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6">
     <!-- Header Section -->
-    <div class="mb-8">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-1">
+    <div class="mb-6 sm:mb-8">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
             {{ languageService.t('updateGradesFor') }} {{ subject?.Name }}
         </h1>
-        <p class="text-gray-600 text-sm">{{ languageService.t('updateGradesSub') }}</p>
+        <p class="text-gray-600 text-xs sm:text-sm">{{ languageService.t('updateGradesSub') }}</p>
     </div>
 
     <!-- Toolbar -->
     <p-toolbar styleClass="mb-6 shadow-sm bg-white rounded-2xl border border-gray-200">
         <ng-template pTemplate="left">
-            <!-- Edit Mode Button -->
-            <p-button *ngIf="!isEditing" severity="primary" [label]="languageService.t('editGrades')" icon="pi pi-pencil"
-                class="mr-3 font-bold" (click)="enableEditMode()"></p-button>
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- Edit Mode Button -->
+                <p-button *ngIf="!isEditing" severity="primary" [label]="languageService.t('editGrades')" icon="pi pi-pencil"
+                    class="font-bold" (click)="enableEditMode()"></p-button>
 
-            <!-- Save Grades Button -->
-            <p-button *ngIf="isEditing" severity="success" [label]="languageService.t('saveGrades')" icon="pi pi-save"
-                class="mr-3 font-bold" (click)="saveGrades()"></p-button>
+                <!-- Save Grades Button -->
+                <p-button *ngIf="isEditing" severity="success" [label]="languageService.t('saveGrades')" icon="pi pi-save"
+                    class="font-bold" (click)="saveGrades()"></p-button>
 
-            <!-- Cancel Button -->
-            <p-button *ngIf="isEditing" severity="secondary" [label]="languageService.t('cancel')" icon="pi pi-times"
-                class="font-semibold" (click)="cancelEditMode()"></p-button>
+                <!-- Cancel Button -->
+                <p-button *ngIf="isEditing" severity="secondary" [label]="languageService.t('cancel')" icon="pi pi-times"
+                    class="font-semibold" (click)="cancelEditMode()"></p-button>
+            </div>
         </ng-template>
     </p-toolbar>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-        <p-table #dt [value]="enrolledStudentsWithGrades" editable="true" styleClass="p-datatable-lg">
+        <p-table #dt [value]="enrolledStudentsWithGrades" editable="true" [scrollable]="true" scrollDirection="horizontal" styleClass="p-datatable-lg">
             <ng-template pTemplate="header">
                 <tr class="bg-gray-50 border-b border-gray-200">
-                    <th class="font-bold text-gray-800 text-xs uppercase">{{ languageService.t('photo') }}</th>
-                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Student">
+                    <th class="font-bold text-gray-800 text-xs uppercase" style="min-width: 70px;">{{ languageService.t('photo') }}</th>
+                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Student" style="min-width: 180px;">
                         {{ languageService.t('student') }} <p-sortIcon field="Student"></p-sortIcon>
                     </th>
-                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Grade">
+                    <th class="font-bold text-gray-800 text-xs uppercase" pSortableColumn="Grade" style="min-width: 160px;">
                         {{ languageService.t('grade') }} / {{ languageService.t('letterGrade') }} <p-sortIcon field="Grade"></p-sortIcon>
                     </th>
                 </tr>
@@ -76,4 +78,4 @@
     </div>
 </div>
 
-<p-confirmDialog [style]="{ width: '450px' }" />
+<p-confirmDialog [style]="{ width: '450px' }" [breakpoints]="{'960px': '85vw', '640px': '95vw'}" />
