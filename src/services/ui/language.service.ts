@@ -152,7 +152,7 @@ const TRANSLATIONS: Translations = {
   description: { en: 'Description', es: 'Descripción' },
   startDate: { en: 'Start Date', es: 'Fecha de Inicio' },
   endDate: { en: 'End Date', es: 'Fecha de Fin' },
-  professor: { en: 'Professor', es: 'Profesor / Docente' },
+  professor: { en: 'Professor', es: 'Profesor' },
   selectProfessor: { en: 'Select a Professor', es: 'Seleccionar un Docente' },
   subjectDetails: { en: 'Subject Details', es: 'Detalles de la Asignatura' },
   status: { en: 'Status', es: 'Estado' },

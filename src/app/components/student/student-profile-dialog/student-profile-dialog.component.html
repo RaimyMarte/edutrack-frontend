@@ -73,23 +73,43 @@
 
       <!-- Quick Metrics Ribbon -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
-        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">GPA Acumulado</span>
-          <p class="text-base sm:text-lg font-extrabold text-blue-400 mt-0.5">{{ cumulativeGpa }} <span class="text-xs text-slate-400">/ 4.0</span></p>
+        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">GPA Acumulado</span>
+            <p class="text-base sm:text-lg font-extrabold text-blue-400 mt-0.5 m-0">{{ cumulativeGpa }} <span class="text-xs text-slate-400">/ 4.0</span></p>
+          </div>
+          <div class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center flex-shrink-0">
+            <i class="pi pi-graduation-cap text-xs"></i>
+          </div>
         </div>
-        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{{ languageService.t('attendanceRateShort') }}</span>
-          <p class="text-base sm:text-lg font-extrabold text-emerald-400 mt-0.5">{{ attendanceMetrics.overallRate }}%</p>
+        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">{{ languageService.t('attendanceRateShort') }}</span>
+            <p class="text-base sm:text-lg font-extrabold text-emerald-400 mt-0.5 m-0">{{ attendanceMetrics.overallRate }}%</p>
+          </div>
+          <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
+            <i class="pi pi-chart-pie text-xs"></i>
+          </div>
         </div>
-        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{{ languageService.t('completedCredits') }}</span>
-          <p class="text-base sm:text-lg font-extrabold text-indigo-300 mt-0.5">{{ totalCredits }} <span class="text-xs text-slate-400">Créditos</span></p>
+        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">{{ languageService.t('completedCredits') }}</span>
+            <p class="text-base sm:text-lg font-extrabold text-indigo-300 mt-0.5 m-0">{{ totalCredits }} <span class="text-xs text-slate-400">Créditos</span></p>
+          </div>
+          <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0">
+            <i class="pi pi-book text-xs"></i>
+          </div>
         </div>
-        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10">
-          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Condición Académica</span>
-          <p class="text-xs font-bold text-amber-300 mt-1 flex items-center gap-1">
-            <i class="pi pi-star-fill text-[11px]"></i> {{ languageService.t('studentStatusHonor') }}
-          </p>
+        <div class="bg-white/5 rounded-xl p-2.5 border border-white/10 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Condición Académica</span>
+            <p class="text-xs font-bold text-amber-300 mt-1 m-0 flex items-center gap-1">
+              <i class="pi pi-star-fill text-[11px]"></i> {{ languageService.t('studentStatusHonor') }}
+            </p>
+          </div>
+          <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center flex-shrink-0">
+            <i class="pi pi-shield text-xs"></i>
+          </div>
         </div>
       </div>
     </div>

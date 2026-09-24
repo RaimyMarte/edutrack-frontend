@@ -44,23 +44,43 @@
 
     <!-- Quick Stats Ribbon -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 pt-6 border-t border-white/10">
-      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
-        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">GPA Acumulado</span>
-        <p class="text-xl sm:text-2xl font-black text-blue-400 mt-1">{{ cumulativeGpa }} <span class="text-xs text-slate-400">/ 4.0</span></p>
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">GPA Acumulado</span>
+          <p class="text-xl sm:text-2xl font-black text-blue-400 mt-1 m-0">{{ cumulativeGpa }} <span class="text-xs text-slate-400">/ 4.0</span></p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center flex-shrink-0">
+          <i class="pi pi-graduation-cap text-base"></i>
+        </div>
       </div>
-      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
-        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{{ languageService.t('attendanceRateShort') }}</span>
-        <p class="text-xl sm:text-2xl font-black text-emerald-400 mt-1">96.5%</p>
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">{{ languageService.t('attendanceRateShort') }}</span>
+          <p class="text-xl sm:text-2xl font-black text-emerald-400 mt-1 m-0">96.5%</p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
+          <i class="pi pi-chart-pie text-base"></i>
+        </div>
       </div>
-      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
-        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{{ languageService.t('completedCredits') }}</span>
-        <p class="text-xl sm:text-2xl font-black text-indigo-300 mt-1">{{ totalCredits }} <span class="text-xs text-slate-400">Créditos</span></p>
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">{{ languageService.t('completedCredits') }}</span>
+          <p class="text-xl sm:text-2xl font-black text-indigo-300 mt-1 m-0">{{ totalCredits }} <span class="text-xs text-slate-400">Créditos</span></p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0">
+          <i class="pi pi-book text-base"></i>
+        </div>
       </div>
-      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
-        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Estado Académico</span>
-        <p class="text-xs sm:text-sm font-bold text-amber-300 mt-1.5 flex items-center gap-1">
-          <i class="pi pi-star-fill text-xs"></i> {{ languageService.t('studentStatusHonor') }}
-        </p>
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">Estado Académico</span>
+          <p class="text-xs sm:text-sm font-bold text-amber-300 mt-1.5 m-0 flex items-center gap-1">
+            <i class="pi pi-star-fill text-xs"></i> {{ languageService.t('studentStatusHonor') }}
+          </p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center flex-shrink-0">
+          <i class="pi pi-shield text-base"></i>
+        </div>
       </div>
     </div>
   </div>
