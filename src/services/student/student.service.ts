@@ -67,4 +67,9 @@ export class StudentService {
     async deleteStudent(studentId: string) {
         await this.apiService.delete(`/delete_student/${studentId}`, this.authService.authHeader());
     }
+
+    async getStudentReportCard(studentId: string) {
+        const response = await this.apiService.get(`/student_report_card/${studentId}`, this.authService.authHeader());
+        return response?.data || [];
+    }
 }

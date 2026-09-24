@@ -78,6 +78,12 @@ export class SidebarContentComponent implements OnInit, OnDestroy {
         visible: true
       },
       {
+        label: this.languageService.t('navSchedule'),
+        icon: 'pi pi-calendar',
+        routerLink: '/schedule',
+        visible: true
+      },
+      {
         label: this.languageService.t('navSubjects'),
         icon: 'pi pi-book',
         routerLink: '/subjects',

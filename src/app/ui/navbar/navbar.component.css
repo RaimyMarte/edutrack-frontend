@@ -1,0 +1,18 @@
+/* Notifications Overlay Styling */
+:host ::ng-deep .custom-notif-panel.p-overlaypanel {
+  padding: 0 !important;
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  margin-top: 8px !important;
+}
+
+:host ::ng-deep .custom-notif-panel .p-overlaypanel-content {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .custom-notif-panel:before,
+:host ::ng-deep .custom-notif-panel:after {
+  display: none !important;
+}

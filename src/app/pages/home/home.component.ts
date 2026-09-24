@@ -13,6 +13,7 @@ import { StudentService } from '../../../services/student/student.service';
 import { SubjectService } from '../../../services/subject/subject.service';
 import { UserService } from '../../../services/user/user.service';
 import { LanguageService } from '../../../services/ui/language.service';
+import { StudentReportCardComponent } from '../../components/student/student-report-card/student-report-card.component';
 import { User } from '../../../types/user';
 import { Subject } from '../../../types/subject';
 import { Student } from '../../../types/student';
@@ -29,7 +30,8 @@ import { Student } from '../../../types/student';
     TagModule,
     DialogModule,
     TooltipModule,
-    AvatarModule
+    AvatarModule,
+    StudentReportCardComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -43,9 +45,10 @@ export class HomeComponent implements OnInit {
   recentStudents: Student[] = [];
   loading: boolean = true;
 
-  // Student Profile Dialog
+  // Student Profile & Report Card Dialog
   selectedStudent: Student | null = null;
   profileDialogVisible: boolean = false;
+  reportCardVisible: boolean = false;
 
   // Grade Analytics
   analytics = {

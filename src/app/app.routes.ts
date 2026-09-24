@@ -12,6 +12,7 @@ import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { LayoutComponent } from './ui/layout/layout.component';
 import { SubjectAttendanceComponent } from './pages/subjects/subject-attendance/subject-attendance.component';
 import { StudentsGradesComponent } from './pages/subjects/students-grades/students-grades.component';
+import { ScheduleComponent } from './pages/schedule/schedule.component';
 
 export const routes: Routes = [
   {
@@ -27,45 +28,42 @@ export const routes: Routes = [
         path: 'professor',
         component: ProfessorDashboardComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['professor'] }
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'subjects',
         component: SubjectsListComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['professor', 'admin'] }
       },
       {
         path: 'subjects/enroll/:subjectId', 
         component: StudentSubjectPickListComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['professor', 'admin'] }
       },     
       {
         path: 'subjects/attendance/:subjectId', 
         component: SubjectAttendanceComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['professor', 'admin'] }
       },    
       {
         path: 'subjects/grades/:subjectId', 
         component: StudentsGradesComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['professor', 'admin'] }
       },    
       {
         path: 'students',
         component: StudentsListComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['professor', 'admin'] }
       },
       {
         path: 'users',
         component: UserListComponent,
         canActivate: [AuthGuard],
-        // data: { roles: ['admin'] }
       },
-      // { path: '**', redirectTo: '' }
     ]
   },
   {
@@ -73,7 +71,6 @@ export const routes: Routes = [
     component: LoginComponent,
     canActivate: [NonAuthGuard],
   },
-
 ];
 
 @NgModule({

@@ -23,29 +23,54 @@ import { getPageChangeDetails } from '../../../../utils/getPageChangeDetails';
 import { StudentDialogComponent } from '../../../components/student/student-dialog/student-dialog.component';
 import { AvatarModule } from 'primeng/avatar';
 import { StudentFilterComponent } from '../../../components/student/student-filter/student-filter.component';
-
+import { StudentReportCardComponent } from '../../../components/student/student-report-card/student-report-card.component';
 import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
   selector: 'app-student-list',
   standalone: true,
-  imports: [TableModule, DialogModule, StudentFilterComponent, AvatarModule, StudentDialogComponent, TooltipModule, RippleModule, ButtonModule, ToastModule, ToolbarModule, ConfirmDialogModule, InputTextModule, CommonModule, DropdownModule, TagModule, InputTextModule, FormsModule,],
+  imports: [
+    TableModule,
+    DialogModule,
+    StudentFilterComponent,
+    AvatarModule,
+    StudentDialogComponent,
+    StudentReportCardComponent,
+    TooltipModule,
+    RippleModule,
+    ButtonModule,
+    ToastModule,
+    ToolbarModule,
+    ConfirmDialogModule,
+    InputTextModule,
+    CommonModule,
+    DropdownModule,
+    TagModule,
+    FormsModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './student-list.component.html',
   styleUrl: './student-list.component.css'
 })
 export class StudentsListComponent implements OnInit {
   StudentDialog: boolean = false;
+  reportCardVisible: boolean = false;
+  selectedStudentForReport: Student | null = null;
 
   students!: Partial<Student>[];
   student!: Partial<Student>;
 
   totalStudents: number = 0;
-  searchTerm: string = ''
+  searchTerm: string = '';
   currentFilters: Record<string, any> = {};
 
   @ViewChild(StudentDialogComponent) StudentDialogComponent!: StudentDialogComponent;
   @ViewChild(StudentFilterComponent) studentFilterComponent!: StudentFilterComponent;
+
+  openReportCard(student: any) {
+    this.selectedStudentForReport = student;
+    this.reportCardVisible = true;
+  }
 
 
   constructor(

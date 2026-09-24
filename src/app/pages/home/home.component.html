@@ -301,8 +301,16 @@
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple type="button" [label]="languageService.t('close')" icon="pi pi-times"
-      (click)="profileDialogVisible = false" class="p-button-secondary p-button-outlined rounded-xl w-full font-bold">
-    </button>
+    <div class="flex items-center gap-2 w-full">
+      <button pButton pRipple type="button" [label]="languageService.t('close')" icon="pi pi-times"
+        (click)="profileDialogVisible = false" class="p-button-secondary p-button-outlined rounded-xl flex-1 font-bold">
+      </button>
+      <button pButton pRipple type="button" [label]="languageService.t('reportCard')" icon="pi pi-file-check"
+        (click)="reportCardVisible = true; profileDialogVisible = false" class="p-button-primary rounded-xl flex-1 font-bold">
+      </button>
+    </div>
   </ng-template>
 </p-dialog>
+
+<!-- Official Report Card Dialog -->
+<app-student-report-card [(visible)]="reportCardVisible" [student]="selectedStudent"></app-student-report-card>

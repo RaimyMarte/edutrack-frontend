@@ -4,9 +4,12 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { TooltipModule } from 'primeng/tooltip';
-import { Router } from '@angular/router';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { BadgeModule } from 'primeng/badge';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
 import { LanguageService } from '../../../services/ui/language.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +19,9 @@ import { LanguageService } from '../../../services/ui/language.service';
     ButtonModule,
     AvatarModule,
     TooltipModule,
+    OverlayPanelModule,
+    BadgeModule,
+    RouterModule,
     CommonModule
   ],
   templateUrl: './navbar.component.html',
@@ -29,6 +35,7 @@ export class NavbarComponent {
   constructor(
     public authService: AuthService,
     public languageService: LanguageService,
+    public notificationService: NotificationService,
     private router: Router
   ) { }
 
@@ -41,5 +48,4 @@ export class NavbarComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-
 }

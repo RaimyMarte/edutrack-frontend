@@ -1,0 +1,175 @@
+<div class="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6">
+  <!-- Header Section -->
+  <div class="mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-3">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-1">
+          {{ isProfessor ? languageService.t('myScheduleOnly') : languageService.t('classSchedule') }}
+        </h1>
+        <span *ngIf="isProfessor" class="px-3 py-1 bg-purple-100 text-purple-800 text-xs font-bold rounded-full border border-purple-200">
+          {{ currentUser?.FullName }}
+        </span>
+      </div>
+      <p class="text-gray-600 text-xs sm:text-sm">
+        {{ isProfessor ? languageService.t('professorCoursesSub') : languageService.t('weeklyScheduleSub') }}
+      </p>
+    </div>
+
+    <!-- Active Term Badge -->
+    <div class="flex items-center gap-3">
+      <span class="px-3.5 py-1.5 bg-blue-50 text-blue-700 text-xs font-bold rounded-xl border border-blue-200 shadow-sm flex items-center gap-2">
+        <i class="pi pi-calendar text-blue-600"></i>
+        <span>{{ languageService.t('currentTerm') }}</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Filter & Controls Toolbar -->
+  <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-200 mb-6">
+    <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+      <!-- Day Selector Pills (Scrollable horizontally on mobile) -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 scrollbar-none">
+        <button *ngFor="let day of days" (click)="selectedDay = day.key"
+          type="button"
+          class="px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap"
+          [ngClass]="selectedDay === day.key ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
+          {{ languageService.t(day.labelKey) }}
+        </button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+        <!-- Professor Selector (Admin Only) -->
+        <div *ngIf="isAdministrator && professorsList.length > 0" class="w-full sm:w-56">
+          <select [(ngModel)]="selectedProfessor"
+            class="w-full p-2.5 text-xs sm:text-sm font-semibold text-gray-800 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
+            <option value="all">{{ languageService.t('allProfessors') }}</option>
+            <option *ngFor="let prof of professorsList" [value]="prof.Id">
+              {{ prof.FullName }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Search Input -->
+        <div class="w-full sm:w-64">
+          <span class="p-input-icon-left w-full">
+            <i class="pi pi-search"></i>
+            <input pInputText [(ngModel)]="searchFilter"
+              [placeholder]="languageService.t('searchSubjects')"
+              class="w-full text-xs sm:text-sm p-2.5 rounded-xl border-gray-200" />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Timetable View (Desktop & Tablet Grid) -->
+  <div *ngIf="selectedDay === 'all'" class="hidden lg:grid grid-cols-5 gap-4">
+    <ng-container *ngFor="let day of days.slice(1)">
+      <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex flex-col min-h-[360px]">
+        <!-- Day Column Header -->
+        <div class="border-b border-gray-100 pb-3 mb-3 flex items-center justify-between">
+          <h3 class="font-extrabold text-sm text-gray-900 uppercase tracking-wider">
+            {{ languageService.t(day.labelKey) }}
+          </h3>
+          <span class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 font-bold text-xs flex items-center justify-center">
+            {{ getItemsByDay(day.key).length }}
+          </span>
+        </div>
+
+        <!-- Course Blocks in this day -->
+        <div class="space-y-3 flex-1">
+          <div *ngIf="getItemsByDay(day.key).length === 0" class="p-6 text-center text-gray-400 text-xs italic">
+            <i class="pi pi-calendar-times text-xl mb-1 block opacity-60"></i>
+            {{ languageService.t('noNotifications') }}
+          </div>
+
+          <div *ngFor="let item of getItemsByDay(day.key)"
+            class="p-3.5 rounded-xl border shadow-xs transition hover:shadow-md hover:-translate-y-0.5 duration-200"
+            [ngClass]="item.colorClass">
+            
+            <div class="flex items-center justify-between gap-1 mb-1.5">
+              <span class="px-2 py-0.5 text-[10px] font-bold rounded-md" [ngClass]="item.badgeClass">
+                {{ item.subjectCode }}
+              </span>
+              <span class="text-[11px] font-bold text-gray-700 flex items-center gap-1">
+                <i class="pi pi-clock text-[10px] text-gray-500"></i>
+                {{ item.startTime }}
+              </span>
+            </div>
+
+            <h4 class="font-extrabold text-xs text-gray-900 leading-snug mb-2">
+              {{ item.subjectName }}
+            </h4>
+
+            <div class="space-y-1 text-[11px] text-gray-600">
+              <div class="flex items-center gap-1.5 font-medium truncate">
+                <i class="pi pi-map-marker text-blue-600 text-xs shrink-0"></i>
+                <span class="truncate">{{ item.room }}</span>
+              </div>
+              <div class="flex items-center gap-1.5 font-semibold text-gray-800 truncate">
+                <i class="pi pi-user text-indigo-600 text-xs shrink-0"></i>
+                <span class="truncate">{{ item.instructor }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Cards List View (Mobile or Single Day Filtered View) -->
+  <div [ngClass]="{'lg:hidden': selectedDay === 'all'}" class="space-y-3">
+    <div *ngIf="filteredSchedule.length === 0" class="bg-white p-12 text-center rounded-2xl border border-gray-200 shadow-sm text-gray-500">
+      <i class="pi pi-calendar-times text-4xl text-gray-300 mb-2 block"></i>
+      <p class="font-bold text-base text-gray-700">{{ languageService.t('noNotifications') }}</p>
+      <p class="text-xs text-gray-400 mt-1">{{ languageService.t('refineStudentList') }}</p>
+    </div>
+
+    <div *ngFor="let item of filteredSchedule"
+      class="bg-white rounded-2xl p-4 sm:p-5 border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+      [ngClass]="item.colorClass">
+      
+      <div class="flex items-start gap-3.5 min-w-0">
+        <div class="w-12 h-12 rounded-2xl bg-white border border-gray-200 shadow-xs flex flex-col items-center justify-center shrink-0">
+          <span class="text-[10px] font-extrabold uppercase text-blue-600">{{ languageService.t(item.dayKey).substring(0, 3) }}</span>
+          <i class="pi pi-clock text-gray-500 text-xs mt-0.5"></i>
+        </div>
+
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="px-2.5 py-0.5 text-xs font-bold rounded-lg" [ngClass]="item.badgeClass">
+              {{ item.subjectCode }}
+            </span>
+            <span class="text-xs font-extrabold text-blue-700">
+              {{ item.startTime }} - {{ item.endTime }}
+            </span>
+            <span class="px-2 py-0.5 text-[10px] font-bold bg-gray-100 text-gray-700 rounded-md">
+              {{ item.type }}
+            </span>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-extrabold text-gray-900 truncate">
+            {{ item.subjectName }}
+          </h3>
+
+          <div class="flex flex-wrap items-center gap-4 text-xs text-gray-600 mt-1.5">
+            <span class="flex items-center gap-1.5 font-medium">
+              <i class="pi pi-map-marker text-blue-600"></i>
+              {{ item.room }}
+            </span>
+            <span class="flex items-center gap-1.5 font-semibold text-gray-800">
+              <i class="pi pi-user text-indigo-600"></i>
+              {{ item.instructor }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="self-end sm:self-center shrink-0">
+        <span class="px-3 py-1 bg-white text-gray-800 text-xs font-bold rounded-xl border border-gray-200 shadow-xs">
+          {{ languageService.t(item.dayKey) }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

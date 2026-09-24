@@ -941,6 +941,41 @@ export class MockApiService {
       };
     }
 
+    if (path.startsWith('/student_report_card/') && method === 'GET') {
+      const studentId = path.replace('/student_report_card/', '');
+      const enrollments = this.getEnrollments().filter(e => e.StudentId === studentId);
+      const subjects = this.getSubjects();
+      const users = this.getUsers();
+
+      // If student has no enrollments yet, simulate academic records across subjects
+      const itemsToReport = enrollments.length > 0 ? enrollments : subjects.slice(0, 3).map((sub, idx) => ({
+        SubjectId: sub.Id,
+        Grade: 85 + (idx * 4) % 15,
+      }));
+
+      const reportItems = itemsToReport.map((e: any) => {
+        const sub = subjects.find(s => s.Id === e.SubjectId);
+        const prof = sub ? users.find(u => u.Id === sub.ProfessorId) : null;
+        const grade = e.Grade !== null && e.Grade !== undefined ? e.Grade : 88;
+        const letter = grade >= 90 ? 'A' : grade >= 80 ? 'B' : grade >= 70 ? 'C' : 'F';
+        return {
+          SubjectId: e.SubjectId,
+          SubjectCode: sub?.Code || 'SUB-101',
+          SubjectName: sub?.Name || 'Course',
+          Credits: 3,
+          ProfessorName: prof?.FullName || 'Prof. Academic',
+          Grade: grade,
+          Letter: letter,
+          Status: grade >= 70 ? 'Passed' : 'Failed'
+        };
+      });
+
+      return {
+        isSuccess: true,
+        data: reportItems,
+      };
+    }
+
     if (path === '/save_subject_enrollment' && method === 'POST') {
       const { SubjectId, EnrollStudents, NotEnrollStudents } = body || {};
       let enrollments = this.getEnrollments();

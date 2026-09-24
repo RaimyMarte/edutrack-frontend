@@ -1,0 +1,21 @@
+/* Report Card Styles & Print Optimization */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-report-area, #printable-report-area * {
+    visibility: visible;
+  }
+  #printable-report-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    background: white !important;
+  }
+  .p-dialog-header, .p-dialog-footer, .p-dialog-mask {
+    display: none !important;
+  }
+}
