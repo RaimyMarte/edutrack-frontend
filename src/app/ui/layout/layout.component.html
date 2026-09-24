@@ -1,15 +1,20 @@
-<div class="flex bg-gray-100 min-h-screen overflow-hidden">
-  <!-- Sidebar -->
+<div class="h-screen w-full flex overflow-hidden" style="background: #F1F5F9;">
+  <!-- Fixed Sidebar (Desktop fixed, Mobile drawer) -->
   <app-sidebar [(sidebarVisible)]="sidebarVisible" [isMobile]="isMobile"></app-sidebar>
 
-  <!-- Main Content -->
-  <div class="flex-1 flex flex-col transition-all duration-300 min-w-0 overflow-hidden">
-    <!-- Navbar -->
-    <app-navbar [(sidebarVisible)]="sidebarVisible"></app-navbar>
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col h-full min-w-0 overflow-hidden transition-all duration-300"
+       [ngClass]="{
+         'ml-64': sidebarVisible && !isMobile,
+         'ml-[72px]': !sidebarVisible && !isMobile,
+         'ml-0': isMobile
+       }">
+    <!-- Sticky Navbar -->
+    <app-navbar [(sidebarVisible)]="sidebarVisible" class="flex-none"></app-navbar>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 p-2 sm:p-4 md:p-6 overflow-y-auto overflow-x-hidden">
+    <!-- Main Content Scroll Area -->
+    <main class="flex-1 overflow-y-auto overflow-x-hidden">
       <router-outlet></router-outlet>
-    </div>
+    </main>
   </div>
 </div>

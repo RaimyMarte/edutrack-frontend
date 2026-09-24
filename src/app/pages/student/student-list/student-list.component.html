@@ -70,6 +70,8 @@
         <tr class="hover:bg-gray-50 transition-colors duration-200 border-b border-gray-100">
           <td>
             <div class="flex justify-center gap-1">
+              <p-button [pTooltip]="languageService.t('view360Profile')" icon="pi pi-user" severity="primary" [rounded]="true" [text]="true"
+                (onClick)="openStudentProfile(student)"></p-button>
               <p-button [pTooltip]="languageService.t('reportCard')" icon="pi pi-file-check" severity="help" [rounded]="true" [text]="true"
                 (onClick)="openReportCard(student)"></p-button>
               <p-button [pTooltip]="languageService.t('edit')" icon="pi pi-pencil" severity="success" [rounded]="true" [text]="true"
@@ -121,4 +123,5 @@
 <app-student-dialog [student]="student" [initializeStudentList]="initializeStudentList"></app-student-dialog>
 <app-student-filter (filterApplied)="onFilterApplied($event)"></app-student-filter>
 <app-student-report-card [(visible)]="reportCardVisible" [student]="selectedStudentForReport"></app-student-report-card>
+<app-student-profile-dialog [(visible)]="profileDialogVisible" [student]="selectedStudentForProfile" (openReportCard)="openReportCard($event)"></app-student-profile-dialog>
 <p-confirmDialog [style]="{ width: '450px' }" [breakpoints]="{'960px': '85vw', '640px': '95vw'}" />

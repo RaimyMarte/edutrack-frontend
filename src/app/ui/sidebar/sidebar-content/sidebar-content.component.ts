@@ -72,9 +72,9 @@ export class SidebarContentComponent implements OnInit, OnDestroy {
     const roleId = this.currentUser?.UserRoleId || 1;
     this.menuItems = [
       {
-        label: this.languageService.t('navHome'),
-        icon: 'pi pi-home',
-        routerLink: '/',
+        label: roleId === 3 ? this.languageService.t('navStudentPortal') : this.languageService.t('navHome'),
+        icon: roleId === 3 ? 'pi pi-user' : 'pi pi-home',
+        routerLink: roleId === 3 ? '/student-portal' : '/',
         visible: true
       },
       {
@@ -84,10 +84,16 @@ export class SidebarContentComponent implements OnInit, OnDestroy {
         visible: true
       },
       {
+        label: this.languageService.t('navAttendance'),
+        icon: 'pi pi-check-square',
+        routerLink: '/attendance',
+        visible: roleId === 1 || roleId === 2
+      },
+      {
         label: this.languageService.t('navSubjects'),
         icon: 'pi pi-book',
         routerLink: '/subjects',
-        visible: roleId === 2 || roleId === 1
+        visible: roleId === 1 || roleId === 2
       },
       {
         label: this.languageService.t('navStudents'),

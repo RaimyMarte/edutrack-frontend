@@ -1,6 +1,7 @@
 <p-menubar styleClass="border-none shadow-sm bg-white rounded-none px-2 sm:px-4 py-2">
   <ng-template pTemplate="start">
-    <button pButton pRipple icon="pi pi-bars" (click)="toggleSidebar()" class="p-button-text p-button-rounded text-gray-700 hover:bg-gray-100"
+    <button pButton pRipple icon="pi pi-bars" (click)="toggleSidebar()"
+      class="p-button-text p-button-rounded text-gray-700 hover:bg-gray-100"
       [pTooltip]="sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'" tooltipPosition="bottom">
     </button>
   </ng-template>
@@ -45,22 +46,24 @@
           </div>
 
           <div *ngFor="let notif of notificationService.notifications()"
-            (click)="notificationService.markAsRead(notif.id); notifPanel.hide()"
-            [routerLink]="notif.link"
+            (click)="notificationService.markAsRead(notif.id); notifPanel.hide()" [routerLink]="notif.link"
             class="p-3.5 flex items-start gap-3 hover:bg-gray-50 transition cursor-pointer"
             [ngClass]="{'bg-blue-50/50': !notif.read}">
-            <div [class]="notif.iconBg + ' ' + notif.iconColor + ' w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-xs text-sm mt-0.5'">
+            <div
+              [class]="notif.iconBg + ' ' + notif.iconColor + ' w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-xs text-sm mt-0.5'">
               <i [class]="notif.icon"></i>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-start justify-between gap-2 mb-0.5">
                 <p class="text-xs font-bold text-gray-900 leading-snug m-0">{{ languageService.t(notif.titleKey) }}</p>
                 <div class="flex items-center gap-1.5 shrink-0 mt-0.5">
-                  <span class="text-[10px] text-gray-400 font-medium whitespace-nowrap">{{ languageService.t(notif.timeKey) }}</span>
+                  <span class="text-[10px] text-gray-400 font-medium whitespace-nowrap">{{
+                    languageService.t(notif.timeKey) }}</span>
                   <span *ngIf="!notif.read" class="w-2 h-2 rounded-full bg-blue-600 inline-block shrink-0"></span>
                 </div>
               </div>
-              <p class="text-[11px] text-gray-600 mt-0.5 line-clamp-2 leading-relaxed m-0">{{ languageService.t(notif.messageKey) }}</p>
+              <p class="text-[11px] text-gray-600 mt-0.5 line-clamp-2 leading-relaxed m-0">{{
+                languageService.t(notif.messageKey) }}</p>
             </div>
           </div>
         </div>
@@ -88,9 +91,10 @@
 
       <!-- Logout Button -->
       <button pButton pRipple (click)="logout()" icon="pi pi-sign-out"
-        [pTooltip]="languageService.currentLang() === 'en' ? 'Sign out' : 'Cerrar sesión'"
-        tooltipPosition="bottom" class="p-button-text p-button-danger text-xs sm:text-sm p-2 rounded-xl flex items-center">
-        <span class="hidden sm:inline font-bold ml-1">{{ languageService.currentLang() === 'en' ? 'Logout' : 'Salir' }}</span>
+        [pTooltip]="languageService.currentLang() === 'en' ? 'Sign out' : 'Cerrar sesión'" tooltipPosition="bottom"
+        class="p-button-text p-button-danger text-xs sm:text-sm p-2 rounded-xl flex items-center">
+        <span class="hidden sm:inline font-bold ml-1">{{ languageService.currentLang() === 'en' ? 'Logout' : 'Salir'
+          }}</span>
       </button>
     </div>
   </ng-template>

@@ -1,0 +1,39 @@
+:host ::ng-deep .custom-profile-tabview .p-tabview-nav {
+  border-bottom: 1px solid #e5e7eb;
+  background: transparent;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep .custom-profile-tabview .p-tabview-nav li .p-tabview-nav-link {
+  border-radius: 0.75rem 0.75rem 0 0;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  padding: 0.75rem 1.25rem;
+  transition: all 0.2s ease;
+  border-width: 0 0 2px 0;
+}
+
+:host ::ng-deep .custom-profile-tabview .p-tabview-panels {
+  padding: 1rem 0 0 0;
+  background: transparent;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-id-card,
+  #printable-id-card * {
+    visibility: visible;
+  }
+  #printable-id-card {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

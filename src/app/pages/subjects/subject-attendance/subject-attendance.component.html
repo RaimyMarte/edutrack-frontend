@@ -1,104 +1,103 @@
-<div class="relative max-w-7xl mx-auto p-3 sm:p-6 bg-white shadow-sm rounded-2xl border border-gray-200 mt-2 sm:mt-4">
+<div class="min-h-screen bg-slate-50 p-2 sm:p-4 lg:p-6">
     <!-- Header Section -->
     <div class="mb-6 sm:mb-8">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
             <div>
-                <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">{{subject?.Name}}</h1>
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">{{subject?.Name}}</h1>
                     <div *ngIf="subject?.Code">
                         <span class="px-2.5 py-1 text-xs font-bold bg-blue-50 text-blue-700 rounded-lg border border-blue-200">
                             {{ subject?.Code }}
                         </span>
                     </div>
                 </div>
-                <p class="text-gray-600 text-xs sm:text-sm mt-1">{{ languageService.t('subjectAttendance') }} - {{subject?.Description || 'Daily Tracker'}}</p>
+                <p class="text-gray-500 text-xs sm:text-sm">{{ languageService.t('subjectAttendance') }} — {{subject?.Description || 'Daily Attendance Tracker'}}</p>
             </div>
 
-            <span class="self-start sm:self-auto px-3 py-1 text-xs font-bold rounded-full"
-                  [ngClass]="subject?.Enabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'">
+            <span class="self-start sm:self-auto px-3.5 py-1.5 text-xs font-bold rounded-xl flex items-center gap-1.5"
+                  [ngClass]="subject?.Enabled ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600 border border-gray-200'">
+                <i [class]="subject?.Enabled ? 'pi pi-circle-fill text-emerald-500 text-[8px]' : 'pi pi-circle text-[8px]'"></i>
                 {{ subject?.Enabled ? languageService.t('activeSubject') : languageService.t('inactiveSubject') }}
             </span>
         </div>
     </div>
 
     <!-- Stats Banner -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
-        <div class="bg-blue-50 p-3.5 sm:p-4 rounded-xl border border-blue-100">
-            <div class="flex items-center gap-3">
-                <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-sm">
+    <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-sm flex-shrink-0">
                     <i class="pi pi-users"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs font-bold text-blue-900 uppercase tracking-wider">{{ languageService.t('presentStudents') }}</h3>
-                    <p class="text-xl sm:text-2xl font-extrabold text-blue-700">{{presentStudents ? presentStudents.length : 0}}</p>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-0.5">{{ languageService.t('presentStudents') }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gray-900">{{presentStudents ? presentStudents.length : 0}}</p>
                 </div>
             </div>
         </div>
-        <div class="bg-amber-50 p-3.5 sm:p-4 rounded-xl border border-amber-100">
-            <div class="flex items-center gap-3">
-                <div class="w-10 sm:w-12 h-10 sm:h-12 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg sm:text-xl shadow-sm">
+        <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-xl shadow-sm flex-shrink-0">
                     <i class="pi pi-times-circle"></i>
                 </div>
                 <div>
-                    <h3 class="text-xs font-bold text-amber-900 uppercase tracking-wider">{{ languageService.t('absentStudents') }}</h3>
-                    <p class="text-xl sm:text-2xl font-extrabold text-amber-700">{{absentStudents ? absentStudents.length : 0}}</p>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-0.5">{{ languageService.t('absentStudents') }}</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gray-900">{{absentStudents ? absentStudents.length : 0}}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- PickList -->
-    <div class="bg-gray-50 p-3 sm:p-6 rounded-2xl border border-gray-200">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-6">
-            <label for="attendance-date" class="text-gray-900 font-bold text-sm">{{ languageService.t('attendanceDate') }}:</label>
-            <input id="attendance-date" pInputText type="date" [(ngModel)]="selectedDate"
+    <!-- PickList Card -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <div class="flex-1">
+                <h2 class="text-base font-bold text-gray-900 m-0">{{ languageService.t('attendanceDate') }}</h2>
+                <p class="text-xs text-gray-500 m-0 mt-0.5">Selecciona una fecha para ver o actualizar la asistencia</p>
+            </div>
+            <input id="attendance-date" type="date" [(ngModel)]="selectedDate"
                 (ngModelChange)="onDateChange($event)"
-                class="p-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-900 font-medium text-sm transition-all bg-white w-full sm:w-auto"
+                class="p-2.5 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-900 font-semibold text-sm bg-gray-50 focus:bg-white transition-all w-full sm:w-auto"
                 [pTooltip]="languageService.t('selectDate')" tooltipPosition="top" />
         </div>
 
-        <p-pickList [source]="presentStudents" [target]="absentStudents"
-            [sourceHeader]="languageService.t('presentStudents')"
-            [targetHeader]="languageService.t('absentStudents')"
-            [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '26rem' }"
-            [targetStyle]="{ height: '26rem' }" filterBy="FullName"
-            [sourceFilterPlaceholder]="languageService.t('searchPresentStudents')"
-            [targetFilterPlaceholder]="languageService.t('searchAbsentStudents')"
-            breakpoint="1024px" [showSourceControls]="false" [showTargetControls]="false" styleClass="border-none">
+        <div class="p-4 sm:p-6">
+            <p-pickList [source]="presentStudents" [target]="absentStudents"
+                [sourceHeader]="languageService.t('presentStudents')"
+                [targetHeader]="languageService.t('absentStudents')"
+                [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '26rem' }"
+                [targetStyle]="{ height: '26rem' }" filterBy="FullName"
+                [sourceFilterPlaceholder]="languageService.t('searchPresentStudents')"
+                [targetFilterPlaceholder]="languageService.t('searchAbsentStudents')"
+                breakpoint="1024px" [showSourceControls]="false" [showTargetControls]="false" styleClass="border-none">
 
-            <ng-template let-student pTemplate="item">
-                <div
-                    class="flex items-center gap-4 p-3 hover:bg-white rounded-xl transition-all duration-200 border border-transparent hover:border-gray-200 hover:shadow-sm">
-                    <p-avatar [image]="student?.Picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'"
-                        size="large" [style]="{'width': '3.2rem', 'height': '3.2rem'}"
-                        styleClass="border border-gray-200 shadow-sm" [pTooltip]="student?.FullName" shape="circle">
-                    </p-avatar>
+                <ng-template let-student pTemplate="item">
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-all duration-200">
+                        <p-avatar [image]="student?.Picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'"
+                            size="large" [style]="{'width': '2.75rem', 'height': '2.75rem'}"
+                            styleClass="border border-gray-200 shadow-sm" [pTooltip]="student?.FullName" shape="circle">
+                        </p-avatar>
 
-                    <div class="flex-1 min-w-0">
-                        <div class="flex flex-col">
-                            <span class="font-bold text-gray-900 truncate text-sm">
+                        <div class="flex-1 min-w-0">
+                            <span class="font-bold text-gray-900 truncate text-sm block">
                                 {{ student?.FullName }}
                             </span>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="px-2 py-0.5 text-[11px] font-bold bg-blue-100 text-blue-800 rounded">
-                                    {{ student?.Code }}
-                                </span>
-                            </div>
+                            <span class="px-2 py-0.5 text-[11px] font-bold bg-blue-100 text-blue-800 rounded inline-block mt-0.5">
+                                {{ student?.Code }}
+                            </span>
                         </div>
+                        <i class="pi pi-bars text-gray-300 text-sm"></i>
                     </div>
-                    <div class="text-gray-400 hover:text-gray-700 transition-colors">
-                        <i class="pi pi-bars text-lg"></i>
-                    </div>
-                </div>
-            </ng-template>
-        </p-pickList>
-    </div>
+                </ng-template>
+            </p-pickList>
+        </div>
 
-    <!-- Save Action Button -->
-    <div class="mt-6 flex justify-end">
-        <p-button [label]="languageService.t('saveChanges')" icon="pi pi-save" (onClick)="saveChanges()"
-            severity="success" styleClass="font-bold px-6 py-3 rounded-xl shadow-md">
-        </p-button>
+        <!-- Save Button -->
+        <div class="px-6 py-4 border-t border-gray-100 flex justify-end bg-gray-50">
+            <p-button [label]="languageService.t('saveChanges')" icon="pi pi-save" (onClick)="saveChanges()"
+                severity="success" styleClass="font-bold shadow-sm">
+            </p-button>
+        </div>
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6">
+<div class="min-h-screen p-2 sm:p-4 lg:p-6" style="background: #F1F5F9;">
   
   <!-- Welcome Banner matching Sidebar Colors with High-Contrast Typography -->
   <div class="mb-6 sm:mb-8 bg-gray-900 border border-gray-800 rounded-2xl p-5 sm:p-8 text-white shadow-2xl relative overflow-hidden">
@@ -38,68 +38,80 @@
     </div>
   </div>
 
-  <!-- Metric Cards Grid with High Contrast -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <!-- Metric Cards Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
     <!-- Card 1: Students -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">{{ languageService.t('totalStudents') }}</p>
-          <h3 class="text-3xl font-extrabold text-gray-900 mt-1">{{ totalStudents }}</h3>
-          <p class="text-xs text-green-700 mt-1.5 flex items-center gap-1 font-bold">
-            <i class="pi pi-check-circle"></i> {{ languageService.t('activeInSystem') }}
-          </p>
-        </div>
-        <div class="w-13 h-13 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-2xl shadow-md">
-          <i class="pi pi-users"></i>
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+      <div class="h-1.5" style="background: linear-gradient(90deg, #3B82F6, #60A5FA);"></div>
+      <div class="p-5">
+        <div class="flex items-start justify-between">
+          <div class="flex-1 min-w-0">
+            <p class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ languageService.t('totalStudents') }}</p>
+            <h3 class="text-4xl font-black text-gray-900 leading-none tracking-tight">{{ totalStudents }}</h3>
+            <p class="text-xs text-green-700 mt-2.5 flex items-center gap-1.5 font-bold">
+              <i class="pi pi-check-circle text-green-500"></i> {{ languageService.t('activeInSystem') }}
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0" style="background: #EFF6FF;">
+            <i class="pi pi-users" style="color: #3B82F6;"></i>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Card 2: Subjects -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">{{ languageService.t('totalSubjects') }}</p>
-          <h3 class="text-3xl font-extrabold text-gray-900 mt-1">{{ totalSubjects }}</h3>
-          <p class="text-xs text-indigo-700 mt-1.5 flex items-center gap-1 font-bold">
-            <i class="pi pi-calendar"></i> {{ languageService.t('currentTerm') }}
-          </p>
-        </div>
-        <div class="w-13 h-13 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-md">
-          <i class="pi pi-book"></i>
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+      <div class="h-1.5" style="background: linear-gradient(90deg, #6366F1, #818CF8);"></div>
+      <div class="p-5">
+        <div class="flex items-start justify-between">
+          <div class="flex-1 min-w-0">
+            <p class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ languageService.t('totalSubjects') }}</p>
+            <h3 class="text-4xl font-black text-gray-900 leading-none tracking-tight">{{ totalSubjects }}</h3>
+            <p class="text-xs text-indigo-700 mt-2.5 flex items-center gap-1.5 font-bold">
+              <i class="pi pi-calendar" style="color: #6366F1;"></i> {{ languageService.t('currentTerm') }}
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0" style="background: #EEF2FF;">
+            <i class="pi pi-book" style="color: #6366F1;"></i>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Card 3: Passing Rate -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">{{ languageService.t('avgPassingRate') }}</p>
-          <h3 class="text-3xl font-extrabold text-gray-900 mt-1">{{ analytics.passingRate }}</h3>
-          <p class="text-xs text-emerald-700 mt-1.5 flex items-center gap-1 font-bold">
-            <i class="pi pi-chart-line"></i> GPA {{ analytics.avgGpa }} / 4.0
-          </p>
-        </div>
-        <div class="w-13 h-13 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-md">
-          <i class="pi pi-percentage"></i>
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+      <div class="h-1.5" style="background: linear-gradient(90deg, #10B981, #34D399);"></div>
+      <div class="p-5">
+        <div class="flex items-start justify-between">
+          <div class="flex-1 min-w-0">
+            <p class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ languageService.t('avgPassingRate') }}</p>
+            <h3 class="text-4xl font-black text-gray-900 leading-none tracking-tight">{{ analytics.passingRate }}</h3>
+            <p class="text-xs text-emerald-700 mt-2.5 flex items-center gap-1.5 font-bold">
+              <i class="pi pi-chart-line" style="color: #10B981;"></i> GPA {{ analytics.avgGpa }} / 4.0
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0" style="background: #ECFDF5;">
+            <i class="pi pi-percentage" style="color: #10B981;"></i>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Card 4: Attendance Rate -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">{{ languageService.t('attendanceRate') }}</p>
-          <h3 class="text-3xl font-extrabold text-gray-900 mt-1">{{ analytics.attendanceRate }}</h3>
-          <p class="text-xs text-purple-700 mt-1.5 flex items-center gap-1 font-bold">
-            <i class="pi pi-verified"></i> {{ totalProfessors }} {{ languageService.t('professors') }}
-          </p>
-        </div>
-        <div class="w-13 h-13 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-2xl shadow-md">
-          <i class="pi pi-calendar-check"></i>
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+      <div class="h-1.5" style="background: linear-gradient(90deg, #8B5CF6, #A78BFA);"></div>
+      <div class="p-5">
+        <div class="flex items-start justify-between">
+          <div class="flex-1 min-w-0">
+            <p class="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">{{ languageService.t('attendanceRate') }}</p>
+            <h3 class="text-4xl font-black text-gray-900 leading-none tracking-tight">{{ analytics.attendanceRate }}</h3>
+            <p class="text-xs text-violet-700 mt-2.5 flex items-center gap-1.5 font-bold">
+              <i class="pi pi-verified" style="color: #8B5CF6;"></i> {{ totalProfessors }} {{ languageService.t('professors') }}
+            </p>
+          </div>
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0" style="background: #F5F3FF;">
+            <i class="pi pi-calendar-check" style="color: #8B5CF6;"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -249,68 +261,12 @@
   </div>
 </div>
 
-<!-- Student Profile Quick View Modal -->
-<p-dialog [(visible)]="profileDialogVisible" [modal]="true" [style]="{ width: '520px' }"
-  [breakpoints]="{'960px': '85vw', '640px': '95vw'}"
-  styleClass="p-fluid bg-white rounded-2xl shadow-2xl border-none overflow-hidden" [draggable]="false" [resizable]="false">
-  
-  <ng-template pTemplate="header">
-    <div class="flex items-center gap-2 text-xl font-bold text-gray-900">
-      <i class="pi pi-user text-blue-600 font-bold"></i>
-      <span>{{ languageService.t('viewProfile') }}</span>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="content" *ngIf="selectedStudent">
-    <div class="p-2 text-center">
-      <div class="relative inline-block mb-3">
-        <img [src]="selectedStudent.Picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'"
-             class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-blue-100 shadow-md" alt="Student">
-        <span class="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-green-500 border-2 border-white flex items-center justify-center text-white text-xs">
-          <i class="pi pi-check text-[10px]"></i>
-        </span>
-      </div>
-
-      <h3 class="text-2xl font-bold text-gray-900">{{ selectedStudent.FullName }}</h3>
-      <p class="text-sm font-bold text-blue-600">{{ selectedStudent.Code || 'STU-ACTIVE' }}</p>
-
-      <!-- Details List -->
-      <div class="mt-6 bg-gray-50 rounded-xl p-4 text-left space-y-3 border border-gray-200">
-        <div class="flex justify-between text-sm py-1.5 border-b border-gray-200">
-          <span class="text-gray-600 font-bold">{{ languageService.t('email') }}:</span>
-          <span class="text-gray-900 font-semibold">{{ selectedStudent.EmailAddress || 'N/A' }}</span>
-        </div>
-        <div class="flex justify-between text-sm py-1.5 border-b border-gray-200">
-          <span class="text-gray-600 font-bold">{{ languageService.t('phone') }}:</span>
-          <span class="text-gray-900 font-semibold">{{ selectedStudent.PhoneNumber || 'N/A' }}</span>
-        </div>
-        <div class="flex justify-between text-sm py-1.5 border-b border-gray-200">
-          <span class="text-gray-600 font-bold">{{ languageService.t('dateOfBirth') }}:</span>
-          <span class="text-gray-900 font-semibold">{{ selectedStudent.DateOfBirth || 'N/A' }} ({{ selectedStudent.Age }} {{ languageService.t('yearsOld') }})</span>
-        </div>
-        <div class="flex justify-between text-sm py-1.5 border-b border-gray-200">
-          <span class="text-gray-600 font-bold">{{ languageService.t('parentName') }}:</span>
-          <span class="text-gray-900 font-semibold">{{ selectedStudent.ParentName || 'N/A' }}</span>
-        </div>
-        <div class="flex justify-between text-sm py-1.5">
-          <span class="text-gray-600 font-bold">{{ languageService.t('address') }}:</span>
-          <span class="text-gray-900 font-semibold text-right max-w-xs truncate">{{ selectedStudent.Address || 'N/A' }}</span>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <div class="flex items-center gap-2 w-full">
-      <button pButton pRipple type="button" [label]="languageService.t('close')" icon="pi pi-times"
-        (click)="profileDialogVisible = false" class="p-button-secondary p-button-outlined rounded-xl flex-1 font-bold">
-      </button>
-      <button pButton pRipple type="button" [label]="languageService.t('reportCard')" icon="pi pi-file-check"
-        (click)="reportCardVisible = true; profileDialogVisible = false" class="p-button-primary rounded-xl flex-1 font-bold">
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
+<!-- Student 360 Profile Dialog -->
+<app-student-profile-dialog
+  [(visible)]="profileDialogVisible"
+  [student]="selectedStudent"
+  (openReportCard)="selectedStudent = $event; reportCardVisible = true">
+</app-student-profile-dialog>
 
 <!-- Official Report Card Dialog -->
 <app-student-report-card [(visible)]="reportCardVisible" [student]="selectedStudent"></app-student-report-card>

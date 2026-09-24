@@ -24,6 +24,7 @@ import { StudentDialogComponent } from '../../../components/student/student-dial
 import { AvatarModule } from 'primeng/avatar';
 import { StudentFilterComponent } from '../../../components/student/student-filter/student-filter.component';
 import { StudentReportCardComponent } from '../../../components/student/student-report-card/student-report-card.component';
+import { StudentProfileDialogComponent } from '../../../components/student/student-profile-dialog/student-profile-dialog.component';
 import { LanguageService } from '../../../../services/ui/language.service';
 
 @Component({
@@ -36,6 +37,7 @@ import { LanguageService } from '../../../../services/ui/language.service';
     AvatarModule,
     StudentDialogComponent,
     StudentReportCardComponent,
+    StudentProfileDialogComponent,
     TooltipModule,
     RippleModule,
     ButtonModule,
@@ -56,6 +58,8 @@ export class StudentsListComponent implements OnInit {
   StudentDialog: boolean = false;
   reportCardVisible: boolean = false;
   selectedStudentForReport: Student | null = null;
+  profileDialogVisible: boolean = false;
+  selectedStudentForProfile: Student | null = null;
 
   students!: Partial<Student>[];
   student!: Partial<Student>;
@@ -71,6 +75,12 @@ export class StudentsListComponent implements OnInit {
     this.selectedStudentForReport = student;
     this.reportCardVisible = true;
   }
+
+  openStudentProfile(student: any) {
+    this.selectedStudentForProfile = student;
+    this.profileDialogVisible = true;
+  }
+
 
 
   constructor(

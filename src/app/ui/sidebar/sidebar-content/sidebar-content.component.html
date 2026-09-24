@@ -1,35 +1,79 @@
-<div class="h-full flex flex-col">
-    <div class="p-6 mb-6 flex items-center justify-center">
-      <div class="flex items-center space-x-3">
-        <div class="relative w-12 h-12 bg-blue-500 rounded-full shadow-lg overflow-hidden">
-          <img src="/assets/logo.png" alt="Logo" class="w-full h-full object-cover">
-        </div>
-        <div *ngIf="sidebarVisible" class="flex flex-col">
-          <h2 class="text-2xl font-bold m-0 text-white tracking-tight">
-            EduTrack
-          </h2>
-          <span class="text-xs text-blue-300 tracking-wide">
-            Learning Management
-          </span>
-        </div>
+<div class="h-full flex flex-col min-h-0">
+  <!-- Logo & Brand -->
+  <div class="px-3 py-3 mb-1 flex-none">
+    <div class="flex items-center gap-3">
+      <div class="relative w-9 h-9 flex-shrink-0 rounded-xl overflow-hidden shadow-lg"
+           style="background: linear-gradient(135deg, #3B82F6, #6366F1);">
+        <img src="/assets/logo.png" alt="EduTrack Logo" class="w-full h-full object-cover">
+      </div>
+      <div *ngIf="sidebarVisible" class="flex flex-col min-w-0">
+        <h2 class="text-base font-black tracking-tight m-0 leading-none"
+            style="color: #FFFFFF; letter-spacing: -0.02em;">EduTrack</h2>
+        <span class="text-[10px] font-semibold tracking-widest uppercase mt-0.5"
+              style="color: #818CF8;">Academic</span>
       </div>
     </div>
-
-    <nav class="py-4 flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-      <ul class="space-y-1 px-2">
-        <ng-container *ngFor="let item of menuItems">
-          <li *ngIf="item.visible">
-            <a [routerLink]="item.routerLink" (click)="onMenuItemClick()" routerLinkActive="bg-blue-600 text-white shadow-lg" 
-              [routerLinkActiveOptions]="{exact: item.routerLink === '/'}" class="sidebar-item group" [ngClass]="{'justify-center': !sidebarVisible}" pRipple>
-              <div class="sidebar-item-content">
-                <i [class]="item.icon + ' sidebar-icon'"></i>
-                <span *ngIf="sidebarVisible" class="sidebar-label">
-                  {{ item.label }}
-                </span>
-              </div>
-            </a>
-          </li>
-        </ng-container>
-      </ul>
-    </nav>
   </div>
+
+  <!-- Divider -->
+  <div class="flex-none" style="height: 1px; background: rgba(255,255,255,0.06); margin: 0 0.5rem 0.5rem;"></div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 min-h-0 overflow-y-auto px-1.5 py-0.5 space-y-0.5"
+       style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent;">
+    <ng-container *ngFor="let item of menuItems">
+      <li *ngIf="item.visible" class="list-none">
+        <a [routerLink]="item.routerLink" (click)="onMenuItemClick()" pRipple
+           routerLinkActive="nav-item-active"
+           [routerLinkActiveOptions]="{exact: item.routerLink === '/' || item.routerLink === '/student-portal'}"
+           class="sidebar-item group relative"
+           [ngClass]="{'justify-center': !sidebarVisible}"
+           style="min-height: 40px; padding: 0.5rem 0.75rem;">
+          <div class="sidebar-item-content">
+            <i [class]="item.icon + ' sidebar-icon'"
+               style="color: inherit; transition: color 0.18s;"></i>
+            <span *ngIf="sidebarVisible" class="sidebar-label">
+              {{ item.label }}
+            </span>
+          </div>
+          <!-- Active indicator bar -->
+          <span class="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-l-full nav-item-indicator opacity-0 transition-opacity"
+                style="background: #3B82F6;"></span>
+        </a>
+      </li>
+    </ng-container>
+  </nav>
+
+  <!-- Divider -->
+  <div class="flex-none" style="height: 1px; background: rgba(255,255,255,0.06); margin: 0.5rem 0.5rem 0.25rem;"></div>
+
+  <!-- User Footer -->
+  <div *ngIf="sidebarVisible && currentUser" class="px-2 py-2.5 flex-none">
+    <div class="flex items-center gap-3 px-2 py-2 rounded-xl"
+         style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06);">
+      <p-avatar [image]="currentUser.Picture || ''"
+                shape="circle"
+                styleClass="border border-white/10 flex-shrink-0"
+                size="normal">
+      </p-avatar>
+      <div class="min-w-0 flex-1">
+        <p class="text-white font-bold text-xs truncate m-0 leading-tight">
+          {{ currentUser.FullName }}
+        </p>
+        <p class="text-[10px] font-medium m-0 mt-0.5 truncate"
+           style="color: #818CF8;">
+          {{ currentUser.UserRole?.Name || 'User' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collapsed user avatar (when sidebar is collapsed) -->
+  <div *ngIf="!sidebarVisible && currentUser" class="px-2 py-3 flex justify-center flex-none">
+    <p-avatar [image]="currentUser.Picture || ''"
+              shape="circle"
+              styleClass="border border-white/10"
+              size="normal">
+    </p-avatar>
+  </div>
+</div>

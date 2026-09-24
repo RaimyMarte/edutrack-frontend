@@ -1,0 +1,4 @@
+/* Attendance Tracker Styles */
+:host ::ng-deep .p-dropdown {
+  border-radius: 0.75rem;
+}

@@ -13,6 +13,8 @@ import { LayoutComponent } from './ui/layout/layout.component';
 import { SubjectAttendanceComponent } from './pages/subjects/subject-attendance/subject-attendance.component';
 import { StudentsGradesComponent } from './pages/subjects/students-grades/students-grades.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { StudentPortalComponent } from './pages/student/student-portal/student-portal.component';
+import { AttendanceTrackerComponent } from './pages/attendance/attendance-tracker.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +25,16 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'student-portal',
+        component: StudentPortalComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'attendance',
+        component: AttendanceTrackerComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: 'professor',

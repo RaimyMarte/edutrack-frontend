@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Active nav item */
+:host ::ng-deep .nav-item-active {
+  background: rgba(59, 130, 246, 0.15) !important;
+  color: #60A5FA !important;
+}
+
+:host ::ng-deep .nav-item-active .nav-item-indicator {
+  opacity: 1 !important;
+}
+
+:host ::ng-deep .nav-item-active .sidebar-icon {
+  color: #60A5FA !important;
+}
+
+:host ::ng-deep .nav-item-active .sidebar-label {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* Hover state */
+:host ::ng-deep .sidebar-item:hover:not(.nav-item-active) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #E2E8F0 !important;
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -14,6 +14,7 @@ import { SubjectService } from '../../../services/subject/subject.service';
 import { UserService } from '../../../services/user/user.service';
 import { LanguageService } from '../../../services/ui/language.service';
 import { StudentReportCardComponent } from '../../components/student/student-report-card/student-report-card.component';
+import { StudentProfileDialogComponent } from '../../components/student/student-profile-dialog/student-profile-dialog.component';
 import { User } from '../../../types/user';
 import { Subject } from '../../../types/subject';
 import { Student } from '../../../types/student';
@@ -31,7 +32,8 @@ import { Student } from '../../../types/student';
     DialogModule,
     TooltipModule,
     AvatarModule,
-    StudentReportCardComponent
+    StudentReportCardComponent,
+    StudentProfileDialogComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -68,11 +70,20 @@ export class HomeComponent implements OnInit {
     public languageService: LanguageService,
     private studentService: StudentService,
     private subjectService: SubjectService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     this.currentUser = this.authService.currentUserValue;
+    if (this.currentUser?.UserRoleId === 3) {
+      this.router.navigate(['/student-portal']);
+      return;
+    }
+    if (this.currentUser?.UserRoleId === 2) {
+      this.router.navigate(['/professor']);
+      return;
+    }
     await this.loadDashboardData();
   }
 

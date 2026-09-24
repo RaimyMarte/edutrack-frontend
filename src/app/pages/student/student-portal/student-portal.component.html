@@ -1,0 +1,177 @@
+<div class="min-h-screen bg-gray-50 p-2 sm:p-4 lg:p-6">
+  
+  <!-- Hero Student Portal Banner -->
+  <div class="mb-6 sm:mb-8 bg-gradient-to-r from-gray-900 via-slate-800 to-indigo-950 border border-gray-800 rounded-3xl p-5 sm:p-8 text-white shadow-2xl relative overflow-hidden">
+    <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="flex items-center gap-4 sm:gap-6">
+        <div class="relative">
+          <img [src]="student.Picture || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150'"
+            [alt]="student.FullName"
+            class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-white/20 shadow-xl bg-gray-800" />
+          <span class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-2 border-gray-900 rounded-full flex items-center justify-center">
+            <i class="pi pi-check text-xs text-white font-bold"></i>
+          </span>
+        </div>
+
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
+            <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+            {{ languageService.t('navStudentPortal') }} &bull; {{ student.Code || 'STU-2024-001' }}
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight m-0">
+            {{ languageService.t('welcome') }}, {{ student.FullName }}!
+          </h1>
+          <p class="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
+            {{ languageService.t('studentPortalSub') }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+        <button type="button" (click)="reportCardVisible = true"
+          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          <i class="pi pi-file-pdf font-bold"></i> {{ languageService.t('officialTranscript') }}
+        </button>
+        <a routerLink="/schedule"
+          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          <i class="pi pi-calendar font-bold"></i> {{ languageService.t('classSchedule') }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Stats Ribbon -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 pt-6 border-t border-white/10">
+      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">GPA Acumulado</span>
+        <p class="text-xl sm:text-2xl font-black text-blue-400 mt-1">{{ cumulativeGpa }} <span class="text-xs text-slate-400">/ 4.0</span></p>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{{ languageService.t('attendanceRateShort') }}</span>
+        <p class="text-xl sm:text-2xl font-black text-emerald-400 mt-1">96.5%</p>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{{ languageService.t('completedCredits') }}</span>
+        <p class="text-xl sm:text-2xl font-black text-indigo-300 mt-1">{{ totalCredits }} <span class="text-xs text-slate-400">Créditos</span></p>
+      </div>
+      <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+        <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Estado Académico</span>
+        <p class="text-xs sm:text-sm font-bold text-amber-300 mt-1.5 flex items-center gap-1">
+          <i class="pi pi-star-fill text-xs"></i> {{ languageService.t('studentStatusHonor') }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- Enrolled Courses & Grades Table (2 Cols) -->
+    <div class="lg:col-span-2 bg-white rounded-3xl p-5 sm:p-6 border border-gray-200 shadow-sm space-y-4">
+      <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+        <div>
+          <h2 class="text-lg sm:text-xl font-black text-gray-900 m-0">
+            {{ languageService.t('enrolledCourses') }}
+          </h2>
+          <p class="text-xs text-gray-500 m-0">{{ languageService.t('currentTerm') }}</p>
+        </div>
+        <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-xl border border-blue-200">
+          {{ courses.length }} Materias
+        </span>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl border border-gray-100">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="bg-gray-50 text-gray-700 font-bold border-b border-gray-200 uppercase text-[11px]">
+              <th class="p-3.5">Materia / Código</th>
+              <th class="p-3.5">Docente</th>
+              <th class="p-3.5 text-center">P1</th>
+              <th class="p-3.5 text-center">P2</th>
+              <th class="p-3.5 text-center">Final</th>
+              <th class="p-3.5 text-center">Definitiva</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100 font-medium">
+            <tr *ngFor="let c of courses" class="hover:bg-gray-50/70 transition">
+              <td class="p-3.5">
+                <span class="font-extrabold text-gray-900 block">{{ c.name }}</span>
+                <span class="text-[11px] font-mono text-blue-600 font-bold">{{ c.code }} &bull; {{ c.credits }} Cr. &bull; {{ c.room }}</span>
+              </td>
+              <td class="p-3.5">
+                <div class="flex items-center gap-2">
+                  <img [src]="c.professorAvatar" class="w-6 h-6 rounded-full object-cover" />
+                  <span class="font-semibold text-gray-800">{{ c.professor }}</span>
+                </div>
+              </td>
+              <td class="p-3.5 text-center font-bold text-gray-700">{{ c.p1 }}</td>
+              <td class="p-3.5 text-center font-bold text-gray-700">{{ c.p2 }}</td>
+              <td class="p-3.5 text-center font-bold text-gray-700">{{ c.final }}</td>
+              <td class="p-3.5 text-center">
+                <span class="inline-flex items-center justify-center px-2.5 py-0.5 rounded-lg font-black text-xs"
+                  [ngClass]="c.average >= 90 ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'">
+                  {{ c.average }} ({{ c.letter }})
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Student Digital ID Card Preview (1 Col) -->
+    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-gray-200 shadow-sm flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+          <h2 class="text-base font-black text-gray-900 m-0 flex items-center gap-2">
+            <i class="pi pi-id-card text-blue-600"></i> {{ languageService.t('digitalIdCard') }}
+          </h2>
+          <span class="text-xs text-green-600 font-bold flex items-center gap-1">
+            <i class="pi pi-circle-fill text-[8px]"></i> Activo
+          </span>
+        </div>
+
+        <!-- Printable ID Card Widget -->
+        <div id="printable-id-card" class="bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-blue-400/30 text-xs relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-white/20 pb-2 mb-3">
+            <div class="flex items-center gap-1.5">
+              <img src="/assets/logo.png" class="w-6 h-6 object-contain" />
+              <span class="font-black text-xs text-white">EDUTRACK</span>
+            </div>
+            <span class="text-[9px] font-bold text-blue-200 uppercase">2024 - 2025</span>
+          </div>
+
+          <div class="flex gap-3 items-center">
+            <img [src]="student.Picture || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150'"
+              class="w-16 h-20 rounded-xl object-cover border border-white shadow-xs shrink-0" />
+            
+            <div class="min-w-0 space-y-0.5">
+              <p class="font-black text-sm text-white truncate m-0">{{ student.FullName }}</p>
+              <p class="font-mono text-[11px] font-bold text-amber-300">{{ student.Code || 'STU-2024-001' }}</p>
+              <p class="text-[10px] text-slate-300">Ingeniería de Software</p>
+              <p class="text-[9px] text-slate-400">{{ languageService.t('validThru') }}: 12/2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <button type="button" (click)="printIdCard()"
+          class="w-full py-2.5 px-4 bg-gray-900 hover:bg-black text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+          <i class="pi pi-print font-bold"></i> {{ languageService.t('downloadIdCard') }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Official Report Card Dialog -->
+<app-student-report-card
+  [visible]="reportCardVisible"
+  [student]="student"
+  (visibleChange)="reportCardVisible = $event">
+</app-student-report-card>
