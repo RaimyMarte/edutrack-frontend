@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -37,6 +38,7 @@ export interface StudentAttendanceRow {
     FormsModule,
     TableModule,
     ButtonModule,
+    CalendarModule,
     DropdownModule,
     SelectButtonModule,
     CardModule,

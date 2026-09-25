@@ -9,15 +9,17 @@
   <ng-template pTemplate="end">
     <div class="flex items-center gap-1.5 sm:gap-3" *ngIf="authService.currentUserValue">
       <!-- Notifications Bell Button -->
-      <button pButton pRipple type="button" (click)="notifPanel.toggle($event)"
-        class="p-button-text p-button-rounded relative text-gray-700 hover:bg-gray-100 w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center p-0 rounded-xl transition"
-        [pTooltip]="languageService.t('notifications')" tooltipPosition="bottom">
-        <i class="pi pi-bell text-base sm:text-lg"></i>
+      <div class="relative inline-flex items-center justify-center">
+        <button pButton pRipple type="button" (click)="notifPanel.toggle($event)"
+          class="p-button-text p-button-rounded text-gray-700 hover:bg-gray-100 w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center p-0"
+          [pTooltip]="languageService.t('notifications')" tooltipPosition="bottom">
+          <i class="pi pi-bell text-base sm:text-lg"></i>
+        </button>
         <span *ngIf="notificationService.unreadCount() > 0"
-          class="absolute top-0 right-0 min-w-[18px] h-[18px] px-1 bg-red-500 text-white rounded-full text-[10px] font-black flex items-center justify-center shadow-xs border-2 border-white">
+          class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-red-500 text-white rounded-full text-[10px] font-black flex items-center justify-center shadow-xs border-2 border-white pointer-events-none z-10">
           {{ notificationService.unreadCount() }}
         </span>
-      </button>
+      </div>
 
       <!-- Notifications Overlay Panel -->
       <p-overlayPanel #notifPanel [showCloseIcon]="false" styleClass="custom-notif-panel w-80 sm:w-[24rem]">

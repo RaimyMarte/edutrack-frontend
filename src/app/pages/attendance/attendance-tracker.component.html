@@ -49,8 +49,11 @@
         <!-- Date Selector -->
         <div>
           <label class="block text-[11px] font-bold uppercase text-gray-500 mb-1">Fecha de Clase</label>
-          <input type="date" [(ngModel)]="selectedDate"
-            class="p-2 sm:p-2.5 border border-gray-300 rounded-xl text-sm font-semibold text-gray-800 bg-gray-50 focus:ring-2 focus:ring-blue-600 focus:outline-none w-full sm:w-auto" />
+          <p-calendar [(ngModel)]="selectedDate" [showIcon]="true" dateFormat="yy-mm-dd" dataType="string"
+            [showOnFocus]="true" [appendTo]="'body'"
+            styleClass="w-full sm:w-56" inputStyleClass="w-full font-semibold text-sm cursor-pointer"
+            [placeholder]="'Seleccionar fecha'">
+          </p-calendar>
         </div>
       </div>
     </ng-template>
@@ -139,17 +142,17 @@
       <table class="w-full text-left border-collapse text-xs sm:text-sm">
         <thead>
           <tr class="bg-gray-50 text-gray-700 font-bold border-b border-gray-200 uppercase text-[11px]">
-            <th class="p-4 w-12 text-center">#</th>
-            <th class="p-4">Estudiante</th>
-            <th class="p-4">Matrícula</th>
-            <th class="p-4 text-center">Estado de Asistencia</th>
-            <th class="p-4">Observaciones / Nota</th>
+            <th class="py-3.5 px-3 w-12 text-center">#</th>
+            <th class="py-3.5 px-4 min-w-[200px]">Estudiante</th>
+            <th class="py-3.5 px-4 min-w-[120px]">Matrícula</th>
+            <th class="py-3.5 px-4 min-w-[340px] text-center">Estado de Asistencia</th>
+            <th class="py-3.5 px-4 min-w-[240px]">Observaciones / Nota</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
           <tr *ngFor="let item of attendanceRecords; let i = index" class="hover:bg-gray-50/70 transition">
-            <td class="p-4 text-center text-gray-400 font-bold">{{ i + 1 }}</td>
-            <td class="p-4">
+            <td class="py-3.5 px-3 text-center text-gray-400 font-bold align-middle">{{ i + 1 }}</td>
+            <td class="py-3.5 px-4 align-middle">
               <div class="flex items-center gap-3">
                 <img [src]="item.avatar" [alt]="item.studentName"
                   class="w-10 h-10 rounded-full object-cover border border-gray-200 shadow-xs shrink-0" />
@@ -159,41 +162,44 @@
                 </div>
               </div>
             </td>
-            <td class="p-4 font-mono font-bold text-blue-600 text-xs">
+            <td class="py-3.5 px-4 font-mono font-bold text-blue-600 text-xs align-middle">
               {{ item.studentCode }}
             </td>
-            <td class="p-4 text-center">
-              <!-- Interactive Status Toggle Buttons -->
-              <div class="inline-flex rounded-xl p-1 bg-gray-100 border border-gray-200 gap-1">
+            <td class="py-3.5 px-4 text-center align-middle">
+              <!-- Clean Segmented Status Control -->
+              <div class="inline-flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200/80 gap-1 shadow-inner">
                 <button type="button" (click)="item.status = 'present'"
-                  [ngClass]="item.status === 'present' ? 'bg-emerald-600 text-white shadow-xs font-bold' : 'text-gray-600 hover:text-gray-900'"
-                  class="px-2.5 py-1 rounded-lg text-xs transition flex items-center gap-1">
-                  <i class="pi pi-check text-[10px]"></i>
-                  <span class="hidden sm:inline">Presente</span>
+                  [ngClass]="item.status === 'present' ? 'bg-emerald-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+                  class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
+                  Presente
                 </button>
                 <button type="button" (click)="item.status = 'late'"
-                  [ngClass]="item.status === 'late' ? 'bg-amber-500 text-white shadow-xs font-bold' : 'text-gray-600 hover:text-gray-900'"
-                  class="px-2.5 py-1 rounded-lg text-xs transition flex items-center gap-1">
-                  <i class="pi pi-clock text-[10px]"></i>
-                  <span class="hidden sm:inline">Tardanza</span>
+                  [ngClass]="item.status === 'late' ? 'bg-amber-500 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+                  class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
+                  Tardanza
                 </button>
                 <button type="button" (click)="item.status = 'absent'"
-                  [ngClass]="item.status === 'absent' ? 'bg-red-600 text-white shadow-xs font-bold' : 'text-gray-600 hover:text-gray-900'"
-                  class="px-2.5 py-1 rounded-lg text-xs transition flex items-center gap-1">
-                  <i class="pi pi-times text-[10px]"></i>
-                  <span class="hidden sm:inline">Ausente</span>
+                  [ngClass]="item.status === 'absent' ? 'bg-rose-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+                  class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
+                  Ausente
                 </button>
                 <button type="button" (click)="item.status = 'excused'"
-                  [ngClass]="item.status === 'excused' ? 'bg-blue-600 text-white shadow-xs font-bold' : 'text-gray-600 hover:text-gray-900'"
-                  class="px-2.5 py-1 rounded-lg text-xs transition flex items-center gap-1">
-                  <i class="pi pi-info-circle text-[10px]"></i>
-                  <span class="hidden sm:inline">Justificado</span>
+                  [ngClass]="item.status === 'excused' ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+                  class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
+                  Justificado
                 </button>
               </div>
             </td>
-            <td class="p-4">
-              <input type="text" [(ngModel)]="item.notes" placeholder="Agregar nota opcional..."
-                class="w-full text-xs p-2 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:ring-1 focus:ring-blue-600 focus:outline-none text-gray-700" />
+            <td class="py-3.5 px-4 align-middle">
+              <div class="relative flex items-center w-full min-w-[220px] group">
+                <i class="pi pi-pencil absolute left-3 text-slate-400 text-xs pointer-events-none group-focus-within:text-blue-500 transition-colors"></i>
+                <input type="text" [(ngModel)]="item.notes" placeholder="Agregar nota u observación..."
+                  class="w-full h-9 text-xs pl-8 pr-7 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 transition-all outline-none" />
+                <button *ngIf="item.notes" type="button" (click)="item.notes = ''"
+                  class="absolute right-2.5 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200 transition">
+                  <i class="pi pi-times text-[10px]"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
