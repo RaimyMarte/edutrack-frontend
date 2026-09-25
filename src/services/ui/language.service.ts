@@ -60,7 +60,7 @@ const TRANSLATIONS: Translations = {
   newStudent: { en: 'New Student', es: 'Nuevo Estudiante' },
   newSubject: { en: 'New Subject', es: 'Nueva Asignatura' },
   newUser: { en: 'New User', es: 'Nuevo Usuario' },
-  viewProfile: { en: 'View Academic Profile', es: 'Ver Perfil Académico' },
+  viewProfile: { en: 'Profile', es: 'Perfil' },
   view360Profile: { en: '360° Profile', es: 'Perfil 360°' },
   student360Profile: { en: 'Student 360° Profile & Academic File', es: 'Perfil Integral 360° del Estudiante' },
   navStudentPortal: { en: 'Student Portal', es: 'Portal Estudiantil' },
