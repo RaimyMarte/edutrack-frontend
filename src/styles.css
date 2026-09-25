@@ -355,18 +355,52 @@ a { text-decoration: none; }
 }
 
 /* Input fields */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
 input.p-inputtext,
 textarea.p-inputtext {
   font-family: var(--font-family) !important;
+  border: 1px solid #CBD5E1 !important;
+  border-style: solid !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
   border-radius: var(--radius-md) !important;
-  border-color: #E2E8F0 !important;
   transition: all 0.18s ease !important;
+  box-sizing: border-box !important;
 }
 
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
 input.p-inputtext:focus,
 textarea.p-inputtext:focus {
   border-color: var(--primary-color) !important;
   box-shadow: var(--focus-ring) !important;
+  outline: none !important;
+}
+
+.attendance-notes-input {
+  border: 1px solid #CBD5E1 !important;
+  border-style: solid !important;
+  border-radius: 0.75rem !important;
+  background-color: #FFFFFF !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+}
+
+.attendance-notes-input:hover {
+  border-color: #94A3B8 !important;
+  background-color: #F8FAFC !important;
+}
+
+.attendance-notes-input:focus {
+  border-color: #3B82F6 !important;
+  background-color: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
 }
 
 /* Dropdown */

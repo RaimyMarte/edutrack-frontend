@@ -190,11 +190,11 @@
                 </button>
               </div>
             </td>
-            <td class="py-3.5 px-4 align-middle">
-              <div class="relative flex items-center w-full min-w-[220px] group">
+            <td class="py-3 px-4 align-middle">
+              <div class="relative flex items-center w-full min-w-[240px] group">
                 <i class="pi pi-pencil absolute left-3 text-slate-400 text-xs pointer-events-none group-focus-within:text-blue-500 transition-colors"></i>
                 <input type="text" [(ngModel)]="item.notes" placeholder="Agregar nota u observación..."
-                  class="w-full h-9 text-xs pl-8 pr-7 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 transition-all outline-none" />
+                  class="attendance-notes-input w-full h-9 text-xs pl-8 pr-7 text-slate-800 font-medium placeholder:text-slate-400 transition-all outline-none" />
                 <button *ngIf="item.notes" type="button" (click)="item.notes = ''"
                   class="absolute right-2.5 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200 transition">
                   <i class="pi pi-times text-[10px]"></i>
