@@ -129,13 +129,13 @@
     <!-- Bank Transfer Instructions -->
     <div *ngIf="paymentMethod === 'transfer'" class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100 text-xs text-indigo-900 space-y-2">
       <p class="font-bold text-sm m-0 flex items-center gap-1.5 text-indigo-950">
-        <i class="pi pi-info-circle text-indigo-600"></i> Datos de Transferencia en Pesos Dominicanos (DOP)
+        <i class="pi pi-info-circle text-indigo-600"></i> {{ languageService.t('bankTransferDetailsTitle') }}
       </p>
       <div class="space-y-1 font-medium text-xs">
-        <p class="m-0"><strong>Banco:</strong> Banco de Reservas (Banreservas)</p>
-        <p class="m-0"><strong>Cuenta Corriente DOP:</strong> 960-294819-2</p>
-        <p class="m-0"><strong>Titular:</strong> EduTrack International Academy SRL</p>
-        <p class="m-0"><strong>RNC:</strong> 1-31-99482-1</p>
+        <p class="m-0"><strong>{{ languageService.t('bankName') }}:</strong> Banco de Reservas (Banreservas)</p>
+        <p class="m-0"><strong>{{ languageService.t('checkingAccountDop') }}:</strong> 960-294819-2</p>
+        <p class="m-0"><strong>{{ languageService.t('accountHolder') }}:</strong> EduTrack International Academy SRL</p>
+        <p class="m-0"><strong>RNC / Tax ID:</strong> 1-31-99482-1</p>
       </div>
     </div>
   </div>
@@ -204,7 +204,7 @@
         <span class="text-[10px] text-gray-500 uppercase font-extrabold block">{{ languageService.t('paymentMethod') }}</span>
         <p class="font-bold text-gray-900 m-0">{{ processedInvoice.paymentMethod || ('Tarjeta •••• ' + (cardLast4 || '8842')) }}</p>
         <span class="text-emerald-700 font-bold flex items-center gap-1 mt-0.5">
-          <i class="pi pi-check-circle text-xs"></i> Aprobado & Conciliado
+          <i class="pi pi-check-circle text-xs"></i> {{ languageService.t('approvedAndReconciled') }}
         </span>
       </div>
     </div>
@@ -223,7 +223,7 @@
           <tr>
             <td class="p-3">
               <span class="font-extrabold text-gray-900 block">{{ languageService.t(processedInvoice.conceptKey) || processedInvoice.conceptFallback }}</span>
-              <span class="text-[10px] text-gray-500">Pago de aranceles académicos institucionales en DOP</span>
+              <span class="text-[10px] text-gray-500">{{ languageService.t('tuitionFeeDescription') }}</span>
             </td>
             <td class="p-3 text-center font-bold text-gray-700">2024-2</td>
             <td class="p-3 text-right font-black text-sm text-gray-900">RD$ {{ processedInvoice.amount | number:'1.2-2' }}</td>
@@ -231,7 +231,7 @@
         </tbody>
         <tfoot class="bg-gray-50 border-t-2 border-gray-200">
           <tr>
-            <td colspan="2" class="p-3 text-right font-extrabold uppercase text-xs text-gray-700">Total Liquidado:</td>
+            <td colspan="2" class="p-3 text-right font-extrabold uppercase text-xs text-gray-700">{{ languageService.t('totalSettled') }}</td>
             <td class="p-3 text-right font-black text-base text-blue-600">RD$ {{ processedInvoice.amount | number:'1.2-2' }}</td>
           </tr>
         </tfoot>
@@ -257,9 +257,9 @@
       </div>
 
       <div class="text-right">
-        <span class="text-[9px] uppercase tracking-wider text-gray-500 font-extrabold block">Sello Digital de Tesorería</span>
+        <span class="text-[9px] uppercase tracking-wider text-gray-500 font-extrabold block">{{ languageService.t('treasuryDigitalSeal') }}</span>
         <span class="text-[10px] font-black text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
-          <i class="pi pi-verified"></i> VALIDO & SOLVENTE
+          <i class="pi pi-verified"></i> {{ languageService.t('validAndSolvent') }}
         </span>
       </div>
     </div>

@@ -46,9 +46,9 @@
 
       <!-- Quick Action Buttons -->
       <div class="flex flex-row md:flex-col gap-2.5 w-full md:w-auto">
-        <button type="button" (click)="reportCardVisible = true"
-          class="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition transform hover:-translate-y-0.5 cursor-pointer">
-          <i class="pi pi-file-pdf font-bold"></i> {{ languageService.t('officialTranscript') }}
+        <button pButton pRipple type="button" (click)="reportCardVisible = true"
+          icon="pi pi-file-pdf" [label]="languageService.t('officialTranscript')"
+          class="p-button-primary rounded-xl font-bold text-xs shadow-md flex-1 md:flex-none">
         </button>
         <a routerLink="/schedule"
           class="flex-1 md:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-white bg-white/10 hover:bg-white/20 border border-white/20 font-bold text-xs shadow-sm transition transform hover:-translate-y-0.5 backdrop-blur-sm cursor-pointer">
@@ -402,9 +402,9 @@
 
           <!-- Print Action Button -->
           <div class="pt-2">
-            <button type="button" (click)="printIdCard()"
-              class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl shadow-md transition transform hover:-translate-y-0.5 cursor-pointer">
-              <i class="pi pi-print font-bold"></i> {{ languageService.t('downloadIdCard') }}
+            <button pButton pRipple type="button" (click)="printIdCard()"
+              icon="pi pi-print" [label]="languageService.t('downloadIdCard')"
+              class="p-button-primary rounded-xl font-bold text-xs shadow-md">
             </button>
           </div>
         </div>

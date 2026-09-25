@@ -57,13 +57,15 @@ export class FinanceManagementComponent implements OnInit {
   cashierNotes: string = '';
   selectedInvoiceForManualPay: AdminStudentInvoice | null = null;
 
-  paymentMethodOptions = [
-    { label: 'Efectivo en Ventanilla / Caja', value: 'Efectivo / Ventanilla' },
-    { label: 'Tarjeta POS (Ventanilla)', value: 'Tarjeta POS (Ventanilla)' },
-    { label: 'Transferencia Banco BHD', value: 'Transferencia Banco BHD' },
-    { label: 'Transferencia Banreservas', value: 'Transferencia Banreservas' },
-    { label: 'Cheque Institucional', value: 'Cheque Institucional' }
-  ];
+  get paymentMethodOptions() {
+    return [
+      { label: this.languageService.t('cashVentanilla'), value: 'Efectivo / Ventanilla' },
+      { label: this.languageService.t('posCardVentanilla'), value: 'Tarjeta POS (Ventanilla)' },
+      { label: this.languageService.t('wireBhd'), value: 'Transferencia Banco BHD' },
+      { label: this.languageService.t('wireBanreservas'), value: 'Transferencia Banreservas' },
+      { label: this.languageService.t('institutionalCheck'), value: 'Cheque Institucional' }
+    ];
+  }
 
   // Mock Students
   private student1: Student = {
