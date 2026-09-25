@@ -7,3 +7,73 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+:host ::ng-deep .p-selectbutton {
+  display: inline-flex !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button {
+  border-radius: 0 !important;
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  padding: 0.5rem 0.875rem !important;
+  height: 38px !important;
+  transition: all 0.15s ease !important;
+  transform: none !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+/* Inactive / Unselected days: clean white background, slate text, subtle border */
+:host ::ng-deep .p-selectbutton .p-button:not(.p-highlight) {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #475569 !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button:not(.p-highlight) .p-button-label {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button:not(.p-highlight):hover {
+  background: #F1F5F9 !important;
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button:not(.p-highlight):hover .p-button-label {
+  color: #0F172A !important;
+}
+
+/* Active / Selected day: vibrant primary blue background, crisp white text */
+:host ::ng-deep .p-selectbutton .p-button.p-highlight {
+  background: #3B82F6 !important;
+  background-color: #3B82F6 !important;
+  border-color: #3B82F6 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 4px -1px rgba(59, 130, 246, 0.3) !important;
+  z-index: 1 !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button.p-highlight .p-button-label {
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button:first-child {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button:last-child {
+  border-radius: 0 0.75rem 0.75rem 0 !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button:not(:first-child) {
+  margin-left: -1px !important;
+}

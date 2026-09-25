@@ -1,5 +1,5 @@
 :host ::ng-deep .custom-profile-tabview .p-tabview-nav {
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 2px solid #E2E8F0;
   background: transparent;
   gap: 0.5rem;
 }
@@ -11,6 +11,21 @@
   padding: 0.75rem 1.25rem;
   transition: all 0.2s ease;
   border-width: 0 0 2px 0;
+  color: #475569;
+  background: transparent;
+}
+
+:host ::ng-deep .custom-profile-tabview .p-tabview-nav li:not(.p-highlight) .p-tabview-nav-link:hover {
+  color: #0F172A;
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+}
+
+:host ::ng-deep .custom-profile-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  color: #2563EB;
+  border-color: #2563EB;
+  background: #EFF6FF;
+  font-weight: 800;
 }
 
 :host ::ng-deep .custom-profile-tabview .p-tabview-panels {
