@@ -47,7 +47,7 @@
             
             <p class="text-xs sm:text-sm text-slate-200 flex items-center gap-2 font-medium">
               <i class="pi pi-graduation-cap text-blue-400"></i>
-              <span>Ingeniería de Software / Computer Science</span>
+              <span>{{ languageService.t('softwareEngineering') }}</span>
             </p>
 
             <div class="flex flex-wrap items-center gap-2.5 mt-2.5 text-xs text-slate-200">
@@ -78,7 +78,7 @@
         <!-- GPA -->
         <div class="bg-white/5 rounded-xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
           <div>
-            <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">GPA Acumulado</span>
+            <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('cumulativeGPA') }}</span>
             <p class="text-lg sm:text-xl font-black text-blue-300 mt-0.5 m-0 leading-tight">{{ cumulativeGpa }} <span class="text-xs font-bold text-slate-400">/ 4.0</span></p>
           </div>
           <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center flex-shrink-0 border border-blue-400/30 shadow-xs">
@@ -111,7 +111,7 @@
         <!-- Academic Standing -->
         <div class="bg-white/5 rounded-xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
           <div>
-            <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">Condición</span>
+            <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('condition') }}</span>
             <p class="text-xs font-extrabold text-amber-300 mt-1 m-0 flex items-center gap-1.5 leading-tight">
               <i class="pi pi-star-fill text-amber-400 text-xs"></i> {{ languageService.t('studentStatusHonor') }}
             </p>
@@ -131,10 +131,10 @@
         <div class="space-y-4 pt-2">
           <div class="flex items-center justify-between">
             <h3 class="font-extrabold text-sm text-gray-900 uppercase tracking-wider m-0">
-              Asignaturas Inscritas &bull; {{ languageService.t('currentTerm') }}
+              {{ languageService.t('enrolledCourses') }} &bull; {{ languageService.t('currentTerm') }}
             </h3>
             <span class="text-xs font-bold px-2.5 py-1 bg-gray-100 text-gray-700 rounded-lg border border-gray-200">
-              {{ courses.length }} Materias Activas
+              {{ courses.length }} {{ languageService.t('activeCourses') }}
             </span>
           </div>
 
@@ -142,14 +142,14 @@
             <table class="w-full text-left border-collapse text-xs sm:text-sm">
               <thead>
                 <tr class="bg-gray-100 text-gray-700 font-extrabold border-b border-gray-200 uppercase text-[11px]">
-                  <th class="p-3.5">Código / Materia</th>
-                  <th class="p-3.5">Docente</th>
-                  <th class="p-3.5">Horario & Aula</th>
+                  <th class="p-3.5">{{ languageService.t('courseCode') }} / {{ languageService.t('courseName') }}</th>
+                  <th class="p-3.5">{{ languageService.t('professor') }}</th>
+                  <th class="p-3.5">{{ languageService.t('scheduleAndRoom') }}</th>
                   <th class="p-3.5 text-center">P1</th>
                   <th class="p-3.5 text-center">P2</th>
-                  <th class="p-3.5 text-center">Final</th>
-                  <th class="p-3.5 text-center">Promedio</th>
-                  <th class="p-3.5 text-center">Estado</th>
+                  <th class="p-3.5 text-center">{{ languageService.t('finalGrade') }}</th>
+                  <th class="p-3.5 text-center">{{ languageService.t('average') }}</th>
+                  <th class="p-3.5 text-center">{{ languageService.t('status') }}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 font-medium text-gray-800">
@@ -179,7 +179,7 @@
                   </td>
                   <td class="p-3.5 text-center">
                     <span class="px-2.5 py-1 text-[11px] font-extrabold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-xs">
-                      Aprobado
+                      {{ languageService.t('approved') }}
                     </span>
                   </td>
                 </tr>
@@ -195,31 +195,31 @@
           <!-- Personal Data Card -->
           <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
             <h4 class="font-extrabold text-xs text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2 pb-2 border-b border-gray-100">
-              <i class="pi pi-user text-blue-600 text-sm"></i> Datos del Estudiante
+              <i class="pi pi-user text-blue-600 text-sm"></i> {{ languageService.t('studentPersonalData') }}
             </h4>
             <div class="space-y-3 text-xs sm:text-sm">
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Nombre Completo:</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('fullName') }}:</span>
                 <span class="font-extrabold text-gray-900">{{ student.FullName }}</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Matrícula:</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('code') }}:</span>
                 <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">{{ student.Code || 'STU-2024-001' }}</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Fecha de Nacimiento:</span>
-                <span class="font-bold text-gray-800">{{ student.DateOfBirth }} ({{ student.Age }} años)</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('dateOfBirth') }}:</span>
+                <span class="font-bold text-gray-800">{{ student.DateOfBirth }} ({{ student.Age }} {{ languageService.t('yearsOld') }})</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Género:</span>
-                <span class="font-bold text-gray-800">{{ student.Gender === 'M' ? 'Masculino' : 'Femenino' }}</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('gender') }}:</span>
+                <span class="font-bold text-gray-800">{{ languageService.getGenderLabel(student.Gender) }}</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
                 <span class="text-gray-600 font-semibold">{{ languageService.t('bloodType') }}:</span>
-                <span class="font-extrabold text-red-700 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-md">O Positivo (O+)</span>
+                <span class="font-extrabold text-red-700 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-md">{{ languageService.t('bloodTypeO') }}</span>
               </div>
               <div class="flex justify-between py-1.5">
-                <span class="text-gray-600 font-semibold">Dirección Residencial:</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('residentialAddress') }}:</span>
                 <span class="font-bold text-gray-800 text-right">{{ student.Address || 'Av. 27 de Febrero #45' }}</span>
               </div>
             </div>
@@ -232,24 +232,24 @@
             </h4>
             <div class="space-y-3 text-xs sm:text-sm">
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Tutor / Padre:</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('parentName') }}:</span>
                 <span class="font-extrabold text-gray-900">{{ student.ParentName || 'Maria Ramirez' }}</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Teléfono del Tutor:</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('parentPhone') }}:</span>
                 <span class="font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded">{{ student.ParentPhoneNumber || '(809) 555-1102' }}</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
-                <span class="text-gray-600 font-semibold">Correo Electrónico:</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('email') }}:</span>
                 <span class="font-bold text-gray-800">{{ student.EmailAddress || 'alejandro.ramirez@gmail.com' }}</span>
               </div>
               <div class="flex justify-between py-1.5 border-b border-gray-100">
                 <span class="text-gray-600 font-semibold">{{ languageService.t('enrollmentDate') }}:</span>
-                <span class="font-bold text-gray-800">15 de Enero de 2024</span>
+                <span class="font-bold text-gray-800">15 Jan 2024</span>
               </div>
               <div class="flex justify-between py-1.5">
-                <span class="text-gray-600 font-semibold">Estado de Cuenta:</span>
-                <span class="px-2.5 py-1 rounded-md text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-xs">Al Día / Solvente</span>
+                <span class="text-gray-600 font-semibold">{{ languageService.t('accountStatus') }}:</span>
+                <span class="px-2.5 py-1 rounded-md text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300 shadow-xs">{{ languageService.t('accountSolvent') }}</span>
               </div>
             </div>
           </div>
@@ -282,15 +282,15 @@
           <!-- Attendance Progress Bar -->
           <div class="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm space-y-3">
             <div class="flex justify-between text-xs font-extrabold">
-              <span class="text-gray-800 text-sm">Puntualidad Global del Ciclo</span>
-              <span class="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg text-xs">{{ attendanceMetrics.overallRate }}% (Excelente)</span>
+              <span class="text-gray-800 text-sm">{{ languageService.t('overallPunctuality') }}</span>
+              <span class="text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg text-xs">{{ attendanceMetrics.overallRate }}% ({{ languageService.t('excellent') }})</span>
             </div>
             <div class="w-full bg-gray-100 rounded-full h-3.5 overflow-hidden flex border border-gray-200">
               <div class="bg-emerald-500 h-full" style="width: 96.5%"></div>
               <div class="bg-amber-400 h-full" style="width: 3.5%"></div>
             </div>
             <p class="text-xs text-gray-500 italic font-medium">
-              * El mínimo institucional para derecho a examen final es del 80% de asistencia.
+              {{ languageService.t('attendancePolicy') }}
             </p>
           </div>
         </div>
@@ -310,7 +310,7 @@
                   <span class="px-2 py-0.5 bg-gray-100 text-gray-800 font-mono text-xs font-bold rounded border border-gray-200">
                     {{ a.subjectCode }}
                   </span>
-                  <span class="text-xs font-bold text-gray-500">{{ a.type }} &bull; Ponderación {{ a.weight }}%</span>
+                  <span class="text-xs font-bold text-gray-500">{{ a.type }} &bull; {{ languageService.t('weight') }} {{ a.weight }}%</span>
                 </div>
                 <h4 class="font-extrabold text-gray-900 text-sm m-0">{{ a.title }}</h4>
               </div>
@@ -322,7 +322,7 @@
               </span>
               <span class="px-3 py-1 text-xs font-black rounded-lg border shadow-xs"
                 [ngClass]="a.status === 'submitted' ? 'bg-emerald-100 text-emerald-900 border-emerald-300' : 'bg-amber-100 text-amber-900 border-amber-300'">
-                {{ a.status === 'submitted' ? 'Calificado (' + a.score + '/100)' : 'Pendiente' }}
+                {{ a.status === 'submitted' ? (languageService.t('graded') + ' (' + a.score + '/100)') : languageService.t('pending') }}
               </span>
             </div>
           </div>
@@ -340,10 +340,13 @@
             <!-- Institutional Watermark Header -->
             <div class="flex items-center justify-between border-b border-white/20 pb-3.5 mb-4">
               <div class="flex items-center gap-3">
-                <img src="/assets/logo.png" class="w-8 h-8 object-contain" />
+                <div class="w-7 h-7 rounded-lg p-1 flex items-center justify-center shadow-md border border-slate-700/60"
+                     style="background: linear-gradient(180deg, #0F172A 0%, #111827 100%);">
+                  <img src="/assets/logo.png" alt="Logo" class="w-full h-full object-contain" />
+                </div>
                 <div>
                   <h3 class="font-black text-sm text-white tracking-wider m-0">EDUTRACK ACADEMY</h3>
-                  <span class="text-[9px] text-blue-300 uppercase tracking-widest font-extrabold">Credencial Oficial Estudiantil</span>
+                  <span class="text-[9px] text-blue-300 uppercase tracking-widest font-extrabold">{{ languageService.t('officialStudentCredential') }}</span>
                 </div>
               </div>
               <span class="px-2.5 py-1 bg-blue-500/25 text-blue-200 border border-blue-400/40 rounded-full text-[10px] font-extrabold font-mono shadow-xs">
@@ -362,7 +365,7 @@
               </div>
 
               <div class="space-y-1 min-w-0">
-                <span class="text-[10px] text-blue-300 font-extrabold uppercase tracking-widest block">Estudiante Regular</span>
+                <span class="text-[10px] text-blue-300 font-extrabold uppercase tracking-widest block">{{ languageService.t('studentStatusActive') }}</span>
                 <h4 class="font-black text-lg text-white truncate m-0 leading-tight">
                   {{ student.FullName }}
                 </h4>
@@ -370,7 +373,7 @@
                   {{ student.Code || 'STU-2024-001' }}
                 </p>
                 <p class="text-xs text-slate-200 font-semibold truncate m-0">
-                  Ingeniería de Software
+                  {{ languageService.t('softwareEngineering') }}
                 </p>
                 <div class="flex items-center gap-2.5 pt-1.5 text-[10px] text-slate-300 font-medium">
                   <span>{{ languageService.t('bloodType') }}: <strong class="text-white font-bold">O+</strong></span>
@@ -401,9 +404,9 @@
               </div>
 
               <div class="text-right">
-                <span class="text-[9px] uppercase tracking-wider text-slate-300 font-extrabold block">Sello Digital</span>
+                <span class="text-[9px] uppercase tracking-wider text-slate-300 font-extrabold block">{{ languageService.t('digitalSeal') }}</span>
                 <span class="text-[10px] font-black text-emerald-300 bg-emerald-500/20 border border-emerald-400/40 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 shadow-xs">
-                  <i class="pi pi-verified"></i> ACTIVO
+                  <i class="pi pi-verified"></i> {{ languageService.t('active').toUpperCase() }}
                 </span>
               </div>
             </div>
@@ -423,7 +426,7 @@
   <ng-template pTemplate="footer">
     <div class="flex items-center justify-between w-full">
       <span class="text-xs text-gray-500 font-medium hidden sm:inline">
-        Sistema Académico EduTrack &bull; Expediente del Estudiante
+        {{ languageService.t('institutionName') }} &bull; {{ languageService.t('academicRecord') }}
       </span>
       <p-button severity="secondary" [label]="languageService.t('close')" icon="pi pi-times"
         (onClick)="close()" styleClass="font-semibold"></p-button>

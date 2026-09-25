@@ -10,11 +10,11 @@
           {{ languageService.t('navAttendance') }}
         </h1>
         <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full border border-emerald-200">
-          En Tiempo Real
+          {{ languageService.t('realTime') }}
         </span>
       </div>
       <p class="text-gray-600 text-xs sm:text-sm">
-        Toma de lista rápida y registro de asistencia diaria por asignatura
+        {{ languageService.t('attendanceTrackerSub') }}
       </p>
     </div>
 
@@ -33,7 +33,7 @@
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
         <!-- Subject Selector -->
         <div>
-          <label class="block text-[11px] font-bold uppercase text-gray-500 mb-1">Asignatura</label>
+          <label class="block text-[11px] font-bold uppercase text-gray-500 mb-1">{{ languageService.t('courseName') }}</label>
           <p-dropdown [options]="subjects" [(ngModel)]="selectedSubjectId" (onChange)="onSubjectChange()"
             optionLabel="Name" optionValue="Id" styleClass="w-full sm:w-72 text-sm font-semibold"
             [placeholder]="languageService.t('selectSubjectToTakeAttendance')">
@@ -48,11 +48,11 @@
 
         <!-- Date Selector -->
         <div>
-          <label class="block text-[11px] font-bold uppercase text-gray-500 mb-1">Fecha de Clase</label>
+          <label class="block text-[11px] font-bold uppercase text-gray-500 mb-1">{{ languageService.t('classDate') }}</label>
           <p-calendar [(ngModel)]="selectedDate" [showIcon]="true" dateFormat="yy-mm-dd" dataType="string"
             [showOnFocus]="true" [appendTo]="'body'"
             styleClass="w-full sm:w-56" inputStyleClass="w-full font-semibold text-sm cursor-pointer"
-            [placeholder]="'Seleccionar fecha'">
+            [placeholder]="languageService.t('selectDate')">
           </p-calendar>
         </div>
       </div>
@@ -73,7 +73,7 @@
     <!-- Total Students -->
     <div class="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm flex items-center justify-between gap-2">
       <div class="min-w-0">
-        <span class="text-[10px] text-gray-500 uppercase font-bold tracking-wider block truncate">Total Estudiantes</span>
+        <span class="text-[10px] text-gray-500 uppercase font-bold tracking-wider block truncate">{{ languageService.t('totalStudents') }}</span>
         <p class="text-2xl font-black text-gray-900 mt-0.5 m-0 leading-tight">{{ attendanceRecords.length }}</p>
       </div>
       <div class="w-10 h-10 rounded-xl bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0 shadow-xs">
@@ -130,12 +130,12 @@
   <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
     <div *ngIf="loading" class="p-12 text-center text-gray-400 text-sm">
       <i class="pi pi-spin pi-spinner text-3xl text-blue-600 mb-2 block"></i>
-      Cargando lista de estudiantes...
+      {{ languageService.t('loadingStudents') }}
     </div>
 
     <div *ngIf="!loading && attendanceRecords.length === 0" class="p-12 text-center text-gray-400 text-sm">
       <i class="pi pi-users text-4xl text-gray-300 mb-2 block"></i>
-      No hay estudiantes inscritos en esta asignatura.
+      {{ languageService.t('noStudentsEnrolled') }}
     </div>
 
     <div *ngIf="!loading && attendanceRecords.length > 0" class="overflow-x-auto">
@@ -143,10 +143,10 @@
         <thead>
           <tr class="bg-gray-50 text-gray-700 font-bold border-b border-gray-200 uppercase text-[11px]">
             <th class="py-3.5 px-3 w-12 text-center">#</th>
-            <th class="py-3.5 px-4 min-w-[200px]">Estudiante</th>
-            <th class="py-3.5 px-4 min-w-[120px]">Matrícula</th>
-            <th class="py-3.5 px-4 min-w-[340px] text-center">Estado de Asistencia</th>
-            <th class="py-3.5 px-4 min-w-[240px]">Observaciones / Nota</th>
+            <th class="py-3.5 px-4 min-w-[200px]">{{ languageService.t('student') }}</th>
+            <th class="py-3.5 px-4 min-w-[120px]">{{ languageService.t('code') }}</th>
+            <th class="py-3.5 px-4 min-w-[340px] text-center">{{ languageService.t('attendanceStatus') }}</th>
+            <th class="py-3.5 px-4 min-w-[240px]">{{ languageService.t('notesObservation') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -158,7 +158,7 @@
                   class="w-10 h-10 rounded-full object-cover border border-gray-200 shadow-xs shrink-0" />
                 <div>
                   <h4 class="font-extrabold text-gray-900 text-sm m-0">{{ item.studentName }}</h4>
-                  <span class="text-[11px] text-gray-500 font-medium">Estudiante Regular</span>
+                  <span class="text-[11px] text-gray-500 font-medium">{{ languageService.t('studentStatusActive') }}</span>
                 </div>
               </div>
             </td>
@@ -171,29 +171,29 @@
                 <button type="button" (click)="item.status = 'present'"
                   [ngClass]="item.status === 'present' ? 'bg-emerald-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
                   class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
-                  Presente
+                  {{ languageService.t('present') }}
                 </button>
                 <button type="button" (click)="item.status = 'late'"
                   [ngClass]="item.status === 'late' ? 'bg-amber-500 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
                   class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
-                  Tardanza
+                  {{ languageService.t('late') }}
                 </button>
                 <button type="button" (click)="item.status = 'absent'"
                   [ngClass]="item.status === 'absent' ? 'bg-rose-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
                   class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
-                  Ausente
+                  {{ languageService.t('absent') }}
                 </button>
                 <button type="button" (click)="item.status = 'excused'"
                   [ngClass]="item.status === 'excused' ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
                   class="px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
-                  Justificado
+                  {{ languageService.t('excused') }}
                 </button>
               </div>
             </td>
             <td class="py-3 px-4 align-middle">
               <div class="relative flex items-center w-full min-w-[240px] group">
                 <i class="pi pi-pencil absolute left-3 text-slate-400 text-xs pointer-events-none group-focus-within:text-blue-500 transition-colors"></i>
-                <input type="text" [(ngModel)]="item.notes" placeholder="Agregar nota u observación..."
+                <input type="text" [(ngModel)]="item.notes" [placeholder]="languageService.t('addNotePlaceholder')"
                   class="attendance-notes-input w-full h-9 text-xs pl-8 pr-7 text-slate-800 font-medium placeholder:text-slate-400 transition-all outline-none" />
                 <button *ngIf="item.notes" type="button" (click)="item.notes = ''"
                   class="absolute right-2.5 text-slate-400 hover:text-slate-600 p-0.5 rounded-full hover:bg-slate-200 transition">
