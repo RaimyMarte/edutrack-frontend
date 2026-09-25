@@ -39,7 +39,15 @@ export class LoginComponent {
       try {
         const user = await this.authService.login(this.username, pwd);
         if (user) {
-          await this.router.navigateByUrl(this.returnUrl || '/');
+          if (this.returnUrl && this.returnUrl !== '/') {
+            await this.router.navigateByUrl(this.returnUrl);
+          } else if (user.UserRoleId === 3) {
+            await this.router.navigate(['/student-portal']);
+          } else if (user.UserRoleId === 2) {
+            await this.router.navigate(['/professor']);
+          } else {
+            await this.router.navigate(['/']);
+          }
         }
       } catch (err: any) {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err?.message || 'Login failed' });

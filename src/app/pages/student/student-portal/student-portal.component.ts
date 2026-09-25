@@ -15,6 +15,33 @@ import { StudentReportCardComponent } from '../../../components/student/student-
 import { Student } from '../../../../types/student';
 import { User } from '../../../../types/user';
 
+export interface EnrolledCourseDetail {
+  code: string;
+  name: string;
+  credits: number;
+  professor: string;
+  professorAvatar: string;
+  schedule: string;
+  room: string;
+  p1: number;
+  p2: number;
+  final: number;
+  average: number;
+  letter: 'A' | 'B' | 'C' | 'F';
+  status: 'approved' | 'in_progress' | 'failed';
+}
+
+export interface UpcomingAssignment {
+  id: string;
+  subjectCode: string;
+  title: string;
+  dueDate: string;
+  type: 'Exam' | 'Project' | 'Homework' | 'Quiz';
+  weight: number;
+  status: 'submitted' | 'pending' | 'graded';
+  score?: number;
+}
+
 @Component({
   selector: 'app-student-portal',
   standalone: true,
@@ -58,13 +85,14 @@ export class StudentPortalComponent implements OnInit {
   reportCardVisible: boolean = false;
   activeTabIndex: number = 0;
 
-  courses = [
+  courses: EnrolledCourseDetail[] = [
     {
       code: 'MAT-101',
       name: 'Cálculo Diferencial',
       credits: 4,
       professor: 'Carlos Santana',
       professorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+      schedule: 'Lun / Mié 08:00 - 10:00',
       room: 'Aula A-204',
       p1: 94,
       p2: 90,
@@ -79,6 +107,7 @@ export class StudentPortalComponent implements OnInit {
       credits: 5,
       professor: 'Elena Gomez',
       professorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+      schedule: 'Lun / Jue 10:30 - 12:30',
       room: 'Lab Computación 3',
       p1: 88,
       p2: 92,
@@ -93,6 +122,7 @@ export class StudentPortalComponent implements OnInit {
       credits: 4,
       professor: 'Marco Diaz',
       professorAvatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
+      schedule: 'Mar 09:00 - 11:00',
       room: 'Lab Física Experimental',
       p1: 82,
       p2: 85,
@@ -107,6 +137,7 @@ export class StudentPortalComponent implements OnInit {
       credits: 4,
       professor: 'Laura Perez',
       professorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      schedule: 'Mar / Vie 02:00 - 04:00',
       room: 'Centro de Datos 102',
       p1: 95,
       p2: 98,
@@ -114,6 +145,55 @@ export class StudentPortalComponent implements OnInit {
       average: 95.6,
       letter: 'A',
       status: 'approved'
+    }
+  ];
+
+  attendanceMetrics = {
+    overallRate: 96.5,
+    presentDays: 58,
+    lateDays: 2,
+    absentDays: 0,
+    excusedDays: 1,
+    totalSessions: 61
+  };
+
+  assignments: UpcomingAssignment[] = [
+    {
+      id: 'asg-1',
+      subjectCode: 'INF-201',
+      title: 'Implementación de Árboles AVL y Grafos',
+      dueDate: '2024-10-15',
+      type: 'Project',
+      weight: 25,
+      status: 'submitted',
+      score: 95
+    },
+    {
+      id: 'asg-2',
+      subjectCode: 'MAT-101',
+      title: 'Examen Parcial II: Integración por Partes',
+      dueDate: '2024-10-20',
+      type: 'Exam',
+      weight: 30,
+      status: 'pending'
+    },
+    {
+      id: 'asg-3',
+      subjectCode: 'DB-301',
+      title: 'Modelo Relacional & Normalización 3NF',
+      dueDate: '2024-10-24',
+      type: 'Homework',
+      weight: 15,
+      status: 'pending'
+    },
+    {
+      id: 'asg-4',
+      subjectCode: 'FIS-102',
+      title: 'Informe de Laboratorio: Péndulo Simple',
+      dueDate: '2024-10-28',
+      type: 'Quiz',
+      weight: 10,
+      status: 'pending'
     }
   ];
 

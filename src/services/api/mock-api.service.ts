@@ -145,6 +145,32 @@ const INITIAL_USERS: User[] = [
     Picture: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150',
     UserRole: { Name: 'Professor' },
   },
+  {
+    Id: 'usr-6',
+    FirstName: 'Alejandro',
+    LastName: 'Ramirez',
+    UserName: 'student',
+    FullName: 'Alejandro Ramirez',
+    Gender: 'M',
+    Email: 'student@edutrack.com',
+    Phone: '(809) 555-0106',
+    ChangePwdNextLogin: false,
+    LastPwdChangedDate: null,
+    UserRoleId: 3,
+    Authorized: true,
+    Locked: false,
+    LockedDate: null,
+    Deleted: false,
+    DeletedDate: null,
+    CreatedBy: 'admin',
+    CreatedDate: new Date('2024-01-16T10:00:00'),
+    LastUpdatedBy: null,
+    LastUpdatedDate: null,
+    LastIpAccess: '192.168.1.35',
+    LastAccessDate: new Date(),
+    Picture: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150',
+    UserRole: { Name: 'Student' },
+  },
 ];
 
 const INITIAL_STUDENTS: Student[] = [
@@ -466,7 +492,16 @@ export class MockApiService {
   }
 
   private getUsers(): User[] {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS) || JSON.stringify(INITIAL_USERS));
+    const raw = localStorage.getItem(STORAGE_KEYS.USERS);
+    let users: User[] = raw ? JSON.parse(raw) : INITIAL_USERS;
+    if (!users.some(u => u.UserRoleId === 3)) {
+      const studentUser = INITIAL_USERS.find(u => u.UserRoleId === 3);
+      if (studentUser) {
+        users.push(studentUser);
+        localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+      }
+    }
+    return users;
   }
   private setUsers(users: User[]) {
     localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
@@ -546,7 +581,16 @@ export class MockApiService {
       const input = (UserNameOrEmail || '').toLowerCase().trim();
 
       let foundUser: User;
-      if (input.includes('prof')) {
+      const exactMatch = users.find(u => 
+        (u.UserName && u.UserName.toLowerCase() === input) ||
+        (u.Email && u.Email.toLowerCase() === input)
+      );
+
+      if (exactMatch) {
+        foundUser = exactMatch;
+      } else if (input.includes('student') || input.includes('alumno') || input.includes('stu')) {
+        foundUser = users.find(u => u.UserRoleId === 3) || users[users.length - 1];
+      } else if (input.includes('prof') || input.includes('docente')) {
         foundUser = users.find(u => u.UserRoleId === 2) || users[1];
       } else {
         foundUser = users.find(u => u.UserRoleId === 1) || users[0];

@@ -30,51 +30,61 @@ export const routes: Routes = [
         path: 'student-portal',
         component: StudentPortalComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 3] }
       },
       {
         path: 'attendance',
         component: AttendanceTrackerComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2] }
       },
       {
         path: 'professor',
         component: ProfessorDashboardComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2] }
       },
       {
         path: 'schedule',
         component: ScheduleComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2, 3] }
       },
       {
         path: 'subjects',
         component: SubjectsListComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2] }
       },
       {
         path: 'subjects/enroll/:subjectId', 
         component: StudentSubjectPickListComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2] }
       },     
       {
         path: 'subjects/attendance/:subjectId', 
         component: SubjectAttendanceComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2] }
       },    
       {
         path: 'subjects/grades/:subjectId', 
         component: StudentsGradesComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1, 2] }
       },    
       {
         path: 'students',
         component: StudentsListComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1] }
       },
       {
         path: 'users',
         component: UserListComponent,
         canActivate: [AuthGuard],
+        data: { roles: [1] }
       },
     ]
   },

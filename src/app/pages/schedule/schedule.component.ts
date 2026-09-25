@@ -226,8 +226,12 @@ export class ScheduleComponent implements OnInit {
     return this.currentUser?.UserRoleId === 2;
   }
 
+  get isStudent(): boolean {
+    return this.currentUser?.UserRoleId === 3;
+  }
+
   get isAdministrator(): boolean {
-    return this.currentUser?.UserRoleId === 1 || !this.currentUser;
+    return this.currentUser?.UserRoleId === 1;
   }
 
   get professorDropdownOptions() {
