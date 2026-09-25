@@ -237,14 +237,16 @@ a { text-decoration: none; }
 }
 
 /* Input fields */
-.p-inputtext {
+input.p-inputtext,
+textarea.p-inputtext {
   font-family: var(--font-family) !important;
   border-radius: var(--radius-md) !important;
   border-color: #E2E8F0 !important;
   transition: all 0.18s ease !important;
 }
 
-.p-inputtext:focus {
+input.p-inputtext:focus,
+textarea.p-inputtext:focus {
   border-color: var(--primary-color) !important;
   box-shadow: var(--focus-ring) !important;
 }
@@ -252,12 +254,37 @@ a { text-decoration: none; }
 /* Dropdown */
 .p-dropdown {
   border-radius: var(--radius-md) !important;
-  border-color: #E2E8F0 !important;
+  border: 1px solid #E2E8F0 !important;
+  background: #FFFFFF !important;
+  box-shadow: none !important;
+  transition: all 0.18s ease !important;
+}
+
+.p-dropdown:not(.p-disabled):hover {
+  border-color: #CBD5E1 !important;
 }
 
 .p-dropdown:not(.p-disabled).p-focus {
   box-shadow: var(--focus-ring) !important;
   border-color: var(--primary-color) !important;
+  outline: none !important;
+}
+
+/* Fix inner label in dropdown from inheriting input borders / inner focus ring */
+.p-dropdown .p-dropdown-label,
+.p-dropdown .p-dropdown-label.p-inputtext,
+.p-dropdown .p-dropdown-label.p-inputtext:focus,
+.p-dropdown .p-dropdown-label:focus {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+.p-dropdown .p-hidden-accessible input:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .p-dropdown-panel {
