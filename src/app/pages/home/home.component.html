@@ -22,21 +22,20 @@
 
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
         <a routerLink="/subjects"
-          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition transform hover:-translate-y-0.5">
           <i class="pi pi-book font-bold"></i> {{ languageService.t('viewSubjects') }}
         </a>
         <a *ngIf="currentUser?.UserRoleId === 1" routerLink="/students"
-          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-xs shadow-md transition transform hover:-translate-y-0.5">
           <i class="pi pi-address-book font-bold"></i> {{ languageService.t('viewStudents') }}
         </a>
         <a *ngIf="currentUser?.UserRoleId === 1" routerLink="/finances"
-          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-xs shadow-md transition transform hover:-translate-y-0.5">
           <i class="pi pi-credit-card font-bold text-emerald-400"></i> {{ languageService.t('navBilling') }}
         </a>
         <button type="button" (click)="exportSystemReport()"
-          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-semibold text-sm transition"
-          [pTooltip]="languageService.t('exportData')" tooltipPosition="bottom">
-          <i class="pi pi-download font-bold"></i> {{ languageService.t('exportData') }}
+          class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-xs shadow-md transition transform hover:-translate-y-0.5 cursor-pointer">
+          <i class="pi pi-file-excel font-bold text-emerald-400"></i> {{ languageService.t('exportData') }}
         </button>
       </div>
     </div>
@@ -181,11 +180,11 @@
           </a>
 
           <button type="button" (click)="exportSystemReport()"
-            class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm font-bold transition group text-left">
+            class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white text-sm font-bold transition group text-left cursor-pointer">
             <span class="flex items-center gap-2.5">
-              <i class="pi pi-file-excel text-green-400 font-bold"></i> {{ languageService.t('exportData') }}
+              <i class="pi pi-file-excel text-emerald-400 font-bold"></i> {{ languageService.t('exportData') }}
             </span>
-            <i class="pi pi-download text-xs text-gray-400 group-hover:translate-x-1 transition-transform"></i>
+            <i class="pi pi-chevron-right text-xs text-gray-400 group-hover:translate-x-1 transition-transform"></i>
           </button>
         </div>
       </div>
@@ -211,25 +210,25 @@
       </div>
 
       <div class="divide-y divide-gray-100">
-        <div *ngFor="let subject of recentSubjects" class="py-3.5 flex items-center justify-between hover:bg-gray-50/80 px-3 rounded-xl transition">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm shadow-2xs">
+        <div *ngFor="let subject of recentSubjects" class="py-3.5 flex items-center justify-between gap-3 hover:bg-gray-50/80 px-3 rounded-xl transition">
+          <div class="flex items-center gap-3 min-w-0 flex-1">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm shadow-2xs shrink-0">
               <i class="pi pi-bookmark"></i>
             </div>
-            <div>
-              <p class="text-sm font-bold text-gray-900">{{ subject.Name }}</p>
-              <p class="text-xs font-semibold text-gray-500">{{ subject.Code || 'No code' }}</p>
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-bold text-gray-900 truncate m-0">{{ subject.Name }}</p>
+              <p class="text-xs font-semibold text-gray-500 truncate m-0">{{ subject.Code || 'No code' }}</p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="px-2.5 py-1 text-xs font-bold rounded-lg border"
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="px-2.5 py-1 text-xs font-bold rounded-lg border hidden sm:inline-block"
                   [ngClass]="subject.Enabled ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-gray-100 text-gray-600 border-gray-200'">
               {{ subject.Enabled ? languageService.t('active') : languageService.t('inactive') }}
             </span>
             <a [routerLink]="['/subjects/grades', subject.Id]"
-               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-50 hover:bg-blue-50 border border-gray-200 hover:border-blue-200 text-gray-700 hover:text-blue-600 font-bold text-xs transition shadow-2xs active:scale-95 group" [pTooltip]="languageService.t('grades')" tooltipPosition="left">
-              <i class="pi pi-file-edit text-xs text-gray-500 group-hover:text-blue-600"></i>
-              <span class="hidden sm:inline">{{ languageService.t('grades') }}</span>
+               pButton pRipple icon="pi pi-file-edit" [label]="languageService.t('grades')"
+               class="p-button-secondary p-button-outlined rounded-xl font-bold text-xs py-1.5 px-3"
+               [pTooltip]="languageService.t('grades')" tooltipPosition="left">
             </a>
           </div>
         </div>
@@ -237,36 +236,35 @@
     </div>
 
     <!-- Recent Students with Quick Profile Action -->
-    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+    <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h2 class="text-xl font-bold text-gray-900">{{ languageService.t('registeredStudents') }}</h2>
-          <p class="text-xs font-medium text-gray-600 mt-0.5">{{ languageService.t('registeredStudentsSub') }}</p>
+          <h2 class="text-lg sm:text-xl font-bold text-gray-900 m-0">{{ languageService.t('registeredStudents') }}</h2>
+          <p class="text-xs font-medium text-gray-600 mt-0.5 m-0">{{ languageService.t('registeredStudentsSub') }}</p>
         </div>
-        <a routerLink="/students" class="text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
+        <a routerLink="/students" class="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
           {{ languageService.t('viewAll') }} <i class="pi pi-arrow-right text-xs"></i>
         </a>
       </div>
 
       <div class="divide-y divide-gray-100">
-        <div *ngFor="let student of recentStudents" class="py-3.5 flex items-center justify-between hover:bg-gray-50/80 px-3 rounded-xl transition">
-          <div class="flex items-center gap-3">
+        <div *ngFor="let student of recentStudents" class="py-3.5 flex items-center justify-between gap-3 hover:bg-gray-50/80 px-3 rounded-xl transition">
+          <div class="flex items-center gap-3 min-w-0 flex-1">
             <img [src]="student.Picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'"
-                 class="w-10 h-10 rounded-full object-cover border border-gray-200 shadow-xs" alt="Avatar">
-            <div>
-              <p class="text-sm font-bold text-gray-900">{{ student.FullName }}</p>
-              <p class="text-xs font-medium text-gray-500">{{ student.EmailAddress || student.Code }}</p>
+                 class="w-10 h-10 rounded-full object-cover border border-gray-200 shadow-xs shrink-0" alt="Avatar">
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-bold text-gray-900 truncate m-0">{{ student.FullName }}</p>
+              <p class="text-xs font-medium text-gray-500 truncate m-0">{{ student.EmailAddress || student.Code }}</p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-gray-600 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-lg hidden sm:inline">
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-xs font-bold text-gray-600 bg-gray-100 border border-gray-200 px-2.5 py-1 rounded-lg hidden md:inline">
               {{ student.Age ? student.Age + ' ' + languageService.t('yearsOld') : languageService.t('student') }}
             </span>
-            <button type="button" (click)="openStudentProfile(student)"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white border border-blue-200 hover:border-blue-600 font-bold text-xs transition-all shadow-2xs hover:shadow-md active:scale-95 group cursor-pointer"
+            <button pButton pRipple type="button" (click)="openStudentProfile(student)"
+              icon="pi pi-id-card" [label]="languageService.t('viewProfile')"
+              class="p-button-primary rounded-xl font-bold text-xs shadow-xs"
               [pTooltip]="languageService.t('view360Profile')" tooltipPosition="left">
-              <i class="pi pi-id-card text-xs text-blue-600 group-hover:text-white transition-colors"></i>
-              <span class="font-bold">{{ languageService.t('viewProfile') }}</span>
             </button>
           </div>
         </div>

@@ -37,13 +37,13 @@
     </div>
 
     <!-- Metrics Ribbon in DOP -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
       
       <!-- Total Collected -->
       <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
         <div>
           <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('totalCollected') }}</span>
-          <p class="text-lg sm:text-2xl font-black text-emerald-300 mt-0.5 m-0 leading-tight">
+          <p class="text-xl sm:text-2xl font-black text-emerald-300 mt-0.5 m-0 leading-tight">
             RD$ {{ totalCollected | number:'1.2-2' }}
           </p>
         </div>
@@ -56,7 +56,7 @@
       <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
         <div>
           <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('totalPendingReceivable') }}</span>
-          <p class="text-lg sm:text-2xl font-black text-amber-300 mt-0.5 m-0 leading-tight">
+          <p class="text-xl sm:text-2xl font-black text-amber-300 mt-0.5 m-0 leading-tight">
             RD$ {{ totalPending | number:'1.2-2' }}
           </p>
         </div>
@@ -69,7 +69,7 @@
       <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
         <div>
           <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('collectionRate') }}</span>
-          <p class="text-lg sm:text-2xl font-black text-blue-300 mt-0.5 m-0 leading-tight">
+          <p class="text-xl sm:text-2xl font-black text-blue-300 mt-0.5 m-0 leading-tight">
             {{ collectionRate }}%
           </p>
         </div>
@@ -109,22 +109,22 @@
       </span>
 
       <!-- Filter Buttons (Matching Attendance Status Control) -->
-      <div class="inline-flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200/80 gap-1 shadow-inner shrink-0 self-start sm:self-auto">
+      <div class="inline-flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200/80 gap-1 shadow-inner shrink-0 self-start sm:self-auto max-w-full overflow-x-auto">
         <button type="button" (click)="selectedStatusFilter = 'ALL'"
           [ngClass]="selectedStatusFilter === 'ALL' ? 'bg-slate-900 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
-          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
+          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 whitespace-nowrap">
           {{ languageService.t('allStatuses') }} ({{ invoices.length }})
         </button>
 
         <button type="button" (click)="selectedStatusFilter = 'PAID'"
           [ngClass]="selectedStatusFilter === 'PAID' ? 'bg-emerald-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
-          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 flex items-center gap-1.5">
+          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 flex items-center gap-1.5 whitespace-nowrap">
           <i class="pi pi-check text-[10px]"></i> {{ languageService.t('paid') }}
         </button>
 
         <button type="button" (click)="selectedStatusFilter = 'PENDING'"
           [ngClass]="selectedStatusFilter === 'PENDING' ? 'bg-amber-500 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
-          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 flex items-center gap-1.5">
+          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 flex items-center gap-1.5 whitespace-nowrap">
           <i class="pi pi-clock text-[10px]"></i> {{ languageService.t('financialPending') }}
         </button>
       </div>
@@ -133,7 +133,7 @@
 
     <!-- Payments & Invoices Table -->
     <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
+      <table class="w-full min-w-[760px] text-left border-collapse">
         <thead>
           <tr class="border-b border-slate-100 bg-slate-50/75 text-[11px] font-black text-slate-500 uppercase tracking-wider">
             <th class="py-3.5 px-4 sm:px-6">{{ languageService.t('student') }}</th>
