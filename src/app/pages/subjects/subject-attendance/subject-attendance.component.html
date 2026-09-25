@@ -53,7 +53,7 @@
         <div class="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
             <div class="flex-1">
                 <h2 class="text-base font-bold text-gray-900 m-0">{{ languageService.t('attendanceDate') }}</h2>
-                <p class="text-xs text-gray-500 m-0 mt-0.5">Selecciona una fecha para ver o actualizar la asistencia</p>
+                <p class="text-xs text-gray-500 m-0 mt-0.5">{{ languageService.t('selectDateAttendanceSub') }}</p>
             </div>
             <input id="attendance-date" type="date" [(ngModel)]="selectedDate"
                 (ngModelChange)="onDateChange($event)"

@@ -10,7 +10,7 @@
           {{ languageService.t('professorPortal') }}
         </div>
         <h1 class="text-3xl sm:text-4xl font-extrabold mt-3 tracking-tight text-white">
-          {{ currentUser?.FullName }}'s Courses
+          {{ languageService.t('professorCourses') }}
         </h1>
         <p class="text-slate-200 mt-2 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
           {{ languageService.t('professorCoursesSub') }}
@@ -45,7 +45,7 @@
           </div>
 
           <h3 class="text-lg font-bold text-gray-900 mb-1">{{ course.Name }}</h3>
-          <p class="text-xs text-gray-600 line-clamp-2 mb-4 font-normal">{{ course.Description || 'No syllabus description provided.' }}</p>
+          <p class="text-xs text-gray-600 line-clamp-2 mb-4 font-normal">{{ course.Description || languageService.t('noSyllabusDescription') }}</p>
 
           <div class="text-xs text-gray-600 space-y-1.5 mb-6 bg-gray-50 p-3.5 rounded-xl border border-gray-200">
             <div class="flex justify-between">

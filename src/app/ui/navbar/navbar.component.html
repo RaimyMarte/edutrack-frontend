@@ -2,7 +2,7 @@
   <ng-template pTemplate="start">
     <button pButton pRipple icon="pi pi-bars" (click)="toggleSidebar()"
       class="p-button-text p-button-rounded text-gray-700 hover:bg-gray-100"
-      [pTooltip]="sidebarVisible ? 'Hide Sidebar' : 'Show Sidebar'" tooltipPosition="bottom">
+      [pTooltip]="sidebarVisible ? languageService.t('hideSidebar') : languageService.t('showSidebar')" tooltipPosition="bottom">
     </button>
   </ng-template>
 
@@ -83,7 +83,7 @@
       <!-- User Profile Pill -->
       <div class="flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-xl bg-gray-50 border border-gray-200">
         <p-avatar [image]="authService.currentUserValue.Picture ||''" styleClass="border border-gray-200 shadow-sm"
-          [pTooltip]="(languageService.currentLang() === 'en' ? 'Logged in as ' : 'Conectado como ') + (authService.currentUserValue.UserName || authService.currentUserValue.Email)"
+          [pTooltip]="languageService.t('loggedInAs') + ': ' + (authService.currentUserValue.UserName || authService.currentUserValue.Email)"
           tooltipPosition="bottom" shape="circle">
         </p-avatar>
         <span class="font-bold text-gray-800 text-xs sm:text-sm hidden md:inline truncate max-w-[120px]">
@@ -93,10 +93,9 @@
 
       <!-- Logout Button -->
       <button pButton pRipple (click)="logout()" icon="pi pi-sign-out"
-        [pTooltip]="languageService.currentLang() === 'en' ? 'Sign out' : 'Cerrar sesión'" tooltipPosition="bottom"
+        [pTooltip]="languageService.t('logout')" tooltipPosition="bottom"
         class="p-button-text p-button-danger text-xs sm:text-sm p-2 rounded-xl flex items-center">
-        <span class="hidden sm:inline font-bold ml-1">{{ languageService.currentLang() === 'en' ? 'Logout' : 'Salir'
-          }}</span>
+        <span class="hidden sm:inline font-bold ml-1">{{ languageService.t('logout') }}</span>
       </button>
     </div>
   </ng-template>
