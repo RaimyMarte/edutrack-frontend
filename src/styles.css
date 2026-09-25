@@ -109,7 +109,7 @@ a { text-decoration: none; }
 }
 
 /* Primary Button (Style of "Save Attendance") */
-.p-button.p-button-primary,
+.p-button.p-button-primary:not(.p-button-outlined):not(.p-button-text),
 :not(.p-selectbutton):not(.p-paginator) > .p-button:not([class*="p-button-secondary"]):not([class*="p-button-danger"]):not([class*="p-button-success"]):not([class*="p-button-warning"]):not([class*="p-button-info"]):not([class*="p-button-help"]):not([class*="p-button-outlined"]):not([class*="p-button-text"]):not(.p-tabview-nav-link) {
   background: #3B82F6 !important;
   border: 1px solid #3B82F6 !important;
@@ -117,7 +117,7 @@ a { text-decoration: none; }
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important; /* shadow-md */
 }
 
-.p-button.p-button-primary:hover,
+.p-button.p-button-primary:not(.p-button-outlined):not(.p-button-text):hover,
 :not(.p-selectbutton):not(.p-paginator) > .p-button:not([class*="p-button-secondary"]):not([class*="p-button-danger"]):not([class*="p-button-success"]):not([class*="p-button-warning"]):not([class*="p-button-info"]):not([class*="p-button-help"]):not([class*="p-button-outlined"]):not([class*="p-button-text"]):not(.p-tabview-nav-link):hover {
   background: #2563EB !important;
   border-color: #2563EB !important;
@@ -143,7 +143,23 @@ a { text-decoration: none; }
   transform: translateY(-1px);
 }
 
-/* Outlined Secondary Button */
+/* Outlined Buttons */
+.p-button.p-button-outlined {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.p-button.p-button-outlined.p-button-primary {
+  border: 1px solid #3B82F6 !important;
+  color: #2563EB !important;
+}
+
+.p-button.p-button-outlined.p-button-primary:hover {
+  background: #EFF6FF !important;
+  border-color: #2563EB !important;
+  color: #1D4ED8 !important;
+}
+
 .p-button.p-button-secondary.p-button-outlined {
   background: transparent !important;
   border: 1px solid #D1D5DB !important;
@@ -187,12 +203,79 @@ a { text-decoration: none; }
   transform: translateY(-1px);
 }
 
-/* Text and Rounded Action Icons */
+/* Text and Rounded Action Icons (e.g. Table actions) */
 .p-button.p-button-text {
   background: transparent !important;
   box-shadow: none !important;
   padding: 0.5rem !important;
   border: none !important;
+  transform: none !important;
+}
+
+/* Text Button Colors per Severity */
+.p-button.p-button-text.p-button-primary,
+.p-button.p-button-text:not([class*="p-button-secondary"]):not([class*="p-button-danger"]):not([class*="p-button-success"]):not([class*="p-button-warning"]):not([class*="p-button-info"]):not([class*="p-button-help"]) {
+  color: #2563EB !important;
+}
+
+.p-button.p-button-text.p-button-primary:hover,
+.p-button.p-button-text:not([class*="p-button-secondary"]):not([class*="p-button-danger"]):not([class*="p-button-success"]):not([class*="p-button-warning"]):not([class*="p-button-info"]):not([class*="p-button-help"]):hover {
+  background: #EFF6FF !important;
+  color: #1D4ED8 !important;
+}
+
+.p-button.p-button-text.p-button-secondary {
+  color: #4B5563 !important;
+}
+
+.p-button.p-button-text.p-button-secondary:hover {
+  background: #F3F4F6 !important;
+  color: #1F2937 !important;
+}
+
+.p-button.p-button-text.p-button-success {
+  color: #059669 !important;
+}
+
+.p-button.p-button-text.p-button-success:hover {
+  background: #ECFDF5 !important;
+  color: #047857 !important;
+}
+
+.p-button.p-button-text.p-button-danger {
+  color: #DC2626 !important;
+}
+
+.p-button.p-button-text.p-button-danger:hover {
+  background: #FEF2F2 !important;
+  color: #B91C1C !important;
+}
+
+.p-button.p-button-text.p-button-warning {
+  color: #D97706 !important;
+}
+
+.p-button.p-button-text.p-button-warning:hover {
+  background: #FFFBEB !important;
+  color: #B45309 !important;
+}
+
+.p-button.p-button-text.p-button-help {
+  color: #7C3AED !important;
+}
+
+.p-button.p-button-text.p-button-help:hover {
+  background: #F5F3FF !important;
+  color: #6D28D9 !important;
+}
+
+.p-button.p-button-text.p-button-info {
+  color: #0284C7 !important;
+}
+
+.p-button.p-button-text.p-button-info:hover {
+  background: #F0F9FF !important;
+  color: #0369A1 !important;
 }
 
 .p-button.p-button-rounded {
