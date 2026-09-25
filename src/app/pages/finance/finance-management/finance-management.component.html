@@ -1,0 +1,337 @@
+<p-toast></p-toast>
+<div class="min-h-screen bg-gray-50/60 p-3 sm:p-5 lg:p-6 max-w-7xl mx-auto space-y-6">
+
+  <!-- Hero Header Banner (Consistent Dark Slate Theme) -->
+  <div style="background: linear-gradient(135deg, #0F172A 0%, #111827 100%);"
+    class="text-white rounded-3xl p-5 sm:p-7 border border-slate-800 shadow-2xl relative overflow-hidden">
+    
+    <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div class="flex items-center gap-4 sm:gap-5">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-blue-600/20 border border-blue-400/30 text-blue-400 flex items-center justify-center shadow-xl flex-shrink-0">
+          <i class="pi pi-receipt text-2xl sm:text-3xl font-bold"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5 mb-1">
+            <h1 class="text-xl sm:text-3xl font-black text-white tracking-tight m-0">
+              {{ languageService.t('adminFinancesTitle') }}
+            </h1>
+            <span class="px-2.5 py-0.5 bg-blue-500/20 text-blue-300 text-xs font-bold rounded-lg border border-blue-400/30 font-mono">
+              {{ languageService.t('financialOffice') }}
+            </span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-300 font-medium m-0 max-w-2xl">
+            {{ languageService.t('adminFinancesSub') }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action: Export Report -->
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <button pButton pRipple type="button" (click)="exportReport()"
+          icon="pi pi-download" [label]="languageService.t('exportFinanceReport') + ' (CSV)'"
+          class="p-button-primary rounded-xl font-bold text-xs shadow-md">
+        </button>
+      </div>
+    </div>
+
+    <!-- Metrics Ribbon in DOP -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-5 border-t border-white/10">
+      
+      <!-- Total Collected -->
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
+        <div>
+          <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('totalCollected') }}</span>
+          <p class="text-lg sm:text-2xl font-black text-emerald-300 mt-0.5 m-0 leading-tight">
+            RD$ {{ totalCollected | number:'1.2-2' }}
+          </p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center flex-shrink-0 border border-emerald-400/30 shadow-xs">
+          <i class="pi pi-dollar text-base"></i>
+        </div>
+      </div>
+
+      <!-- Pending Receivable -->
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
+        <div>
+          <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('totalPendingReceivable') }}</span>
+          <p class="text-lg sm:text-2xl font-black text-amber-300 mt-0.5 m-0 leading-tight">
+            RD$ {{ totalPending | number:'1.2-2' }}
+          </p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center flex-shrink-0 border border-amber-400/30 shadow-xs">
+          <i class="pi pi-clock text-base"></i>
+        </div>
+      </div>
+
+      <!-- Collection Rate -->
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
+        <div>
+          <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('collectionRate') }}</span>
+          <p class="text-lg sm:text-2xl font-black text-blue-300 mt-0.5 m-0 leading-tight">
+            {{ collectionRate }}%
+          </p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center flex-shrink-0 border border-blue-400/30 shadow-xs">
+          <i class="pi pi-percentage text-base"></i>
+        </div>
+      </div>
+
+      <!-- Solvent Students -->
+      <div class="bg-white/5 rounded-2xl p-3.5 border border-white/10 shadow-xs flex items-center justify-between backdrop-blur-xs">
+        <div>
+          <span class="text-[10px] text-slate-300 uppercase font-extrabold tracking-wider block">{{ languageService.t('solventStudents') }}</span>
+          <p class="text-xs sm:text-sm font-extrabold text-indigo-300 mt-1 m-0 flex items-center gap-1.5 leading-tight">
+            <i class="pi pi-check-circle text-indigo-400"></i> {{ solventStudentsCount }} / {{ uniqueStudentsCount }} Estudiantes
+          </p>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center flex-shrink-0 border border-indigo-400/30 shadow-xs">
+          <i class="pi pi-users text-base"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main Content Card: Invoices & Payments Table -->
+  <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+    
+    <!-- Table Toolbar & Filters -->
+    <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5 bg-slate-50/40">
+      
+      <!-- Search Input (Standard p-input-icon-left wrapper) -->
+      <span class="p-input-icon-left w-full flex-1 max-w-md">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText [(ngModel)]="searchTerm"
+          [placeholder]="languageService.t('studentCodeOrName')"
+          class="w-full text-xs" />
+      </span>
+
+      <!-- Filter Buttons (Matching Attendance Status Control) -->
+      <div class="inline-flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200/80 gap-1 shadow-inner shrink-0 self-start sm:self-auto">
+        <button type="button" (click)="selectedStatusFilter = 'ALL'"
+          [ngClass]="selectedStatusFilter === 'ALL' ? 'bg-slate-900 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95">
+          {{ languageService.t('allStatuses') }} ({{ invoices.length }})
+        </button>
+
+        <button type="button" (click)="selectedStatusFilter = 'PAID'"
+          [ngClass]="selectedStatusFilter === 'PAID' ? 'bg-emerald-600 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 flex items-center gap-1.5">
+          <i class="pi pi-check text-[10px]"></i> {{ languageService.t('paid') }}
+        </button>
+
+        <button type="button" (click)="selectedStatusFilter = 'PENDING'"
+          [ngClass]="selectedStatusFilter === 'PENDING' ? 'bg-amber-500 text-white font-bold shadow-sm' : 'text-slate-600 hover:text-slate-900 hover:bg-white/70 font-semibold'"
+          class="px-3.5 py-1.5 rounded-lg text-xs transition-all cursor-pointer border-0 active:scale-95 flex items-center gap-1.5">
+          <i class="pi pi-clock text-[10px]"></i> {{ languageService.t('financialPending') }}
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Payments & Invoices Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="border-b border-slate-100 bg-slate-50/75 text-[11px] font-black text-slate-500 uppercase tracking-wider">
+            <th class="py-3.5 px-4 sm:px-6">{{ languageService.t('student') }}</th>
+            <th class="py-3.5 px-4">{{ languageService.t('concept') }}</th>
+            <th class="py-3.5 px-4">{{ languageService.t('dueDate') }}</th>
+            <th class="py-3.5 px-4">{{ languageService.t('amount') }}</th>
+            <th class="py-3.5 px-4">{{ languageService.t('condition') }}</th>
+            <th class="py-3.5 px-4">{{ languageService.t('folioNumber') }} / Método</th>
+            <th class="py-3.5 px-4 sm:px-6 text-right">{{ languageService.t('actions') }}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 text-xs text-slate-700">
+          <tr *ngFor="let item of filteredInvoices" class="hover:bg-slate-50/50 transition">
+            
+            <!-- Student Info (Only Student Name and Code, No Career) -->
+            <td class="py-3.5 px-4 sm:px-6">
+              <div class="flex items-center gap-3">
+                <img [src]="item.student.Picture" [alt]="item.student.FullName"
+                  class="w-10 h-10 rounded-xl object-cover border border-slate-200 shadow-xs shrink-0" />
+                <div>
+                  <p class="font-bold text-slate-900 m-0">
+                    {{ item.student.FullName }}
+                  </p>
+                  <span class="font-mono font-bold text-blue-600 text-[11px]">{{ item.student.Code }}</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Concept -->
+            <td class="py-3.5 px-4">
+              <p class="font-bold text-slate-800 m-0">
+                {{ languageService.t(item.conceptKey) || item.conceptFallback }}
+              </p>
+              <span class="text-[10px] text-slate-400 font-mono font-medium">ID: {{ item.id }}</span>
+            </td>
+
+            <!-- Due Date -->
+            <td class="py-3.5 px-4 font-semibold text-slate-600">
+              {{ item.dueDate | date:'dd MMM yyyy' }}
+            </td>
+
+            <!-- Amount in DOP -->
+            <td class="py-3.5 px-4 font-black text-slate-900 text-sm">
+              RD$ {{ item.amount | number:'1.2-2' }}
+            </td>
+
+            <!-- Status Tag -->
+            <td class="py-3.5 px-4">
+              <span *ngIf="item.status === 'paid'"
+                class="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-[11px] font-black inline-flex items-center gap-1 shadow-xs">
+                <i class="pi pi-check text-[10px]"></i> {{ languageService.t('paid') }}
+              </span>
+              <span *ngIf="item.status === 'pending'"
+                class="px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-lg text-[11px] font-black inline-flex items-center gap-1 shadow-xs">
+                <i class="pi pi-clock text-[10px]"></i> {{ languageService.t('financialPending') }}
+              </span>
+            </td>
+
+            <!-- Receipt & Payment Method -->
+            <td class="py-3.5 px-4">
+              <div *ngIf="item.status === 'paid'" class="space-y-0.5">
+                <span class="font-mono text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100 inline-block shadow-2xs">
+                  {{ item.receiptNumber }}
+                </span>
+                <span class="text-[11px] text-slate-500 block truncate max-w-[150px]">
+                  {{ item.paymentMethod }} &bull; {{ item.paidDate | date:'dd/MM' }}
+                </span>
+              </div>
+              <span *ngIf="item.status === 'pending'" class="text-[11px] text-slate-400 italic">
+                -
+              </span>
+            </td>
+
+            <!-- Actions (Recibo in Contrast Severity, Shortened Cobrar) -->
+            <td class="py-3.5 px-4 sm:px-6 text-right">
+              <div class="flex items-center justify-end gap-1.5">
+                
+                <!-- View Official Receipt (Secondary Outlined Clean SaaS Style) -->
+                <button *ngIf="item.status === 'paid'" pButton pRipple type="button" (click)="viewReceipt(item)"
+                  icon="pi pi-file-pdf" [label]="languageService.t('viewReceipt')"
+                  class="p-button-secondary p-button-outlined rounded-xl font-bold text-xs py-1.5 px-3">
+                </button>
+
+                <!-- Shortened Cobrar Button (If Pending - Primary Action) -->
+                <button *ngIf="item.status === 'pending'" pButton pRipple type="button" (click)="openManualPayDialog(item)"
+                  icon="pi pi-dollar" [label]="languageService.t('registerPayment')"
+                  class="p-button-primary rounded-xl font-bold text-xs shadow-xs">
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="filteredInvoices.length === 0">
+            <td colspan="7" class="py-12 text-center text-slate-400">
+              <i class="pi pi-search text-3xl mb-2 block text-slate-300"></i>
+              <p class="font-bold text-sm text-slate-600 m-0">No se encontraron registros de cobro</p>
+              <span class="text-xs text-slate-400">Prueba con otro término de búsqueda o cambia el filtro de estado.</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal: Registrar Pago en Ventanilla / Caja Manual -->
+<p-dialog [(visible)]="manualPayModalVisible" [modal]="true" [draggable]="false" [resizable]="false"
+  styleClass="w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+  
+  <ng-template pTemplate="header">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-200 shadow-xs">
+        <i class="pi pi-dollar"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-black text-slate-900 m-0">
+          {{ languageService.t('collectFee') }}
+        </h3>
+        <p class="text-xs text-slate-500 m-0">
+          {{ languageService.t('financialOffice') }} &bull; Edutrack Academy
+        </p>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="selectedInvoiceForManualPay" class="space-y-4 pt-2">
+    
+    <!-- Student & Invoice Summary Header -->
+    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img [src]="selectedInvoiceForManualPay.student.Picture" [alt]="selectedInvoiceForManualPay.student.FullName"
+          class="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-xs" />
+        <div>
+          <h4 class="font-black text-sm text-slate-900 m-0">{{ selectedInvoiceForManualPay.student.FullName }}</h4>
+          <span class="text-xs font-mono font-bold text-blue-600">{{ selectedInvoiceForManualPay.student.Code }}</span>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">{{ languageService.t('amount') }}</span>
+        <span class="text-xl font-black text-slate-900">RD$ {{ selectedInvoiceForManualPay.amount | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <!-- Concept Details -->
+    <div class="bg-blue-50/50 p-3.5 rounded-xl border border-blue-100 flex items-center justify-between text-xs">
+      <div>
+        <span class="text-slate-500 font-semibold block">{{ languageService.t('concept') }}:</span>
+        <strong class="text-slate-900 font-bold">{{ languageService.t(selectedInvoiceForManualPay.conceptKey) || selectedInvoiceForManualPay.conceptFallback }}</strong>
+      </div>
+      <div class="text-right">
+        <span class="text-slate-500 font-semibold block">{{ languageService.t('dueDate') }}:</span>
+        <strong class="text-slate-900 font-bold">{{ selectedInvoiceForManualPay.dueDate | date:'dd/MM/yyyy' }}</strong>
+      </div>
+    </div>
+
+    <!-- Payment Method Selector (PrimeNG Dropdown) -->
+    <div class="space-y-1.5">
+      <label class="text-xs font-bold text-slate-700 block">{{ languageService.t('paymentMethod') }}</label>
+      <p-dropdown [options]="paymentMethodOptions" [(ngModel)]="manualPaymentMethod"
+        optionLabel="label" optionValue="value"
+        [appendTo]="'body'" styleClass="w-full text-xs font-semibold">
+      </p-dropdown>
+    </div>
+
+    <!-- Notes (Reusing standard pInputText) -->
+    <div class="space-y-1.5">
+      <label class="text-xs font-bold text-slate-700 block">Observaciones / No. Autorización Banco (Opcional)</label>
+      <input type="text" pInputText [(ngModel)]="cashierNotes" placeholder="Ej: Autorización POS #49120..."
+        class="w-full text-xs font-medium" />
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex items-center justify-end gap-2.5 w-full">
+      <button pButton pRipple type="button" (click)="manualPayModalVisible = false"
+        [label]="languageService.t('cancel')" icon="pi pi-times"
+        class="p-button-secondary p-button-outlined rounded-xl font-bold text-xs">
+      </button>
+
+      <button pButton pRipple type="button" (click)="confirmManualCashierPayment()"
+        [label]="languageService.t('confirmPayment')" icon="pi pi-check"
+        class="p-button-primary rounded-xl font-bold text-xs shadow-md">
+      </button>
+    </div>
+  </ng-template>
+
+</p-dialog>
+
+<!-- Official Payment Receipt Modal Dialog -->
+<app-student-payment-dialog
+  [(visible)]="receiptModalVisible"
+  [student]="selectedStudent"
+  [selectedInvoice]="selectedInvoice">
+</app-student-payment-dialog>

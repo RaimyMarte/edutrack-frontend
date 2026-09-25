@@ -102,6 +102,12 @@ export class SidebarContentComponent implements OnInit, OnDestroy {
         visible: roleId === 1
       },
       {
+        label: this.languageService.t('navBilling'),
+        icon: 'pi pi-credit-card',
+        routerLink: '/finances',
+        visible: roleId === 1
+      },
+      {
         label: this.languageService.t('navUsers'),
         icon: 'pi pi-users',
         routerLink: '/users',

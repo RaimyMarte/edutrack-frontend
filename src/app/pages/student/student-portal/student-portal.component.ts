@@ -12,6 +12,7 @@ import { AuthService } from '../../../../services/auth/auth.service';
 import { LanguageService } from '../../../../services/ui/language.service';
 import { StudentService } from '../../../../services/student/student.service';
 import { StudentReportCardComponent } from '../../../components/student/student-report-card/student-report-card.component';
+import { StudentPaymentDialogComponent, InvoiceItem } from '../../../components/student/student-payment-dialog/student-payment-dialog.component';
 import { Student } from '../../../../types/student';
 import { User } from '../../../../types/user';
 
@@ -55,7 +56,8 @@ export interface UpcomingAssignment {
     TagModule,
     ProgressBarModule,
     TooltipModule,
-    StudentReportCardComponent
+    StudentReportCardComponent,
+    StudentPaymentDialogComponent
   ],
   templateUrl: './student-portal.component.html',
   styleUrls: ['./student-portal.component.css']
@@ -197,6 +199,63 @@ export class StudentPortalComponent implements OnInit {
     }
   ];
 
+  // Tuition & Invoices State
+  paymentDialogVisible: boolean = false;
+  selectedInvoiceForPayment: InvoiceItem | null = null;
+  selectedInvoiceForReceipt: InvoiceItem | null = null;
+
+  invoices: InvoiceItem[] = [
+    {
+      id: 'inv-101',
+      conceptKey: 'tuitionInstallment1',
+      conceptFallback: 'Cuota de Matrícula 1 (Inscripción)',
+      dueDate: '2024-08-30',
+      amount: 18500.00,
+      status: 'paid',
+      paidDate: '2024-08-28',
+      receiptNumber: 'REC-2024-81923',
+      paymentMethod: 'Tarjeta Visa •••• 8842'
+    },
+    {
+      id: 'inv-102',
+      conceptKey: 'labFee',
+      conceptFallback: 'Cuota de Laboratorios & Tecnología',
+      dueDate: '2024-09-15',
+      amount: 4200.00,
+      status: 'paid',
+      paidDate: '2024-09-12',
+      receiptNumber: 'REC-2024-83912',
+      paymentMethod: 'Tarjeta Mastercard •••• 1042'
+    },
+    {
+      id: 'inv-103',
+      conceptKey: 'tuitionInstallment2',
+      conceptFallback: 'Cuota de Matrícula 2 (Medio Término)',
+      dueDate: '2024-10-30',
+      amount: 18500.00,
+      status: 'pending'
+    },
+    {
+      id: 'inv-104',
+      conceptKey: 'tuitionInstallment3',
+      conceptFallback: 'Cuota de Matrícula 3 (Cierre de Ciclo)',
+      dueDate: '2024-11-30',
+      amount: 18500.00,
+      status: 'pending'
+    },
+    {
+      id: 'inv-105',
+      conceptKey: 'studentCardFee',
+      conceptFallback: 'Servicios Estudiantiles & Carnet',
+      dueDate: '2024-08-30',
+      amount: 1500.00,
+      status: 'paid',
+      paidDate: '2024-08-28',
+      receiptNumber: 'REC-2024-81924',
+      paymentMethod: 'Tarjeta Visa •••• 8842'
+    }
+  ];
+
   constructor(
     public authService: AuthService,
     public languageService: LanguageService,
@@ -222,6 +281,42 @@ export class StudentPortalComponent implements OnInit {
 
   get totalCredits(): number {
     return this.courses.reduce((acc, c) => acc + c.credits, 0);
+  }
+
+  // Financial Getters
+  get outstandingBalance(): number {
+    return this.invoices
+      .filter(i => i.status === 'pending')
+      .reduce((sum, i) => sum + i.amount, 0);
+  }
+
+  get totalPaidAmount(): number {
+    return this.invoices
+      .filter(i => i.status === 'paid')
+      .reduce((sum, i) => sum + i.amount, 0);
+  }
+
+  get nextPendingInvoice(): InvoiceItem | undefined {
+    return this.invoices.find(i => i.status === 'pending');
+  }
+
+  openPayment(invoice: InvoiceItem) {
+    this.selectedInvoiceForPayment = invoice;
+    this.paymentDialogVisible = true;
+  }
+
+  payNextDue() {
+    const next = this.nextPendingInvoice;
+    if (next) {
+      this.openPayment(next);
+    }
+  }
+
+  onPaymentCompleted(updatedInvoice: InvoiceItem) {
+    const index = this.invoices.findIndex(i => i.id === updatedInvoice.id);
+    if (index !== -1) {
+      this.invoices[index] = updatedInvoice;
+    }
   }
 
   printIdCard() {

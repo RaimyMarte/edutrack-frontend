@@ -29,6 +29,10 @@
           class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
           <i class="pi pi-address-book font-bold"></i> {{ languageService.t('viewStudents') }}
         </a>
+        <a *ngIf="currentUser?.UserRoleId === 1" routerLink="/finances"
+          class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-bold text-sm shadow-md transition transform hover:-translate-y-0.5">
+          <i class="pi pi-credit-card font-bold text-emerald-400"></i> {{ languageService.t('navBilling') }}
+        </a>
         <button type="button" (click)="exportSystemReport()"
           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white font-semibold text-sm transition"
           [pTooltip]="languageService.t('exportData')" tooltipPosition="bottom">

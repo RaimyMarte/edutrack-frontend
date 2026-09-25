@@ -15,6 +15,7 @@ import { StudentsGradesComponent } from './pages/subjects/students-grades/studen
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { StudentPortalComponent } from './pages/student/student-portal/student-portal.component';
 import { AttendanceTrackerComponent } from './pages/attendance/attendance-tracker.component';
+import { FinanceManagementComponent } from './pages/finance/finance-management/finance-management.component';
 
 export const routes: Routes = [
   {
@@ -77,6 +78,12 @@ export const routes: Routes = [
       {
         path: 'students',
         component: StudentsListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: [1] }
+      },
+      {
+        path: 'finances',
+        component: FinanceManagementComponent,
         canActivate: [AuthGuard],
         data: { roles: [1] }
       },

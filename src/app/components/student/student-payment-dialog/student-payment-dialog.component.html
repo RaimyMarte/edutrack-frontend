@@ -1,0 +1,301 @@
+<!-- Unified Payment Checkout & Official Receipt Dialog -->
+<p-dialog [(visible)]="visible" (onHide)="close()" [modal]="true" [draggable]="false" [resizable]="false"
+  [style]="{ width: showDirectReceipt ? '640px' : '560px' }" [breakpoints]="{'960px': '85vw', '640px': '95vw'}"
+  styleClass="p-fluid rounded-3xl overflow-hidden shadow-2xl border border-gray-200 payment-dialog">
+
+  <!-- Header -->
+  <ng-template pTemplate="header">
+    <div class="flex items-center justify-between w-full pr-2">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg shadow-xs"
+          [ngClass]="showDirectReceipt ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-blue-50 text-blue-600 border border-blue-200'">
+          <i class="pi" [ngClass]="showDirectReceipt ? 'pi-receipt' : 'pi-credit-card'"></i>
+        </div>
+        <div>
+          <h2 class="text-base sm:text-lg font-black text-gray-900 m-0">
+            {{ showDirectReceipt ? languageService.t('officialReceipt') : languageService.t('payTuition') }}
+          </h2>
+          <p class="text-xs text-gray-500 m-0">
+            {{ student?.FullName }} &bull; {{ student?.Code || 'STU-2024-001' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Print Button if in Receipt View -->
+      <button *ngIf="showDirectReceipt" pButton pRipple type="button" icon="pi pi-print" [label]="languageService.t('printReceipt')"
+        (click)="printReceipt()" class="p-button-outlined p-button-primary p-button-sm rounded-xl font-bold text-xs">
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- 1. CHECKOUT PAYMENT VIEW (For Pending Invoices) -->
+  <div *ngIf="selectedInvoice && !showDirectReceipt && !paymentSuccess" class="space-y-5 pt-2">
+    <!-- Invoice Summary Box in DOP -->
+    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 flex items-center justify-between">
+      <div>
+        <span class="text-[10px] uppercase tracking-wider font-extrabold text-gray-500 block">{{ languageService.t('concept') }}</span>
+        <h4 class="font-black text-sm text-gray-900 m-0">
+          {{ languageService.t(selectedInvoice.conceptKey) || selectedInvoice.conceptFallback }}
+        </h4>
+        <span class="text-xs text-gray-500 font-medium">
+          {{ languageService.t('dueDate') }}: {{ selectedInvoice.dueDate | date:'dd MMM yyyy' }}
+        </span>
+      </div>
+      <div class="text-right">
+        <span class="text-[10px] uppercase tracking-wider font-extrabold text-gray-500 block">{{ languageService.t('amount') }}</span>
+        <span class="text-xl font-black text-blue-600">
+          RD$ {{ selectedInvoice.amount | number:'1.2-2' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Payment Method Selector -->
+    <div>
+      <label class="block text-xs font-bold uppercase text-gray-700 mb-2">{{ languageService.t('paymentMethod') }}</label>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition"
+          [ngClass]="paymentMethod === 'card' ? 'border-blue-600 bg-blue-50/50 shadow-xs' : 'border-gray-200 bg-white hover:bg-gray-50'">
+          <input type="radio" name="payMethod" value="card" [(ngModel)]="paymentMethod" class="text-blue-600 focus:ring-blue-500">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-credit-card text-blue-600 text-base"></i>
+            <span class="text-xs font-bold text-gray-900">{{ languageService.t('creditDebitCard') }}</span>
+          </div>
+        </label>
+
+        <label class="flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition"
+          [ngClass]="paymentMethod === 'transfer' ? 'border-blue-600 bg-blue-50/50 shadow-xs' : 'border-gray-200 bg-white hover:bg-gray-50'">
+          <input type="radio" name="payMethod" value="transfer" [(ngModel)]="paymentMethod" class="text-blue-600 focus:ring-blue-500">
+          <div class="flex items-center gap-2">
+            <i class="pi pi-building text-indigo-600 text-base"></i>
+            <span class="text-xs font-bold text-gray-900">{{ languageService.t('bankTransfer') }}</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Credit Card Simulator Card (Showing Only Last 4 Digits) -->
+    <div *ngIf="paymentMethod === 'card'"
+      style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);"
+      class="text-white rounded-2xl p-5 border border-slate-700 shadow-xl relative overflow-hidden space-y-4">
+      <div class="flex justify-between items-center">
+        <span class="text-xs font-mono font-bold tracking-widest text-blue-300">EDUTRACK SECURE PAY</span>
+        <i class="pi pi-shield text-emerald-400 text-sm"></i>
+      </div>
+      <div>
+        <span class="text-[9px] text-slate-400 uppercase tracking-widest block font-bold">{{ languageService.t('cardNumber') }}</span>
+        <p class="font-mono text-base font-black tracking-widest text-white m-0">•••• •••• •••• {{ cardLast4 || '8842' }}</p>
+      </div>
+      <div class="flex justify-between items-end pt-1">
+        <div>
+          <span class="text-[8px] text-slate-400 uppercase tracking-widest block font-bold">{{ languageService.t('cardHolder') }}</span>
+          <p class="text-xs font-bold text-slate-200 tracking-wider m-0">{{ cardHolder }}</p>
+        </div>
+        <div>
+          <span class="text-[8px] text-slate-400 uppercase tracking-widest block font-bold">{{ languageService.t('expiryDate') }}</span>
+          <p class="text-xs font-bold text-slate-200 font-mono m-0">{{ expiryDate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Input Fields (Reusing Standard Inputs & Masked Card Last 4) -->
+    <div *ngIf="paymentMethod === 'card'" class="grid grid-cols-2 gap-3 text-xs">
+      <div class="col-span-2">
+        <label class="block font-bold text-gray-700 mb-1">{{ languageService.t('cardHolder') }}</label>
+        <input type="text" pInputText [(ngModel)]="cardHolder" class="w-full text-xs font-semibold uppercase" />
+      </div>
+      
+      <!-- Card Last 4 Digits Input -->
+      <div class="col-span-2">
+        <label class="block font-bold text-gray-700 mb-1">{{ languageService.t('cardNumber') }} ({{ languageService.t('lastFourDigits') }})</label>
+        <div class="flex items-center gap-2">
+          <span class="px-3 py-2 bg-slate-100 border border-slate-200 rounded-xl text-slate-500 font-mono font-bold text-xs select-none">
+            •••• •••• ••••
+          </span>
+          <input type="text" pInputText [(ngModel)]="cardLast4" maxlength="4" placeholder="8842"
+            class="w-24 text-xs font-bold font-mono text-center tracking-widest" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-bold text-gray-700 mb-1">{{ languageService.t('expiryDate') }}</label>
+        <input type="text" pInputText [(ngModel)]="expiryDate" placeholder="MM/YY" class="w-full text-xs font-semibold font-mono" />
+      </div>
+      <div>
+        <label class="block font-bold text-gray-700 mb-1">{{ languageService.t('cvv') }}</label>
+        <input type="password" pInputText [(ngModel)]="cvv" maxlength="4" placeholder="•••" class="w-full text-xs font-semibold font-mono" />
+      </div>
+    </div>
+
+    <!-- Bank Transfer Instructions -->
+    <div *ngIf="paymentMethod === 'transfer'" class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100 text-xs text-indigo-900 space-y-2">
+      <p class="font-bold text-sm m-0 flex items-center gap-1.5 text-indigo-950">
+        <i class="pi pi-info-circle text-indigo-600"></i> Datos de Transferencia en Pesos Dominicanos (DOP)
+      </p>
+      <div class="space-y-1 font-medium text-xs">
+        <p class="m-0"><strong>Banco:</strong> Banco de Reservas (Banreservas)</p>
+        <p class="m-0"><strong>Cuenta Corriente DOP:</strong> 960-294819-2</p>
+        <p class="m-0"><strong>Titular:</strong> EduTrack International Academy SRL</p>
+        <p class="m-0"><strong>RNC:</strong> 1-31-99482-1</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PAYMENT INTERMEDIATE SUCCESS VIEW -->
+  <div *ngIf="paymentSuccess && processedInvoice && !showDirectReceipt" class="py-6 px-2 text-center space-y-4">
+    <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 border border-emerald-200 flex items-center justify-center text-3xl mx-auto shadow-md">
+      <i class="pi pi-check font-black"></i>
+    </div>
+    <div>
+      <h3 class="text-xl font-black text-gray-900 m-0">{{ languageService.t('paymentSuccess') }}</h3>
+      <p class="text-xs text-gray-500 mt-1 max-w-sm mx-auto font-medium">
+        {{ languageService.t('paymentSuccessSub') }}
+      </p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 text-xs font-medium space-y-1.5 text-left max-w-sm mx-auto">
+      <div class="flex justify-between">
+        <span class="text-gray-500">{{ languageService.t('receiptNumber') }}:</span>
+        <span class="font-mono font-bold text-blue-600">{{ processedInvoice.receiptNumber }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-500">{{ languageService.t('amount') }}:</span>
+        <span class="font-bold text-gray-900">RD$ {{ processedInvoice.amount | number:'1.2-2' }}</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-gray-500">{{ languageService.t('paidDate') }}:</span>
+        <span class="font-bold text-gray-900">{{ processedInvoice.paidDate }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. OFFICIAL PAYMENT RECEIPT VIEW (Directly shown when already paid or after payment) -->
+  <div *ngIf="showDirectReceipt && processedInvoice" id="printable-receipt" class="p-2 sm:p-4 space-y-6 text-gray-900">
+    <!-- Header with Institutional Branding -->
+    <div class="flex items-center justify-between border-b-2 border-slate-800 pb-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-xl p-1.5 flex items-center justify-center shadow-md border border-slate-700"
+             style="background: linear-gradient(180deg, #0F172A 0%, #111827 100%);">
+          <img src="/assets/logo.png" alt="EduTrack Logo" class="w-full h-full object-contain" />
+        </div>
+        <div>
+          <h2 class="text-base sm:text-lg font-black tracking-tight text-gray-900 uppercase m-0 leading-none">
+            {{ languageService.t('institutionName') }}
+          </h2>
+          <span class="text-[10px] font-extrabold text-blue-600 uppercase tracking-widest block mt-0.5">
+            {{ languageService.t('financialOffice') }} &bull; RNC: 1-31-99482-1
+          </span>
+        </div>
+      </div>
+      <div class="text-right">
+        <span class="px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-300 font-mono text-xs font-black rounded-lg inline-block">
+          {{ processedInvoice.receiptNumber || 'REC-2024-88492' }}
+        </span>
+        <span class="text-[10px] text-gray-500 block mt-1 font-medium">{{ languageService.t('paidDate') }}: {{ processedInvoice.paidDate || '2024-10-15' }}</span>
+      </div>
+    </div>
+
+    <!-- Student & Payer Info -->
+    <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 grid grid-cols-2 gap-3 text-xs">
+      <div>
+        <span class="text-[10px] text-gray-500 uppercase font-extrabold block">{{ languageService.t('student') }}</span>
+        <p class="font-black text-gray-900 m-0">{{ student?.FullName || 'Alejandro Ramirez' }}</p>
+        <span class="font-mono text-blue-600 font-bold">{{ student?.Code || 'STU-2024-001' }}</span>
+      </div>
+      <div>
+        <span class="text-[10px] text-gray-500 uppercase font-extrabold block">{{ languageService.t('paymentMethod') }}</span>
+        <p class="font-bold text-gray-900 m-0">{{ processedInvoice.paymentMethod || ('Tarjeta •••• ' + (cardLast4 || '8842')) }}</p>
+        <span class="text-emerald-700 font-bold flex items-center gap-1 mt-0.5">
+          <i class="pi pi-check-circle text-xs"></i> Aprobado & Conciliado
+        </span>
+      </div>
+    </div>
+
+    <!-- Item Breakdown Table -->
+    <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-xs">
+      <table class="w-full text-left border-collapse text-xs">
+        <thead class="bg-gray-100 text-gray-700 uppercase font-extrabold border-b border-gray-200 text-[11px]">
+          <tr>
+            <th class="p-3">{{ languageService.t('concept') }}</th>
+            <th class="p-3 text-center">{{ languageService.t('currentTerm') }}</th>
+            <th class="p-3 text-right">{{ languageService.t('amount') }}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 font-medium">
+          <tr>
+            <td class="p-3">
+              <span class="font-extrabold text-gray-900 block">{{ languageService.t(processedInvoice.conceptKey) || processedInvoice.conceptFallback }}</span>
+              <span class="text-[10px] text-gray-500">Pago de aranceles académicos institucionales en DOP</span>
+            </td>
+            <td class="p-3 text-center font-bold text-gray-700">2024-2</td>
+            <td class="p-3 text-right font-black text-sm text-gray-900">RD$ {{ processedInvoice.amount | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+        <tfoot class="bg-gray-50 border-t-2 border-gray-200">
+          <tr>
+            <td colspan="2" class="p-3 text-right font-extrabold uppercase text-xs text-gray-700">Total Liquidado:</td>
+            <td class="p-3 text-right font-black text-base text-blue-600">RD$ {{ processedInvoice.amount | number:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- Verification Barcode & Sello Digital -->
+    <div class="pt-2 border-t border-gray-200 flex items-center justify-between">
+      <div class="space-y-1">
+        <div class="h-6 flex items-center gap-0.5">
+          <span class="w-1 h-full bg-gray-900"></span>
+          <span class="w-0.5 h-full bg-gray-900"></span>
+          <span class="w-1.5 h-full bg-gray-900"></span>
+          <span class="w-0.5 h-full bg-gray-900"></span>
+          <span class="w-2 h-full bg-gray-900"></span>
+          <span class="w-0.5 h-full bg-gray-900"></span>
+          <span class="w-1.5 h-full bg-gray-900"></span>
+          <span class="w-0.5 h-full bg-gray-900"></span>
+          <span class="w-2 h-full bg-gray-900"></span>
+          <span class="w-1 h-full bg-gray-900"></span>
+        </div>
+        <span class="text-[8px] font-mono tracking-widest text-gray-500 font-bold block">{{ processedInvoice.receiptNumber }}</span>
+      </div>
+
+      <div class="text-right">
+        <span class="text-[9px] uppercase tracking-wider text-gray-500 font-extrabold block">Sello Digital de Tesorería</span>
+        <span class="text-[10px] font-black text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
+          <i class="pi pi-verified"></i> VALIDO & SOLVENTE
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2 w-full pt-2">
+      <!-- Checkout Cancel / Submit -->
+      <button *ngIf="!showDirectReceipt && !paymentSuccess" pButton pRipple type="button" [label]="languageService.t('cancel')"
+        icon="pi pi-times" (click)="close()" [disabled]="isProcessing"
+        class="p-button-secondary p-button-outlined rounded-xl font-semibold text-xs">
+      </button>
+
+      <button *ngIf="!showDirectReceipt && !paymentSuccess" pButton pRipple type="button"
+        [label]="isProcessing ? languageService.t('processingPayment') : (languageService.t('confirmPayment') + ' (RD$ ' + (selectedInvoice?.amount | number:'1.2-2') + ')')"
+        [icon]="isProcessing ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+        (click)="processPayment()" [disabled]="isProcessing"
+        class="p-button-primary rounded-xl font-bold text-xs shadow-md">
+      </button>
+
+      <!-- Post-payment Success Button -->
+      <button *ngIf="paymentSuccess && !showDirectReceipt" pButton pRipple type="button" [label]="languageService.t('viewReceipt')"
+        icon="pi pi-file-pdf" (click)="viewOfficialReceiptAfterPay()"
+        class="p-button-primary rounded-xl font-bold text-xs shadow-md">
+      </button>
+
+      <!-- Direct Receipt View Footer Buttons -->
+      <button *ngIf="showDirectReceipt" pButton pRipple type="button" [label]="languageService.t('close')" icon="pi pi-times"
+        (click)="close()" class="p-button-secondary p-button-outlined rounded-xl font-bold text-xs">
+      </button>
+
+      <button *ngIf="showDirectReceipt" pButton pRipple type="button" [label]="languageService.t('printReceipt')" icon="pi pi-print"
+        (click)="printReceipt()" class="p-button-primary rounded-xl font-bold text-xs shadow-md">
+      </button>
+    </div>
+  </ng-template>
+
+</p-dialog>

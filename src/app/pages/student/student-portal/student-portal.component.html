@@ -410,6 +410,201 @@
         </div>
       </p-tabPanel>
 
+      <!-- TAB 6: Finanzas & Matrícula / Billing & Payments -->
+      <p-tabPanel [header]="languageService.t('navBilling')">
+        <div class="space-y-6 pt-2">
+          
+          <!-- Financial KPI Summary Cards in DOP -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Outstanding Balance Card -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between relative overflow-hidden">
+              <div class="space-y-1">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">{{ languageService.t('outstandingBalance') }}</span>
+                <p class="text-2xl sm:text-3xl font-black text-slate-900 m-0 leading-tight" [class.text-rose-600]="outstandingBalance > 0" [class.text-emerald-600]="outstandingBalance === 0">
+                  RD$ {{ outstandingBalance | number:'1.2-2' }}
+                </p>
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold" [class.text-rose-600]="outstandingBalance > 0" [class.text-emerald-600]="outstandingBalance === 0">
+                  <i class="pi" [class.pi-exclamation-circle]="outstandingBalance > 0" [class.pi-check-circle]="outstandingBalance === 0"></i>
+                  {{ outstandingBalance > 0 ? (languageService.currentLang() === 'es' ? 'Cuotas por liquidar' : 'Pending installments') : (languageService.currentLang() === 'es' ? 'Al día en sus pagos' : 'All fees settled') }}
+                </span>
+              </div>
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
+                [class.bg-rose-50]="outstandingBalance > 0" [class.text-rose-600]="outstandingBalance > 0"
+                [class.bg-emerald-50]="outstandingBalance === 0" [class.text-emerald-600]="outstandingBalance === 0">
+                <i class="pi pi-wallet text-xl font-bold"></i>
+              </div>
+            </div>
+
+            <!-- Total Paid Card -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+              <div class="space-y-1">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">{{ languageService.t('totalPaid') }}</span>
+                <p class="text-2xl sm:text-3xl font-black text-slate-900 m-0 leading-tight">
+                  RD$ {{ totalPaidAmount | number:'1.2-2' }}
+                </p>
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                  <i class="pi pi-verified"></i>
+                  {{ languageService.currentLang() === 'es' ? 'Transacciones aprobadas' : 'Cleared payments' }}
+                </span>
+              </div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                <i class="pi pi-check-circle text-xl font-bold"></i>
+              </div>
+            </div>
+
+            <!-- Next Due Date -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+              <div class="space-y-1">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">{{ languageService.t('nextDueDate') }}</span>
+                <p class="text-xl sm:text-2xl font-black text-slate-900 m-0 leading-tight">
+                  {{ nextPendingInvoice ? (nextPendingInvoice.dueDate | date:'dd MMM yyyy') : (languageService.currentLang() === 'es' ? 'Sin deudas' : 'No dues') }}
+                </p>
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-600">
+                  <i class="pi pi-calendar"></i>
+                  {{ nextPendingInvoice ? (languageService.currentLang() === 'es' ? 'Próximo corte' : 'Next statement') : languageService.t('financialSolvent') }}
+                </span>
+              </div>
+              <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                <i class="pi pi-calendar-clock text-xl font-bold"></i>
+              </div>
+            </div>
+
+            <!-- Financial Solvency Status -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+              <div class="space-y-1">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">{{ languageService.t('condition') }}</span>
+                <div class="mt-0.5">
+                  <span *ngIf="outstandingBalance === 0"
+                    class="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-black inline-flex items-center gap-1.5 shadow-xs">
+                    <i class="pi pi-verified"></i> {{ languageService.t('financialSolvent') }}
+                  </span>
+                  <span *ngIf="outstandingBalance > 0"
+                    class="px-3 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-xl text-xs font-black inline-flex items-center gap-1.5 shadow-xs">
+                    <i class="pi pi-info-circle"></i> {{ languageService.t('financialPending') }}
+                  </span>
+                </div>
+                <span class="text-[10px] text-slate-400 font-medium block pt-1">
+                  {{ languageService.currentLang() === 'es' ? 'Habilitado para exámenes' : 'Exam enrollment eligible' }}
+                </span>
+              </div>
+              <div class="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
+                [class.bg-emerald-50]="outstandingBalance === 0" [class.text-emerald-600]="outstandingBalance === 0"
+                [class.bg-amber-50]="outstandingBalance > 0" [class.text-amber-600]="outstandingBalance > 0">
+                <i class="pi pi-shield text-xl font-bold"></i>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Invoices & Installments Section Card -->
+          <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+            <!-- Card Header -->
+            <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <h3 class="text-base sm:text-lg font-black text-slate-900 m-0 flex items-center gap-2">
+                  <i class="pi pi-receipt text-blue-600"></i>
+                  {{ languageService.t('invoicesAndFees') }}
+                </h3>
+                <p class="text-xs text-slate-500 font-medium m-0">
+                  {{ languageService.t('invoicesSub') }}
+                </p>
+              </div>
+
+              <button *ngIf="outstandingBalance > 0" pButton pRipple type="button" (click)="payNextDue()"
+                icon="pi pi-credit-card" [label]="languageService.t('payTuition')"
+                class="p-button-primary rounded-xl font-bold text-xs shadow-md">
+              </button>
+            </div>
+
+            <!-- Invoices Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-slate-100 bg-slate-50/75 text-[11px] font-black text-slate-500 uppercase tracking-wider">
+                    <th class="py-3.5 px-5 sm:px-6">{{ languageService.t('concept') }}</th>
+                    <th class="py-3.5 px-4">{{ languageService.t('dueDate') }}</th>
+                    <th class="py-3.5 px-4">{{ languageService.t('amount') }}</th>
+                    <th class="py-3.5 px-4">{{ languageService.t('condition') }}</th>
+                    <th class="py-3.5 px-4 hidden md:table-cell">{{ languageService.t('paidDate') }} / Folio</th>
+                    <th class="py-3.5 px-5 sm:px-6 text-right">{{ languageService.t('actions') }}</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs text-slate-700">
+                  <tr *ngFor="let inv of invoices" class="hover:bg-slate-50/50 transition">
+                    <!-- Concept -->
+                    <td class="py-4 px-5 sm:px-6">
+                      <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm shrink-0"
+                          [class.bg-emerald-50]="inv.status === 'paid'" [class.text-emerald-600]="inv.status === 'paid'"
+                          [class.bg-blue-50]="inv.status === 'pending'" [class.text-blue-600]="inv.status === 'pending'">
+                          <i class="pi" [class.pi-check]="inv.status === 'paid'" [class.pi-file]="inv.status === 'pending'"></i>
+                        </div>
+                        <div>
+                          <p class="font-bold text-slate-900 m-0">
+                            {{ languageService.t(inv.conceptKey) || inv.conceptFallback }}
+                          </p>
+                          <span class="text-[11px] text-slate-400 font-mono font-medium">ID: {{ inv.id }}</span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- Due Date -->
+                    <td class="py-4 px-4 font-semibold text-slate-600">
+                      {{ inv.dueDate | date:'dd MMM yyyy' }}
+                    </td>
+
+                    <!-- Amount in DOP -->
+                    <td class="py-4 px-4 font-black text-slate-900 text-sm">
+                      RD$ {{ inv.amount | number:'1.2-2' }}
+                    </td>
+
+                    <!-- Status Tag -->
+                    <td class="py-4 px-4">
+                      <span *ngIf="inv.status === 'paid'"
+                        class="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-[11px] font-black inline-flex items-center gap-1 shadow-xs">
+                        <i class="pi pi-check text-[10px]"></i> {{ languageService.t('paid') }}
+                      </span>
+                      <span *ngIf="inv.status === 'pending'"
+                        class="px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-lg text-[11px] font-black inline-flex items-center gap-1 shadow-xs">
+                        <i class="pi pi-clock text-[10px]"></i> {{ languageService.t('financialPending') }}
+                      </span>
+                    </td>
+
+                    <!-- Paid Date / Folio -->
+                    <td class="py-4 px-4 hidden md:table-cell">
+                      <div *ngIf="inv.status === 'paid'" class="space-y-0.5">
+                        <span class="text-[11px] font-medium text-slate-600 block">{{ inv.paidDate | date:'dd/MM/yyyy' }}</span>
+                        <span class="text-[10px] font-mono font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100 inline-block">
+                          {{ inv.receiptNumber }}
+                        </span>
+                      </div>
+                      <span *ngIf="inv.status === 'pending'" class="text-[11px] text-slate-400 font-medium italic">
+                        -
+                      </span>
+                    </td>
+
+                    <!-- Action Button -->
+                    <td class="py-4 px-5 sm:px-6 text-right">
+                      <button *ngIf="inv.status === 'pending'" pButton pRipple type="button" (click)="openPayment(inv)"
+                        icon="pi pi-credit-card" [label]="languageService.t('payNow')"
+                        class="p-button-primary rounded-xl font-bold text-xs shadow-xs">
+                      </button>
+
+                      <button *ngIf="inv.status === 'paid'" pButton pRipple type="button" (click)="openPayment(inv)"
+                        icon="pi pi-file-pdf" [label]="languageService.t('viewReceipt')"
+                        class="p-button-secondary p-button-outlined rounded-xl font-bold text-xs py-1.5 px-3">
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </p-tabPanel>
+
     </p-tabView>
   </div>
 
@@ -421,3 +616,11 @@
   [student]="student"
   (visibleChange)="reportCardVisible = $event">
 </app-student-report-card>
+
+<!-- Interactive Payment & Receipt Checkout Dialog -->
+<app-student-payment-dialog
+  [(visible)]="paymentDialogVisible"
+  [student]="student"
+  [selectedInvoice]="selectedInvoiceForPayment"
+  (paymentCompleted)="onPaymentCompleted($event)">
+</app-student-payment-dialog>

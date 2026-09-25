@@ -12,6 +12,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { LanguageService } from '../../../../services/ui/language.service';
 import { Student } from '../../../../types/student';
+import { StudentPaymentDialogComponent, InvoiceItem } from '../student-payment-dialog/student-payment-dialog.component';
 
 export interface EnrolledCourseDetail {
   code: string;
@@ -54,7 +55,8 @@ export interface UpcomingAssignment {
     BadgeModule,
     AvatarModule,
     ProgressBarModule,
-    TooltipModule
+    TooltipModule,
+    StudentPaymentDialogComponent
   ],
   templateUrl: './student-profile-dialog.component.html',
   styleUrls: ['./student-profile-dialog.component.css']
@@ -66,6 +68,61 @@ export class StudentProfileDialogComponent implements OnChanges {
   @Output() openReportCard = new EventEmitter<Student>();
 
   activeTabIndex: number = 0;
+
+  paymentDialogVisible: boolean = false;
+  selectedInvoiceForPayment: InvoiceItem | null = null;
+
+  invoices: InvoiceItem[] = [
+    {
+      id: 'inv-101',
+      conceptKey: 'tuitionInstallment1',
+      conceptFallback: 'Cuota de Matrícula 1 (Inscripción)',
+      dueDate: '2024-08-30',
+      amount: 18500.00,
+      status: 'paid',
+      paidDate: '2024-08-28',
+      receiptNumber: 'REC-2024-81923',
+      paymentMethod: 'Tarjeta Visa •••• 8842'
+    },
+    {
+      id: 'inv-102',
+      conceptKey: 'labFee',
+      conceptFallback: 'Cuota de Laboratorios & Tecnología',
+      dueDate: '2024-09-15',
+      amount: 4200.00,
+      status: 'paid',
+      paidDate: '2024-09-12',
+      receiptNumber: 'REC-2024-83912',
+      paymentMethod: 'Tarjeta Mastercard •••• 1042'
+    },
+    {
+      id: 'inv-103',
+      conceptKey: 'tuitionInstallment2',
+      conceptFallback: 'Cuota de Matrícula 2 (Medio Término)',
+      dueDate: '2024-10-30',
+      amount: 18500.00,
+      status: 'pending'
+    },
+    {
+      id: 'inv-104',
+      conceptKey: 'tuitionInstallment3',
+      conceptFallback: 'Cuota de Matrícula 3 (Cierre de Ciclo)',
+      dueDate: '2024-11-30',
+      amount: 18500.00,
+      status: 'pending'
+    },
+    {
+      id: 'inv-105',
+      conceptKey: 'studentCardFee',
+      conceptFallback: 'Servicios Estudiantiles & Carnet',
+      dueDate: '2024-08-30',
+      amount: 1500.00,
+      status: 'paid',
+      paidDate: '2024-08-28',
+      receiptNumber: 'REC-2024-81924',
+      paymentMethod: 'Tarjeta Visa •••• 8842'
+    }
+  ];
 
   // Enrolled Courses Data
   courses: EnrolledCourseDetail[] = [
@@ -202,6 +259,34 @@ export class StudentProfileDialogComponent implements OnChanges {
 
   get totalCredits(): number {
     return this.courses.reduce((acc, c) => acc + c.credits, 0);
+  }
+
+  get outstandingBalance(): number {
+    return this.invoices
+      .filter(i => i.status === 'pending')
+      .reduce((sum, i) => sum + i.amount, 0);
+  }
+
+  get totalPaidAmount(): number {
+    return this.invoices
+      .filter(i => i.status === 'paid')
+      .reduce((sum, i) => sum + i.amount, 0);
+  }
+
+  get nextPendingInvoice(): InvoiceItem | undefined {
+    return this.invoices.find(i => i.status === 'pending');
+  }
+
+  openPayment(invoice: InvoiceItem) {
+    this.selectedInvoiceForPayment = invoice;
+    this.paymentDialogVisible = true;
+  }
+
+  onPaymentCompleted(updatedInvoice: InvoiceItem) {
+    const index = this.invoices.findIndex(i => i.id === updatedInvoice.id);
+    if (index !== -1) {
+      this.invoices[index] = updatedInvoice;
+    }
   }
 
   triggerReportCard() {
