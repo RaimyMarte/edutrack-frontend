@@ -422,12 +422,16 @@ interface MockEnrollment {
   Grade: number | null;
   CreatedDate: Date;
   CreatedBy: string | null;
+  Exam1?: number | null;
+  Exam2?: number | null;
+  Project?: number | null;
+  FinalExam?: number | null;
 }
 
 const INITIAL_ENROLLMENTS: MockEnrollment[] = [
-  { Id: 'enr-1', SubjectId: 'sub-1', StudentId: 'stu-1', Grade: 95, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
-  { Id: 'enr-2', SubjectId: 'sub-1', StudentId: 'stu-2', Grade: 88, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
-  { Id: 'enr-3', SubjectId: 'sub-1', StudentId: 'stu-3', Grade: 78, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
+  { Id: 'enr-1', SubjectId: 'sub-1', StudentId: 'stu-1', Grade: 95, Exam1: 96, Exam2: 94, Project: 98, FinalExam: 92, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
+  { Id: 'enr-2', SubjectId: 'sub-1', StudentId: 'stu-2', Grade: 88, Exam1: 85, Exam2: 90, Project: 92, FinalExam: 86, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
+  { Id: 'enr-3', SubjectId: 'sub-1', StudentId: 'stu-3', Grade: 78, Exam1: 75, Exam2: 80, Project: 85, FinalExam: 72, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
   { Id: 'enr-4', SubjectId: 'sub-1', StudentId: 'stu-4', Grade: 92, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
   { Id: 'enr-5', SubjectId: 'sub-2', StudentId: 'stu-1', Grade: 90, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
   { Id: 'enr-6', SubjectId: 'sub-2', StudentId: 'stu-5', Grade: 85, CreatedDate: new Date('2024-09-01'), CreatedBy: 'admin' },
@@ -965,15 +969,26 @@ export class MockApiService {
       for (const e of enrollments) {
         const student = students.find(s => s.Id === e.StudentId);
         if (student) {
-          const letter = e.Grade !== null && e.Grade !== undefined ? calculateGrade(e.Grade) : 'N/A';
+          const g = e.Grade !== null && e.Grade !== undefined ? e.Grade : 85;
+          const ex1 = e.Exam1 !== undefined && e.Exam1 !== null ? e.Exam1 : Math.min(100, Math.max(50, g + (g >= 70 ? (g > 90 ? 2 : -2) : -5)));
+          const ex2 = e.Exam2 !== undefined && e.Exam2 !== null ? e.Exam2 : Math.min(100, Math.max(50, g + (g >= 80 ? 3 : -3)));
+          const prj = e.Project !== undefined && e.Project !== null ? e.Project : Math.min(100, Math.max(60, g + 4));
+          const fin = e.FinalExam !== undefined && e.FinalExam !== null ? e.FinalExam : Math.min(100, Math.max(50, g - 2));
+          const finalGrade = e.Grade !== null && e.Grade !== undefined ? e.Grade : Math.round((ex1 * 0.3) + (ex2 * 0.3) + (prj * 0.2) + (fin * 0.2));
+          const letter = calculateGrade(finalGrade);
+
           enrolledWithGrades.push({
             Id: e.Id,
             SignatureId: e.SubjectId,
             StudentId: e.StudentId,
             CreatedDate: new Date(e.CreatedDate),
             CreatedBy: e.CreatedBy,
-            Grade: e.Grade,
+            Grade: finalGrade,
             LetterGrade: letter,
+            Exam1: ex1,
+            Exam2: ex2,
+            Project: prj,
+            FinalExam: fin,
             Student: student,
           });
         }
@@ -1061,10 +1076,14 @@ export class MockApiService {
       const enrollments = this.getEnrollments();
 
       if (GradesMap && Array.isArray(GradesMap)) {
-        GradesMap.forEach((item: { StudentSubjectCrossId: string; Grade: number }) => {
+        GradesMap.forEach((item: { StudentSubjectCrossId: string; Grade: number; Exam1?: number | null; Exam2?: number | null; Project?: number | null; FinalExam?: number | null }) => {
           const enr = enrollments.find(e => e.Id === item.StudentSubjectCrossId);
           if (enr) {
             enr.Grade = item.Grade;
+            if (item.Exam1 !== undefined) enr.Exam1 = item.Exam1;
+            if (item.Exam2 !== undefined) enr.Exam2 = item.Exam2;
+            if (item.Project !== undefined) enr.Project = item.Project;
+            if (item.FinalExam !== undefined) enr.FinalExam = item.FinalExam;
           }
         });
         this.setEnrollments(enrollments);

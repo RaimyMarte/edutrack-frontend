@@ -14,7 +14,11 @@ interface SaveStudentsGradesBody {
     SubjectId: string;
     GradesMap: {
         StudentSubjectCrossId: string,
-        Grade: number
+        Grade: number,
+        Exam1?: number | null,
+        Exam2?: number | null,
+        Project?: number | null,
+        FinalExam?: number | null
     }[]
 }
 

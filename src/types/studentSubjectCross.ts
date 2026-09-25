@@ -6,4 +6,8 @@ export interface StudentSubjectCross {
   CreatedBy: string | null;
   Grade: number | null;
   LetterGrade: string | null;
+  Exam1?: number | null;
+  Exam2?: number | null;
+  Project?: number | null;
+  FinalExam?: number | null;
 }
