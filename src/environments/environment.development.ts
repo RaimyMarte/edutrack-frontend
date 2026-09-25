@@ -1,3 +1,3 @@
-import { environmentSecrets } from "../../etc/secrets/enviroments";
+import { environmentSecrets } from "../../enviroments";
 
 export const environment = environmentSecrets
